@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALS — Bureau des Stages</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#F7F5F0;--bg2:#EFECE5;--bg3:#E6E2D8;
+  --ink:#1A1208;--ink2:#4A4033;--ink3:#8A7D6B;
+  --ivory:#FFFDF7;
+  --orange:#E8580A;--orange2:#FF6B1A;--orange-dim:#E8580A18;
+  --green:#1A7A4A;--green-dim:#1A7A4A15;
+  --amber:#D4900A;--amber-dim:#D4900A15;
+  --red:#C0392B;--red-dim:#C0392B12;
+  --blue:#1A4A8A;--blue-dim:#1A4A8A12;
+  --card:#FFFDF7;--card2:#F2EFE6;
+  --border:#DDD8CC;--border2:#C8C2B4;
+  --r:12px;--r2:8px;--r3:18px;
+  --shadow:0 2px 12px #1A120812;--shadow2:0 8px 32px #1A120818;
+}
+html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+
+/* ===== LOGIN BDS ===== */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--ink);
+  position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(0deg,transparent,transparent 40px,#ffffff06 40px,#ffffff06 41px),
+             repeating-linear-gradient(90deg,transparent,transparent 40px,#ffffff06 40px,#ffffff06 41px);
+}
+#login-screen::after{
+  content:'BDS';position:absolute;right:-60px;bottom:-80px;
+  font-family:'Syne',sans-serif;font-size:320px;font-weight:800;
+  color:#ffffff05;line-height:1;pointer-events:none;user-select:none;
+}
+.login-card{
+  background:var(--ivory);border-radius:var(--r3);
+  padding:3rem;width:100%;max-width:460px;
+  box-shadow:0 40px 100px #00000050;
+  position:relative;z-index:1;
+  animation:slideIn .5s cubic-bezier(.22,.68,0,1.2) both;
+}
+@keyframes slideIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+
+.bds-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--bg3)}
+.bds-seal{
+  width:52px;height:52px;background:var(--ink);border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;
+}
+.bds-seal-text h1{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--ink);line-height:1}
+.bds-seal-text span{font-size:.72rem;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+
+.login-h{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:700;margin-bottom:.3rem}
+.login-sub{font-size:.88rem;color:var(--ink3);margin-bottom:2rem}
+
+.field{margin-bottom:1.2rem}
+.field label{display:block;font-size:.75rem;font-weight:600;color:var(--ink2);margin-bottom:.45rem;letter-spacing:.06em;text-transform:uppercase}
+.field input{
+  width:100%;background:var(--bg);border:1.5px solid var(--border);
+  border-radius:var(--r2);padding:.85rem 1rem;color:var(--ink);
+  font-family:'Epilogue',sans-serif;font-size:.95rem;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-dim)}
+
+.btn-login{
+  width:100%;padding:1rem;background:var(--ink);color:#fff;
+  border:none;border-radius:var(--r2);font-family:'Syne',sans-serif;
+  font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:.03em;
+  transition:all .2s;margin-top:.5rem;
+}
+.btn-login:hover{background:var(--orange);box-shadow:0 4px 20px var(--orange-dim)}
+
+/* ===== APP ===== */
+#app{display:none;min-height:100vh;flex-direction:row}
+#app.visible{display:flex}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;background:var(--ink);color:#fff;
+  display:flex;flex-direction:column;flex-shrink:0;
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-brand{padding:1.75rem 1.5rem;border-bottom:1px solid #ffffff15;display:flex;align-items:center;gap:.85rem}
+.sb-icon{width:40px;height:40px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.sb-name h2{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:800;line-height:1}
+.sb-name span{font-size:.7rem;color:#ffffff60;letter-spacing:.06em;text-transform:uppercase}
+
+.sb-section{padding:.75rem 1rem .25rem;font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#ffffff35}
+.sb-item{
+  display:flex;align-items:center;gap:.8rem;padding:.75rem 1.25rem;
+  cursor:pointer;font-size:.88rem;color:#ffffff80;
+  transition:all .2s;border-left:3px solid transparent;margin:.1rem 0;
+}
+.sb-item:hover{color:#fff;background:#ffffff0a}
+.sb-item.active{color:#fff;background:#ffffff12;border-left-color:var(--orange);font-weight:500}
+.sb-icon-sm{font-size:1rem;width:20px;text-align:center}
+.sb-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:.65rem;font-weight:700;padding:.15rem .5rem;border-radius:20px;min-width:20px;text-align:center}
+.sb-badge.green{background:var(--green)}
+.sb-badge.amber{background:var(--amber)}
+
+.sb-user{margin-top:auto;padding:1.25rem;border-top:1px solid #ffffff15;display:flex;align-items:center;gap:.75rem}
+.sb-avatar{width:36px;height:36px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.sb-user-info{flex:1;overflow:hidden}
+.sb-user-name{font-size:.85rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-role{font-size:.72rem;color:#ffffff50}
+.sb-logout{background:none;border:none;color:#ffffff40;font-size:1rem;cursor:pointer;padding:.25rem;transition:color .2s;flex-shrink:0}
+.sb-logout:hover{color:var(--orange)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+/* TOPBAR */
+.topbar{
+  background:var(--ivory);border-bottom:1.5px solid var(--border);
+  padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:50;
+}
+.tb-breadcrumb{font-size:.82rem;color:var(--ink3)}
+.tb-breadcrumb span{color:var(--ink);font-weight:600}
+.tb-actions{display:flex;align-items:center;gap:.75rem}
+.tb-notif{
+  position:relative;background:var(--bg);border:1.5px solid var(--border);
+  width:38px;height:38px;border-radius:var(--r2);display:flex;align-items:center;
+  justify-content:center;cursor:pointer;font-size:1rem;transition:all .2s;
+}
+.tb-notif:hover{border-color:var(--orange)}
+.notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--orange);border-radius:50%;border:2px solid var(--ivory)}
+.btn-action{
+  display:flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;
+  background:var(--ink);color:#fff;border:none;border-radius:var(--r2);
+  font-family:'Epilogue',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;
+  transition:all .2s;
+}
+.btn-action:hover{background:var(--orange)}
+
+/* CONTENT */
+.content{flex:1;overflow-y:auto;padding:2rem;background:var(--bg)}
+.page{display:none;animation:fadeIn .3s ease both}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* PAGE HEADER */
+.page-header{margin-bottom:2rem;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+.ph-left h2{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;line-height:1;margin-bottom:.3rem}
+.ph-left p{font-size:.9rem;color:var(--ink3)}
+
+/* STATS */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.stat-card{
+  background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);
+  padding:1.5rem;transition:all .2s;cursor:default;
+}
+.stat-card:hover{border-color:var(--border2);transform:translateY(-2px);box-shadow:var(--shadow2)}
+.sc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.sc-icon{font-size:1.5rem}
+.sc-delta{font-size:.75rem;font-weight:600;padding:.2rem .5rem;border-radius:20px}
+.sc-delta.up{background:var(--green-dim);color:var(--green)}
+.sc-delta.warn{background:var(--amber-dim);color:var(--amber)}
+.sc-delta.danger{background:var(--red-dim);color:var(--red)}
+.sc-val{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;line-height:1;margin-bottom:.2rem}
+.sc-label{font-size:.82rem;color:var(--ink3)}
+
+/* TABLE */
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem}
+.card-head{padding:1.25rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-head h3{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700}
+.card-head p{font-size:.8rem;color:var(--ink3);margin-top:.15rem}
+.card-body{padding:1.5rem}
+
+.tbl{width:100%;border-collapse:collapse}
+.tbl th{font-size:.72rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3);padding:.65rem 1rem;text-align:left;background:var(--bg2);border-bottom:1.5px solid var(--border)}
+.tbl td{padding:.9rem 1rem;border-bottom:1px solid var(--border);font-size:.88rem;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.tbl tr:hover td{background:var(--bg)}
+
+.avatar-cell{display:flex;align-items:center;gap:.75rem}
+.av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;flex-shrink:0}
+.av.o{background:var(--orange-dim);color:var(--orange)}
+.av.g{background:var(--green-dim);color:var(--green)}
+.av.b{background:var(--blue-dim);color:var(--blue)}
+.av-name{font-weight:500;font-size:.88rem}
+.av-mat{font-size:.75rem;color:var(--ink3)}
+
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .7rem;border-radius:20px;font-size:.72rem;font-weight:600;white-space:nowrap}
+.badge.normal{background:var(--green-dim);color:var(--green)}
+.badge.retard{background:var(--amber-dim);color:var(--amber)}
+.badge.rattrapage{background:var(--red-dim);color:var(--red)}
+.badge.attente{background:var(--bg3);color:var(--ink3)}
+.badge.complet{background:var(--green-dim);color:var(--green)}
+.badge.bloque{background:var(--red-dim);color:var(--red)}
+
+.tbl-actions{display:flex;gap:.5rem}
+.btn-sm{
+  background:var(--bg);border:1.5px solid var(--border);color:var(--ink2);
+  padding:.35rem .7rem;border-radius:6px;font-size:.75rem;cursor:pointer;
+  font-family:'Epilogue',sans-serif;transition:all .15s;white-space:nowrap;
+}
+.btn-sm:hover{border-color:var(--orange);color:var(--orange)}
+.btn-sm.danger:hover{border-color:var(--red);color:var(--red)}
+
+/* SEARCH BAR */
+.search-row{display:flex;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.search-input{
+  flex:1;min-width:200px;background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r2);padding:.65rem 1rem;color:var(--ink);
+  font-family:'Epilogue',sans-serif;font-size:.88rem;outline:none;
+  transition:border-color .2s;
+}
+.search-input:focus{border-color:var(--orange)}
+.filter-select{
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--r2);padding:.65rem 1rem;color:var(--ink);
+  font-family:'Epilogue',sans-serif;font-size:.88rem;outline:none;cursor:pointer;
+}
+.filter-select:focus{border-color:var(--orange)}
+
+/* PROGRESS BAR */
+.progress-wrap{background:var(--bg3);border-radius:4px;height:6px;overflow:hidden;margin-top:.35rem}
+.progress-bar{height:100%;border-radius:4px;transition:width .4s}
+.progress-bar.green{background:var(--green)}
+.progress-bar.amber{background:var(--amber)}
+.progress-bar.red{background:var(--red)}
+
+/* FORMS */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-grid .full{grid-column:1/-1}
+.form-label{display:block;font-size:.75rem;font-weight:600;color:var(--ink2);margin-bottom:.4rem;letter-spacing:.05em;text-transform:uppercase}
+.form-input,.form-select{
+  width:100%;background:var(--bg);border:1.5px solid var(--border);
+  border-radius:var(--r2);padding:.8rem 1rem;color:var(--ink);
+  font-family:'Epilogue',sans-serif;font-size:.9rem;outline:none;
+  transition:border-color .2s,box-shadow .2s;
+}
+.form-input:focus,.form-select:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-dim)}
+
+.btn-primary{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;
+  background:var(--ink);color:#fff;border:none;border-radius:var(--r2);
+  font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;
+  transition:all .2s;
+}
+.btn-primary:hover{background:var(--orange)}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;
+  background:var(--bg);color:var(--ink);border:1.5px solid var(--border);border-radius:var(--r2);
+  font-family:'Epilogue',sans-serif;font-weight:500;font-size:.9rem;cursor:pointer;
+  transition:all .2s;
+}
+.btn-secondary:hover{border-color:var(--border2)}
+
+/* TOGGLE SWITCH */
+.toggle{display:flex;align-items:center;gap:.75rem;cursor:pointer}
+.toggle-track{
+  width:44px;height:24px;background:var(--border);border-radius:12px;
+  position:relative;transition:background .2s;flex-shrink:0;
+}
+.toggle-track.on{background:var(--green)}
+.toggle-thumb{
+  width:18px;height:18px;background:#fff;border-radius:50%;
+  position:absolute;top:3px;left:3px;
+  transition:left .2s;box-shadow:0 1px 4px #00000030;
+}
+.toggle-track.on .toggle-thumb{left:23px}
+.toggle-label{font-size:.88rem;color:var(--ink2)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.chip{
+  display:flex;align-items:center;gap:.4rem;padding:.3rem .75rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:20px;
+  font-size:.8rem;color:var(--ink2);
+}
+.chip-del{cursor:pointer;color:var(--ink3);font-size:.9rem;transition:color .15s}
+.chip-del:hover{color:var(--red)}
+.chip.blacklist{background:var(--red-dim);border-color:#C0392B30;color:var(--red)}
+.chip.whitelist{background:var(--green-dim);border-color:#1A7A4A30;color:var(--green)}
+
+/* MODAL */
+.modal-overlay{
+  position:fixed;inset:0;background:#00000050;z-index:200;
+  display:none;align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--ivory);border-radius:var(--r3);padding:2rem;
+  width:100%;max-width:560px;box-shadow:0 32px 80px #00000030;
+  animation:slideIn .3s cubic-bezier(.22,.68,0,1.2) both;
+}
+.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem}
+.modal-head h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--ink3);transition:color .15s}
+.modal-close:hover{color:var(--red)}
+
+/* ===== REPERTOIRE ENTREPRISES ===== */
+.role-banner{border-radius:var(--r2);padding:.85rem 1.1rem;font-size:.85rem;margin-bottom:1.25rem;border:1px solid transparent;display:none}
+body.role-agent .role-banner-agent{display:block;background:var(--amber-dim);border-color:#D4900A40;color:#8A6200}
+body.role-directeur .role-banner-directeur{display:block;background:var(--green-dim);border-color:#1A7A4A40;color:var(--green)}
+
+.ent-search{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);padding:.85rem 1rem;font-size:.92rem;margin-bottom:1rem}
+
+.ent-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:1.5rem}
+.ent-card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.25rem;display:flex;flex-direction:column;gap:.6rem}
+.ent-card.is-blacklist{opacity:.75;background:repeating-linear-gradient(135deg,var(--card),var(--card) 10px,#C0392B08 10px,#C0392B08 20px)}
+.ent-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.ent-card-name{font-weight:700;font-size:.98rem;line-height:1.3}
+.ent-card-meta{font-size:.78rem;color:var(--ink3)}
+.ent-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.03em;white-space:nowrap}
+.ent-badge.normale{background:var(--green-dim);color:var(--green)}
+.ent-badge.partenaire{background:var(--blue-dim);color:var(--blue)}
+.ent-badge.quota{background:var(--amber-dim);color:#8A6200}
+.ent-badge.blacklist{background:var(--red-dim);color:var(--red)}
+.ent-card-succ{display:flex;flex-wrap:wrap;gap:.35rem}
+.ent-card-succ .chip{font-size:.7rem;padding:.25rem .6rem}
+.ent-card-quota-bar{height:6px;border-radius:4px;background:var(--bg3);overflow:hidden}
+.ent-card-quota-bar-fill{height:100%;background:var(--amber);border-radius:4px}
+.ent-card-foot{display:flex;justify-content:flex-end;margin-top:.3rem}
+
+.ent-role-note{border-radius:var(--r2);padding:.7rem .9rem;font-size:.8rem;margin-bottom:1rem;display:none}
+body.role-agent .ent-role-note-agent{display:block;background:var(--amber-dim);color:#8A6200}
+body.role-directeur .ent-role-note-directeur{display:block;background:var(--green-dim);color:var(--green)}
+
+.succ-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.5rem;align-items:center}
+.succ-row input{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);padding:.55rem .7rem;font-size:.85rem}
+.succ-row .succ-del{background:none;border:none;color:var(--red);cursor:pointer;font-size:1rem}
+
+/* ===== CONFIGURATION PERIODES (niveau / classe) ===== */
+.config-niveau-row{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+  padding:.9rem 1.1rem;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border);
+}
+.config-niveau-badge{
+  width:44px;height:44px;border-radius:10px;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;
+}
+.config-niveau-info{flex:1;min-width:180px}
+.config-niveau-dates{font-size:.82rem;color:var(--ink3)}
+.config-niveau-dates strong{color:var(--ink)}
+.config-empty-state{font-size:.85rem;color:var(--ink3);padding:.5rem}
+.config-not-set{color:var(--amber);font-weight:600}
+
+body.role-agent .config-edit-btn{display:none}
+body.role-agent #page-classes input,body.role-agent #page-classes .toggle{pointer-events:none;opacity:.6}
+
+/* ===== SIGNATURE ET CACHET (reserve au DS) ===== */
+body.role-agent #card-signature-cachet .sig-upload-zone{pointer-events:none;opacity:.55;cursor:not-allowed}
+body.role-agent #card-signature-cachet .config-edit-btn{display:none}
+
+.sig-upload-zone{
+  border:2px dashed var(--border);border-radius:var(--r);
+  min-height:150px;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:border-color .2s,background .2s;background:var(--bg2);
+  overflow:hidden;
+}
+.sig-upload-zone:hover{border-color:var(--orange);background:var(--ivory)}
+.sig-placeholder{display:flex;flex-direction:column;align-items:center;gap:.35rem;color:var(--ink3);font-size:.82rem;text-align:center;padding:1rem}
+.sig-preview{max-width:100%;max-height:150px;object-fit:contain;padding:.5rem}
+.sig-meta{font-size:.75rem;color:var(--ink3);margin-top:.4rem;min-height:1em}
+
+/* ===== CIRCUIT DE VALIDATION DES LETTRES ===== */
+.countdown{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;color:var(--orange)}
+.countdown.expiring{color:var(--red);animation:pulseCd 1s infinite}
+@keyframes pulseCd{0%,100%{opacity:1}50%{opacity:.4}}
+
+.val-card{border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.25rem;background:var(--ivory)}
+.val-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
+.val-card-meta{font-size:.82rem;color:var(--ink3);margin-top:.25rem}
+.val-card-motif{font-size:.78rem;background:var(--amber-dim);color:#8A6200;padding:.3rem .7rem;border-radius:20px;display:inline-block;margin-top:.5rem;font-weight:600}
+.val-card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;flex-wrap:wrap;gap:.5rem}
+.badge.en-attente-agent{background:var(--amber-dim);color:#8A6200;border:1px solid #D4900A40}
+.badge.en-attente-ds{background:#1A4A8A15;color:var(--blue);border:1px solid #1A4A8A40}
+.badge.validee{background:var(--green-dim);color:var(--green);border:1px solid #1A7A4A40}
+.badge.rejetee{background:var(--red-dim);color:var(--red);border:1px solid #C0392B40}
+.val-rejet-motif{font-size:.8rem;color:var(--red);background:var(--red-dim);padding:.5rem .8rem;border-radius:var(--r2);margin-top:.5rem}
+
+/* ===== PAGES DOCUMENTS ===== */
+.doc-filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.3fr;gap:.6rem;margin-bottom:1rem}
+@media (max-width:1100px){.doc-filters{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.doc-filters{grid-template-columns:1fr}}
+.doc-link{color:var(--orange);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:.3rem}
+.doc-link:hover{text-decoration:underline}
+.doc-row-clickable{cursor:pointer}
+.doc-row-clickable:hover{background:var(--bg2)}
+.tentative-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:700}
+.tentative-badge.t1{background:var(--green-dim);color:var(--green)}
+.tentative-badge.t2{background:var(--amber-dim);color:#8A6200}
+.tentative-badge.bloque{background:var(--red-dim);color:var(--red)}
+.doc-empty{text-align:center;color:var(--ink3);padding:2rem;font-size:.88rem}
+.modal-actions{display:flex;gap:.75rem;margin-top:1.5rem;justify-content:flex-end}
+
+/* ALERT */
+.alert{display:none;align-items:center;gap:.75rem;padding:.9rem 1.1rem;border-radius:var(--r2);margin-bottom:1rem;font-size:.88rem}
+.alert.success{background:var(--green-dim);border:1px solid #1A7A4A30;color:var(--green);display:flex}
+.alert.show{display:flex}
+.alert.error{background:var(--red-dim);border:1px solid #C0392B30;color:var(--red);display:flex}
+
+/* MINI CHART */
+.mini-bars{display:flex;align-items:flex-end;gap:4px;height:50px}
+.mini-bar{flex:1;border-radius:3px 3px 0 0;background:var(--orange-dim);border:1px solid var(--orange);min-width:12px;transition:background .2s;cursor:default}
+.mini-bar:hover{background:var(--orange)}
+
+/* DETAIL ROW */
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.detail-item{background:var(--bg2);border-radius:var(--r2);padding:.9rem 1rem}
+.detail-label{font-size:.72rem;color:var(--ink3);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin-bottom:.3rem}
+.detail-val{font-size:.92rem;color:var(--ink);font-weight:500}
+
+/* UPLOAD ZONE */
+.upload-zone{
+  border:2px dashed var(--border);border-radius:var(--r);padding:1.75rem;text-align:center;
+  cursor:pointer;transition:all .2s;background:var(--bg);
+}
+.upload-zone:hover{border-color:var(--orange);background:var(--orange-dim)}
+.upload-icon{font-size:2rem;margin-bottom:.5rem}
+.upload-text{font-size:.85rem;color:var(--ink3)}
+.upload-text strong{color:var(--orange)}
+
+/* RESPONSIVE CHECK */
+.tag{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.72rem;font-weight:600;background:var(--bg3);color:var(--ink3)}
+
+/* ===================================================================
+   RESPONSIVE — PC / TABLETTE / TELEPHONE / TV
+   =================================================================== */
+
+/* Bouton hamburger : invisible sur PC, visible en dessous de 1024px */
+.hb-btn{
+  display:none;background:none;border:1.5px solid var(--border);border-radius:var(--r2);
+  width:38px;height:38px;font-size:1.1rem;cursor:pointer;color:var(--ink);flex-shrink:0;
+}
+/* Overlay derriere la sidebar en mode off-canvas (tablette/telephone) */
+.sb-overlay{display:none;position:fixed;inset:0;background:#00000060;z-index:150}
+.sb-overlay.open{display:block}
+
+/* ---- TV / TRES GRAND ECRAN (>= 1600px) : on evite les lignes trop etirees ---- */
+@media (min-width:1600px){
+  .content{padding:2.5rem 3rem}
+  .content > *{max-width:1500px;margin-left:auto;margin-right:auto}
+  html{font-size:17px}
+}
+
+/* ---- TABLETTE (<=1024px) : sidebar reduite, grilles resserrees ---- */
+@media (max-width:1024px){
+  .sidebar{width:220px}
+  .content{padding:1.5rem}
+  .ent-grid{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+  .form-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+}
+
+/* ---- TABLETTE / TELEPHONE (<=900px) : sidebar devient un panneau off-canvas ---- */
+@media (max-width:900px){
+  .hb-btn{display:flex;align-items:center;justify-content:center}
+  #app{position:relative}
+  .sidebar{
+    position:fixed;top:0;left:0;height:100vh;width:270px;z-index:200;
+    transform:translateX(-100%);transition:transform .25s ease;box-shadow:0 0 40px #00000060;
+  }
+  .sidebar.open{transform:translateX(0)}
+  .topbar{padding:.8rem 1.25rem}
+  .tb-breadcrumb{display:none}
+}
+
+/* ---- TELEPHONE (<=640px) ---- */
+@media (max-width:640px){
+  .content{padding:1rem}
+  .page-header{flex-direction:column;align-items:flex-start;gap:.75rem}
+  .ent-grid{grid-template-columns:1fr}
+  .detail-grid{grid-template-columns:1fr}
+  .tbl{font-size:.78rem}
+  .tbl th,.tbl td{padding:.5rem .6rem;white-space:nowrap}
+  .btn-action span,.btn-action{font-size:.75rem;padding:.5rem .75rem}
+  .modal{padding:1.25rem;max-width:94vw!important}
+  .succ-row{grid-template-columns:1fr;gap:.35rem}
+  .config-niveau-row{flex-direction:column;align-items:flex-start!important;gap:.6rem}
+  .val-actions{flex-direction:column}
+  .val-actions button{width:100%}
+}
+
+/* ---- TRES PETIT ECRAN (<=400px) ---- */
+@media (max-width:400px){
+  .sb-brand .sb-name span{display:none}
+  .card{padding:1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOGIN BDS ===== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="bds-header">
+      <div class="bds-seal">🏛️</div>
+      <div class="bds-seal-text">
+        <h1>ALS — BDS</h1>
+        <span>Bureau des Stages · UCAC/ICY</span>
+      </div>
+    </div>
+    <h2 class="login-h">Accès administrateur</h2>
+    <p class="login-sub">Connectez-vous avec votre email professionnel institutionnel</p>
+    <div class="field">
+      <label>Email professionnel</label>
+      <input type="email" placeholder="bds@ucac-icy.net" id="l-email">
+    </div>
+    <div class="field">
+      <label>Mot de passe</label>
+      <input type="password" placeholder="••••••••" id="l-pw">
+      <div style="text-align:right;margin-top:.5rem">
+        <a href="#" onclick="resetMdpOublieModal();openModal('modal-mdp-oublie');return false" style="font-size:.8rem;color:var(--ink3);text-decoration:underline">Mot de passe oublié ?</a>
+      </div>
+    </div>
+    <div class="field">
+      <label>Rôle (démo maquette)</label>
+      <select id="l-role" style="width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);padding:.85rem 1rem;font-size:.92rem;color:var(--ink)">
+        <option value="AGENT">Agent BDS</option>
+        <option value="DIRECTEUR">Directeur des Stages (DS)</option>
+      </select>
+    </div>
+    <button class="btn-login" onclick="doLogin()">Accéder au tableau de bord →</button>
+  </div>
+</div>
+
+<!-- MOT DE PASSE OUBLIE (avant connexion) -->
+<div class="modal-overlay" id="modal-mdp-oublie" onclick="closeModal(event,'modal-mdp-oublie')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3>Mot de passe oublié</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-mdp-oublie')">✕</button>
+    </div>
+    <div id="mdp-oublie-form">
+      <p style="font-size:.85rem;color:var(--ink3);margin-bottom:1rem">Saisissez votre adresse email institutionnelle. Un lien de réinitialisation valable 1 heure vous sera envoyé.</p>
+      <div class="field">
+        <label>Email professionnel</label>
+        <input type="email" placeholder="stages@ucac-icy.net" id="mdp-oublie-email">
+      </div>
+      <p style="font-size:.76rem;color:var(--ink3);margin-top:.5rem">Si le lien n'arrive pas ou que vous n'avez plus accès à cette boîte mail, contactez l'administrateur technique : il peut débloquer votre compte depuis son panneau de configuration.</p>
+      <div class="modal-actions">
+        <button class="btn-secondary" onclick="closeModal(null,'modal-mdp-oublie')">Annuler</button>
+        <button class="btn-primary" onclick="envoyerLienReinit()">📧 Envoyer le lien</button>
+      </div>
+    </div>
+    <div id="mdp-oublie-confirmation" style="display:none;text-align:center;padding:1rem 0">
+      <div style="font-size:2.5rem;margin-bottom:.75rem">✅</div>
+      <p style="font-weight:600;margin-bottom:.4rem">Email envoyé</p>
+      <p style="font-size:.85rem;color:var(--ink3)">Si un compte existe avec cette adresse, un lien de réinitialisation vient d'être envoyé. Vérifiez également vos courriers indésirables.</p>
+      <div class="modal-actions" style="justify-content:center">
+        <button class="btn-secondary" onclick="closeModal(null,'modal-mdp-oublie')">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== APP BDS ===== -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <div class="sb-brand">
+      <div class="sb-icon">🏛️</div>
+      <div class="sb-name"><h2>ALS · BDS</h2><span>Admin · UCAC/ICY</span></div>
+    </div>
+
+    <div class="sb-section">Principal</div>
+    <div class="sb-item active" onclick="showPage('dashboard',this)"><span class="sb-icon-sm">📊</span>Tableau de bord</div>
+    <div class="sb-item" onclick="showPage('etudiants',this)"><span class="sb-icon-sm">👥</span>Étudiants<span class="sb-badge">142</span></div>
+    <div class="sb-item" onclick="showPage('demandes',this)"><span class="sb-icon-sm">✉️</span>Demandes de lettres<span class="sb-badge amber">7</span></div>
+    <div class="sb-item" onclick="showPage('dossiers',this)"><span class="sb-icon-sm">📁</span>Dossiers de stage</div>
+    <div class="sb-item" onclick="showPage('retards',this)"><span class="sb-icon-sm">⚠️</span>Retards & Alertes<span class="sb-badge">12</span></div>
+
+    <div class="sb-section">Documents</div>
+    <div class="sb-item" onclick="showPage('doc-lettres',this)"><span class="sb-icon-sm">✉️</span>Lettres de recommandation</div>
+    <div class="sb-item" onclick="showPage('doc-convention',this)"><span class="sb-icon-sm">📝</span>Conventions de stage</div>
+    <div class="sb-item" onclick="showPage('doc-rapport',this)"><span class="sb-icon-sm">📘</span>Rapports de stage</div>
+    <div class="sb-item" onclick="showPage('doc-autonotation',this)"><span class="sb-icon-sm">📋</span>Fiches d'auto-notation</div>
+
+    <div class="sb-section">Configuration</div>
+    <div class="sb-item" onclick="showPage('classes',this)"><span class="sb-icon-sm">🎓</span>Classes & Périodes</div>
+    <div class="sb-item" onclick="showPage('entreprises',this)"><span class="sb-icon-sm">🏢</span>Entreprises</div>
+    <div class="sb-item" onclick="showPage('import',this)"><span class="sb-icon-sm">📥</span>Import CSV</div>
+    <div class="sb-item" onclick="showPage('rapports',this)"><span class="sb-icon-sm">📈</span>Rapports</div>
+
+    <div class="sb-section">Compte</div>
+    <div class="sb-item" onclick="showPage('compte',this)"><span class="sb-icon-sm">👤</span>Mon compte</div>
+
+    <div class="sb-user">
+      <div class="sb-avatar" id="sb-avatar">AG</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name" id="sb-user-name">Agent BDS</div>
+        <div class="sb-user-role">stages@ucac-icy.net</div>
+      </div>
+      <button class="sb-logout" onclick="doLogout()" title="Déconnexion">⏏</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:.75rem">
+        <button class="hb-btn" onclick="toggleSidebar()" aria-label="Menu">☰</button>
+        <div class="tb-breadcrumb" id="breadcrumb">ALS · BDS → <span>Tableau de bord</span></div>
+      </div>
+      <div class="tb-actions">
+        <div class="tb-notif">🔔<div class="notif-dot"></div></div>
+        <button class="btn-action" onclick="showPage('import',document.querySelector('.sb-item:nth-child(10))'))">📥 Importer CSV</button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ===== DASHBOARD ===== -->
+      <div class="page active" id="page-dashboard">
+        <div class="page-header">
+          <div class="ph-left">
+            <h2>Tableau de bord</h2>
+            <p>Année académique 2025–2026 · Semestre 2 · Mis à jour à 09h14</p>
+          </div>
+          <button class="btn-primary" onclick="showPage('rapports',null)">📈 Générer rapport</button>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">👥</span><span class="sc-delta up">+8 ce mois</span></div>
+            <div class="sc-val">142</div><div class="sc-label">Étudiants actifs</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">📋</span><span class="sc-delta up">78%</span></div>
+            <div class="sc-val">89</div><div class="sc-label">Stages en cours</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">⚠️</span><span class="sc-delta warn">À traiter</span></div>
+            <div class="sc-val">12</div><div class="sc-label">Dossiers en retard</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">✅</span><span class="sc-delta up">32%</span></div>
+            <div class="sc-val">46</div><div class="sc-label">Dossiers complets</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">✉️</span><span class="sc-delta warn">7 en attente</span></div>
+            <div class="sc-val">214</div><div class="sc-label">Lettres générées</div>
+          </div>
+          <div class="stat-card">
+            <div class="sc-top"><span class="sc-icon">🔄</span><span class="sc-delta danger">Urgent</span></div>
+            <div class="sc-val">5</div><div class="sc-label">Rattrapages sept.</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem">
+          <div class="card">
+            <div class="card-head">
+              <div><h3>Activité récente</h3><p>Dernières actions sur la plateforme</p></div>
+            </div>
+            <div class="card-body" style="padding:0">
+              <table class="tbl">
+                <thead><tr><th>Étudiant</th><th>Action</th><th>Date</th><th>Statut</th></tr></thead>
+                <tbody>
+                  <tr><td><div class="avatar-cell"><div class="av o">MJ</div><div><div class="av-name">MBALLA Jean-Pierre</div><div class="av-mat">21G0042 · LIG3</div></div></div></td><td>Rapport déposé</td><td>Aujourd'hui 08h32</td><td><span class="badge normal">✓ Complet</span></td></tr>
+                  <tr><td><div class="avatar-cell"><div class="av g">FK</div><div><div class="av-name">FOUDA Karine</div><div class="av-mat">21G0078 · LIG3</div></div></div></td><td>Demande de lettre</td><td>Aujourd'hui 07h54</td><td><span class="badge attente">En attente</span></td></tr>
+                  <tr><td><div class="avatar-cell"><div class="av b">NP</div><div><div class="av-name">NKOMO Paul</div><div class="av-mat">20M0031 · LIM2</div></div></div></td><td>Convention déposée</td><td>Hier 16h20</td><td><span class="badge normal">✓ Validé</span></td></tr>
+                  <tr><td><div class="avatar-cell"><div class="av o">BE</div><div><div class="av-name">BIYA Estelle</div><div class="av-mat">21G0055 · LIG3</div></div></div></td><td>Début de stage déclaré</td><td>Hier 14h05</td><td><span class="badge retard">⚠ Retard</span></td></tr>
+                  <tr><td><div class="avatar-cell"><div class="av g">CT</div><div><div class="av-name">CHENDJOU Thierry</div><div class="av-mat">21G0099 · LIG3</div></div></div></td><td>Demande de lettre</td><td>13/05 11h30</td><td><span class="badge attente">En attente</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><div><h3>Avancement par classe</h3></div></div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:1.1rem">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.4rem"><span style="font-weight:600">LIG3</span><span style="color:var(--ink3)">72 / 89 étudiants</span></div>
+                  <div class="progress-wrap"><div class="progress-bar green" style="width:81%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.4rem"><span style="font-weight:600">LIM2</span><span style="color:var(--ink3)">31 / 53 étudiants</span></div>
+                  <div class="progress-wrap"><div class="progress-bar amber" style="width:58%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:.4rem"><span style="font-weight:600">LGC3</span><span style="color:var(--ink3)">12 / 28 étudiants</span></div>
+                  <div class="progress-wrap"><div class="progress-bar red" style="width:43%"></div></div>
+                </div>
+              </div>
+              <div style="margin-top:1.5rem">
+                <div style="font-size:.78rem;color:var(--ink3);margin-bottom:.6rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase">Lettres / 7 derniers jours</div>
+                <div class="mini-bars" id="minibars"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ÉTUDIANTS ===== -->
+      <div class="page" id="page-etudiants">
+        <div class="page-header">
+          <div class="ph-left"><h2>Étudiants</h2><p>142 étudiants enregistrés · Année 2025–2026</p></div>
+          <div style="display:flex;gap:.75rem">
+            <button class="btn-secondary" onclick="resetAjoutEtudiantModal();openModal('modal-ajout')">➕ Ajouter</button>
+            <button class="btn-primary" onclick="showPage('import',null)">📥 Import CSV</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Liste des étudiants</h3></div></div>
+          <div class="card-body" style="padding:1rem 1.5rem">
+            <div class="search-row">
+              <input class="search-input" type="text" placeholder="🔍 Rechercher par nom, matricule...">
+              <select class="filter-select"><option>Toutes les classes</option><option>LIG3</option><option>LIM2</option><option>LGC3</option></select>
+              <select class="filter-select"><option>Tous les statuts</option><option>Normal</option><option>Retard</option><option>Complet</option><option>Rattrapage</option></select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Classe</th><th>Statut stage</th><th>Progression</th><th>Dernière action</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><div class="avatar-cell"><div class="av o">MJ</div><div><div class="av-name">MBALLA Jean-Pierre</div><div class="av-mat">21G0042 · mballa.jp@ucac.cm</div></div></div></td>
+                  <td><span class="tag">LIG3</span></td>
+                  <td><span class="badge normal">● Normal</span></td>
+                  <td><div style="font-size:.8rem;color:var(--ink3)">4 / 5 docs</div><div class="progress-wrap" style="margin-top:.3rem;width:120px"><div class="progress-bar green" style="width:80%"></div></div></td>
+                  <td style="font-size:.82rem;color:var(--ink3)">Aujourd'hui 08h32</td>
+                  <td><div class="tbl-actions"><button class="btn-sm" onclick="openModal('modal-detail')">👁 Voir</button><button class="btn-sm danger">🗑</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="avatar-cell"><div class="av g">FK</div><div><div class="av-name">FOUDA Karine</div><div class="av-mat">21G0078 · fouda.k@ucac.cm</div></div></div></td>
+                  <td><span class="tag">LIG3</span></td>
+                  <td><span class="badge attente">○ En attente</span></td>
+                  <td><div style="font-size:.8rem;color:var(--ink3)">1 / 5 docs</div><div class="progress-wrap" style="margin-top:.3rem;width:120px"><div class="progress-bar amber" style="width:20%"></div></div></td>
+                  <td style="font-size:.82rem;color:var(--ink3)">Aujourd'hui 07h54</td>
+                  <td><div class="tbl-actions"><button class="btn-sm">👁 Voir</button><button class="btn-sm danger">🗑</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="avatar-cell"><div class="av b">BE</div><div><div class="av-name">BIYA Estelle</div><div class="av-mat">21G0055 · biya.e@ucac.cm</div></div></div></td>
+                  <td><span class="tag">LIG3</span></td>
+                  <td><span class="badge retard">⚠ Retard</span></td>
+                  <td><div style="font-size:.8rem;color:var(--ink3)">2 / 5 docs</div><div class="progress-wrap" style="margin-top:.3rem;width:120px"><div class="progress-bar red" style="width:40%"></div></div></td>
+                  <td style="font-size:.82rem;color:var(--ink3)">Hier 14h05</td>
+                  <td><div class="tbl-actions"><button class="btn-sm">👁 Voir</button><button class="btn-sm danger">🗑</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="avatar-cell"><div class="av o">NP</div><div><div class="av-name">NKOMO Paul</div><div class="av-mat">20M0031 · nkomo.p@ucac.cm</div></div></div></td>
+                  <td><span class="tag">LIM2</span></td>
+                  <td><span class="badge complet">✓ Complet</span></td>
+                  <td><div style="font-size:.8rem;color:var(--green)">5 / 5 docs</div><div class="progress-wrap" style="margin-top:.3rem;width:120px"><div class="progress-bar green" style="width:100%"></div></div></td>
+                  <td style="font-size:.82rem;color:var(--ink3)">Hier 16h20</td>
+                  <td><div class="tbl-actions"><button class="btn-sm">👁 Voir</button><button class="btn-sm danger">🗑</button></div></td>
+                </tr>
+                <tr>
+                  <td><div class="avatar-cell"><div class="av g">CT</div><div><div class="av-name">CHENDJOU Thierry</div><div class="av-mat">21G0099 · chendjou.t@ucac.cm</div></div></div></td>
+                  <td><span class="tag">LIG3</span></td>
+                  <td><span class="badge rattrapage">↻ Rattrapage</span></td>
+                  <td><div style="font-size:.8rem;color:var(--ink3)">3 / 5 docs</div><div class="progress-wrap" style="margin-top:.3rem;width:120px"><div class="progress-bar red" style="width:60%"></div></div></td>
+                  <td style="font-size:.82rem;color:var(--ink3)">13/05 11h30</td>
+                  <td><div class="tbl-actions"><button class="btn-sm">👁 Voir</button><button class="btn-sm danger">🗑</button></div></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DEMANDES DE LETTRES ===== -->
+      <div class="page" id="page-demandes">
+        <div class="page-header">
+          <div class="ph-left"><h2>Demandes de lettres</h2><p>Envoi automatique et circuit de validation</p></div>
+        </div>
+
+        <!-- CAS A : ENVOI AUTOMATIQUE ANNULABLE 5 MIN -->
+        <div class="card">
+          <div class="card-head"><div><h3>⚡ Envoi automatique</h3><p>Informations connues et non modifiées — lettre envoyée sous 5 minutes sauf annulation</p></div></div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Ville</th><th>Compte à rebours</th><th>Action</th></tr></thead>
+              <tbody id="tbody-cas-a"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CAS B : CIRCUIT DE VALIDATION -->
+        <div class="card">
+          <div class="card-head"><div><h3>🔍 En attente de validation</h3><p>Entreprise inconnue ou fonction modifiée par l'étudiant — vérification humaine requise avant envoi</p></div></div>
+          <div id="cards-cas-b" style="display:flex;flex-direction:column;gap:.9rem"></div>
+        </div>
+      </div>
+
+      <!-- MODAL : CONSULTATION LECTURE SEULE (CAS A) -->
+      <div class="modal-overlay" id="modal-voir-casa" onclick="closeModal(event,'modal-voir-casa')">
+        <div class="modal" style="max-width:640px" onclick="event.stopPropagation()">
+          <div class="modal-head">
+            <h3>Aperçu — envoi automatique</h3>
+            <button class="modal-close" onclick="closeModal(null,'modal-voir-casa')">✕</button>
+          </div>
+          <div class="role-banner" style="display:block;background:var(--green-dim);border:1px solid #1A7A4A40;color:var(--green)">
+            ✅ Informations issues du référentiel, aucune vérification requise. Cette vue est en lecture seule.
+          </div>
+          <div class="detail-grid">
+            <div class="detail-item"><div class="detail-label">Étudiant</div><div class="detail-val" id="va-etudiant"></div></div>
+            <div class="detail-item"><div class="detail-label">Entreprise</div><div class="detail-val" id="va-entreprise"></div></div>
+            <div class="detail-item"><div class="detail-label">Ville</div><div class="detail-val" id="va-ville"></div></div>
+            <div class="detail-item"><div class="detail-label">Fonction du contact</div><div class="detail-val" id="va-fonction"></div></div>
+            <div class="detail-item" style="grid-column:1/-1"><div class="detail-label">Période</div><div class="detail-val" id="va-periode"></div></div>
+          </div>
+          <div style="margin-top:1.25rem">
+            <label class="form-label">Aperçu du contenu de la lettre</label>
+            <div class="detail-item" style="background:var(--bg2);font-size:.85rem;line-height:1.6" id="va-apercu"></div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeModal(null,'modal-voir-casa')">Fermer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL : VOIR / TRAITER UNE DEMANDE EN VALIDATION -->
+      <div class="modal-overlay" id="modal-validation" onclick="closeModal(event,'modal-validation')">
+        <div class="modal" style="max-width:760px" onclick="event.stopPropagation()">
+          <div class="modal-head">
+            <h3>Traiter la demande</h3>
+            <button class="modal-close" onclick="closeModal(null,'modal-validation')">✕</button>
+          </div>
+
+          <div id="val-motif-banner" class="role-banner role-banner-agent" style="display:block;background:var(--amber-dim);border-color:#D4900A40;color:#8A6200"></div>
+
+          <div class="form-grid">
+            <div class="full"><label class="form-label">Étudiant</label><div class="detail-item" id="val-etudiant" style="background:var(--bg2)"></div></div>
+            <div><label class="form-label">Entreprise</label><input class="form-input" id="val-f-entreprise"></div>
+            <div><label class="form-label">Ville du stage</label><input class="form-input" id="val-f-ville"></div>
+            <div class="full"><label class="form-label">Fonction du responsable à contacter</label><input class="form-input" id="val-f-fonction"></div>
+          </div>
+
+          <div style="margin-top:1.25rem">
+            <label class="form-label">Aperçu du contenu de la lettre</label>
+            <div class="detail-item" style="background:var(--bg2);font-size:.85rem;line-height:1.6" id="val-apercu-lettre"></div>
+          </div>
+
+          <div style="margin-top:1.25rem">
+            <label class="form-label">Motif de refus (obligatoire pour refuser)</label>
+            <textarea class="form-input" id="val-f-motif" rows="2" placeholder="Expliquez précisément le problème — ce message sera envoyé à l'étudiant" oninput="majBoutonRefuser()"></textarea>
+          </div>
+
+          <div class="modal-actions val-actions">
+            <button class="btn-secondary" onclick="closeModal(null,'modal-validation')">Fermer</button>
+            <button class="btn-secondary" style="border-color:var(--red);color:var(--red)" id="val-btn-refuser" onclick="traiterValidation('REJETEE')" disabled>✗ Refuser</button>
+            <button class="btn-primary" onclick="traiterValidation('VALIDEE')">✓ Valider et envoyer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DOSSIERS ===== -->
+      <div class="page" id="page-dossiers">
+        <div class="page-header">
+          <div class="ph-left"><h2>Dossiers de stage</h2><p>Vue globale de tous les dossiers actifs</p></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Tous les dossiers</h3></div></div>
+          <div class="card-body" style="padding:1rem 1.5rem">
+            <div class="search-row">
+              <input class="search-input" type="text" placeholder="🔍 Rechercher...">
+              <select class="filter-select"><option>Tous statuts</option><option>Normal</option><option>Retard</option><option>Complet</option><option>Rattrapage</option></select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Début</th><th>Fin prévue</th><th>Documents</th><th>Statut</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td><div class="avatar-cell"><div class="av o">MJ</div><div><div class="av-name">MBALLA Jean-Pierre</div><div class="av-mat">LIG3</div></div></div></td><td>TOTAL Cameroun</td><td>18 mars 2026</td><td>18 juin 2026</td><td style="font-size:.82rem">4 / 5 ✓</td><td><span class="badge normal">● Normal</span></td><td><button class="btn-sm" onclick="openModal('modal-detail')">👁 Voir</button></td></tr>
+                <tr><td><div class="avatar-cell"><div class="av g">NP</div><div><div class="av-name">NKOMO Paul</div><div class="av-mat">LIM2</div></div></div></td><td>Afriland Bank</td><td>1 mars 2026</td><td>1 juin 2026</td><td style="font-size:.82rem">5 / 5 ✓</td><td><span class="badge complet">✓ Complet</span></td><td><button class="btn-sm">👁 Voir</button></td></tr>
+                <tr><td><div class="avatar-cell"><div class="av b">BE</div><div><div class="av-name">BIYA Estelle</div><div class="av-mat">LIG3</div></div></div></td><td>Camtel</td><td>10 avril 2026</td><td>10 juillet 2026</td><td style="font-size:.82rem">2 / 5</td><td><span class="badge retard">⚠ Retard</span></td><td><button class="btn-sm">👁 Voir</button></td></tr>
+                <tr><td><div class="avatar-cell"><div class="av o">CT</div><div><div class="av-name">CHENDJOU Thierry</div><div class="av-mat">LIG3</div></div></div></td><td>BEAC</td><td>15 jan. 2026</td><td>15 avr. 2026</td><td style="font-size:.82rem">3 / 5</td><td><span class="badge rattrapage">↻ Rattrapage</span></td><td><button class="btn-sm">👁 Voir</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RETARDS ===== -->
+      <div class="page" id="page-retards">
+        <div class="page-header">
+          <div class="ph-left"><h2>Retards & Alertes</h2><p>12 étudiants nécessitent une action</p></div>
+          <button class="btn-primary">📨 Envoyer rappels groupés</button>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Dossiers en anomalie</h3><p>Convention ou rapport non déposé dans les délais</p></div></div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Type de retard</th><th>Deadline</th><th>Jours de retard</th><th>Statut</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td><div class="avatar-cell"><div class="av b">BE</div><div><div class="av-name">BIYA Estelle</div><div class="av-mat">LIG3</div></div></div></td><td>Convention non déposée</td><td style="color:var(--red);font-weight:500">01/05/2026</td><td style="color:var(--red);font-weight:600">+13 jours</td><td><span class="badge retard">⚠ Retard</span></td><td><div class="tbl-actions"><button class="btn-sm">📨 Rappel</button><button class="btn-sm">👁 Voir</button></div></td></tr>
+                <tr><td><div class="avatar-cell"><div class="av o">CT</div><div><div class="av-name">CHENDJOU Thierry</div><div class="av-mat">LIG3</div></div></div></td><td>Rapport non déposé</td><td style="color:var(--red);font-weight:500">30/04/2026</td><td style="color:var(--red);font-weight:600">+14 jours</td><td><span class="badge rattrapage">↻ Rattrapage sept.</span></td><td><div class="tbl-actions"><button class="btn-sm">📨 Rappel</button><button class="btn-sm">👁 Voir</button></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DOCUMENTS : LETTRES DE RECOMMANDATION ===== -->
+      <div class="page" id="page-doc-lettres">
+        <div class="page-header">
+          <div class="ph-left"><h2>Lettres de recommandation</h2><p>Toutes les lettres générées et envoyées aux étudiants</p></div>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding-bottom:0">
+            <div class="doc-filters">
+              <input class="form-input" type="text" id="search-doc-lettres" placeholder="🔍 Rechercher un nom, un matricule, une entreprise..." oninput="renderDocPage('lettres')">
+              <select class="form-select" id="filtre-classe-lettres" onchange="renderDocPage('lettres')"><option value="">Toutes les classes</option><option>LIG3</option><option>LIM2</option><option>LGC3</option><option>GRHM1</option></select>
+              <select class="form-select" id="filtre-faculte-lettres" onchange="renderDocPage('lettres')"><option value="">Toutes les facultés</option><option>FSSG</option><option>FSE</option></select>
+              <select class="form-select" id="filtre-campus-lettres" onchange="renderDocPage('lettres')"><option value="">Tous les campus</option><option>Ekounou</option><option>Nkolbisson</option></select>
+              <select class="form-select" id="tri-lettres" onchange="renderDocPage('lettres')">
+                <option value="date_desc">Date (récent → ancien)</option>
+                <option value="date_asc">Date (ancien → récent)</option>
+                <option value="nom">Nom de l'étudiant</option>
+                <option value="classe">Classe</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Référence</th><th>Date d'envoi</th><th>Document</th></tr></thead>
+              <tbody id="tbody-doc-lettres"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DOCUMENTS : CONVENTIONS DE STAGE ===== -->
+      <div class="page" id="page-doc-convention">
+        <div class="page-header">
+          <div class="ph-left"><h2>Conventions de stage</h2><p>Conventions déposées par les étudiants</p></div>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding-bottom:0">
+            <div class="doc-filters">
+              <input class="form-input" type="text" id="search-doc-convention" placeholder="🔍 Rechercher un nom, un matricule, une entreprise..." oninput="renderDocPage('convention')">
+              <select class="form-select" id="filtre-classe-convention" onchange="renderDocPage('convention')"><option value="">Toutes les classes</option><option>LIG3</option><option>LIM2</option><option>LGC3</option><option>GRHM1</option></select>
+              <select class="form-select" id="filtre-faculte-convention" onchange="renderDocPage('convention')"><option value="">Toutes les facultés</option><option>FSSG</option><option>FSE</option></select>
+              <select class="form-select" id="filtre-campus-convention" onchange="renderDocPage('convention')"><option value="">Tous les campus</option><option>Ekounou</option><option>Nkolbisson</option></select>
+              <select class="form-select" id="tri-convention" onchange="renderDocPage('convention')">
+                <option value="date_desc">Date (récent → ancien)</option>
+                <option value="date_asc">Date (ancien → récent)</option>
+                <option value="nom">Nom de l'étudiant</option>
+                <option value="classe">Classe</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Tentative</th><th>Date de dépôt</th><th>Document</th></tr></thead>
+              <tbody id="tbody-doc-convention"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DOCUMENTS : RAPPORTS DE STAGE ===== -->
+      <div class="page" id="page-doc-rapport">
+        <div class="page-header">
+          <div class="ph-left"><h2>Rapports de stage</h2><p>Rapports déposés par les étudiants</p></div>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding-bottom:0">
+            <div class="doc-filters">
+              <input class="form-input" type="text" id="search-doc-rapport" placeholder="🔍 Rechercher un nom, un matricule, une entreprise..." oninput="renderDocPage('rapport')">
+              <select class="form-select" id="filtre-classe-rapport" onchange="renderDocPage('rapport')"><option value="">Toutes les classes</option><option>LIG3</option><option>LIM2</option><option>LGC3</option><option>GRHM1</option></select>
+              <select class="form-select" id="filtre-faculte-rapport" onchange="renderDocPage('rapport')"><option value="">Toutes les facultés</option><option>FSSG</option><option>FSE</option></select>
+              <select class="form-select" id="filtre-campus-rapport" onchange="renderDocPage('rapport')"><option value="">Tous les campus</option><option>Ekounou</option><option>Nkolbisson</option></select>
+              <select class="form-select" id="tri-rapport" onchange="renderDocPage('rapport')">
+                <option value="date_desc">Date (récent → ancien)</option>
+                <option value="date_asc">Date (ancien → récent)</option>
+                <option value="nom">Nom de l'étudiant</option>
+                <option value="classe">Classe</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Tentative</th><th>Date de dépôt</th><th>Document</th></tr></thead>
+              <tbody id="tbody-doc-rapport"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== DOCUMENTS : FICHES D'AUTO-NOTATION ===== -->
+      <div class="page" id="page-doc-autonotation">
+        <div class="page-header">
+          <div class="ph-left"><h2>Fiches d'auto-notation</h2><p>Fiches déposées par les étudiants</p></div>
+        </div>
+        <div class="card">
+          <div class="card-body" style="padding-bottom:0">
+            <div class="doc-filters">
+              <input class="form-input" type="text" id="search-doc-autonotation" placeholder="🔍 Rechercher un nom, un matricule, une entreprise..." oninput="renderDocPage('autonotation')">
+              <select class="form-select" id="filtre-classe-autonotation" onchange="renderDocPage('autonotation')"><option value="">Toutes les classes</option><option>LIG3</option><option>LIM2</option><option>LGC3</option><option>GRHM1</option></select>
+              <select class="form-select" id="filtre-faculte-autonotation" onchange="renderDocPage('autonotation')"><option value="">Toutes les facultés</option><option>FSSG</option><option>FSE</option></select>
+              <select class="form-select" id="filtre-campus-autonotation" onchange="renderDocPage('autonotation')"><option value="">Tous les campus</option><option>Ekounou</option><option>Nkolbisson</option></select>
+              <select class="form-select" id="tri-autonotation" onchange="renderDocPage('autonotation')">
+                <option value="date_desc">Date (récent → ancien)</option>
+                <option value="date_asc">Date (ancien → récent)</option>
+                <option value="nom">Nom de l'étudiant</option>
+                <option value="classe">Classe</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tbl">
+              <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Tentative</th><th>Date de dépôt</th><th>Document</th></tr></thead>
+              <tbody id="tbody-doc-autonotation"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CLASSES & PÉRIODES ===== -->
+      <div class="page" id="page-classes">
+        <div class="page-header">
+          <div class="ph-left"><h2>Classes & Périodes</h2><p>Configuration des fenêtres de stage par niveau, dérogations par classe, délais de validation</p></div>
+        </div>
+
+        <div class="role-banner role-banner-agent">
+          ℹ️ Ces paramètres ne sont modifiables que par le <strong>Directeur des Stages</strong>. En tant qu'agent, vous les consultez en lecture seule.
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><h3>Classes autorisées à demander des lettres</h3></div></div>
+          <div class="card-body">
+            <div style="display:flex;flex-direction:column;gap:.9rem">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;background:var(--bg2);border-radius:var(--r2)">
+                <div><div style="font-weight:600">Licence 3 Informatique de Gestion (LIG3)</div><div style="font-size:.8rem;color:var(--ink3);margin-top:.15rem">19 étudiants · Nkolbisson</div></div>
+                <div class="toggle" onclick="toggleSwitch(this)"><div class="toggle-track on"><div class="toggle-thumb"></div></div><span class="toggle-label">Activé</span></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;background:var(--bg2);border-radius:var(--r2)">
+                <div><div style="font-weight:600">Licence 2 Comptabilité (LGC2)</div><div style="font-size:.8rem;color:var(--ink3);margin-top:.15rem">61 étudiants · Ekounou</div></div>
+                <div class="toggle" onclick="toggleSwitch(this)"><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Désactivé</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ===== CONFIGURATION PAR NIVEAU ===== -->
+        <div class="card">
+          <div class="card-head">
+            <div><h3>📅 Configuration des périodes par niveau</h3><p>Règle par défaut appliquée à toutes les classes de ce niveau</p></div>
+          </div>
+          <div class="card-body">
+            <div id="config-niveau-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
+          </div>
+        </div>
+
+        <!-- ===== DEROGATIONS PAR CLASSE ===== -->
+        <div class="card">
+          <div class="card-head">
+            <div><h3>🎯 Dérogations par classe</h3><p>Prioritaires sur la règle du niveau, pour une classe précise</p></div>
+            <button class="btn-sm" onclick="openConfigModal('CLASSE', null)">+ Ajouter une dérogation</button>
+          </div>
+          <div class="card-body">
+            <div id="config-classe-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
+          </div>
+        </div>
+
+        <!-- ===== DELAIS DE VALIDATION DES LETTRES ===== -->
+        <div class="card">
+          <div class="card-head"><div><h3>✉️ Délais de validation des lettres</h3><p>Circuit déclenché si l'entreprise est inconnue ou la fonction modifiée par l'étudiant</p></div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div><label class="form-label">Fenêtre d'annulation avant envoi auto (minutes)</label><input class="form-input" type="number" value="5" id="delai-annulation-min"></div>
+              <div><label class="form-label">Délai de traitement — Agent BDS (heures)</label><input class="form-input" type="number" value="24" id="delai-agent-h"></div>
+              <div><label class="form-label">Délai d'escalade — Directeur des Stages (heures)</label><input class="form-input" type="number" value="24" id="delai-ds-h"></div>
+              <div><label class="form-label">Validité d'une lettre générée (jours)</label><input class="form-input" type="number" value="90" id="delai-validite-lettre"></div>
+            </div>
+            <p style="font-size:.78rem;color:var(--ink3);margin-top:.75rem">Si l'agent ne traite pas la demande dans son délai, elle est automatiquement escaladée au DS. Si le DS ne traite pas non plus dans son délai, la demande expire et l'étudiant doit la soumettre à nouveau.</p>
+            <div style="margin-top:1.25rem"><button class="btn-primary">💾 Enregistrer</button></div>
+          </div>
+        </div>
+
+        <!-- ===== DELAIS DEBUT / FIN DE STAGE ===== -->
+        <div class="card">
+          <div class="card-head"><div><h3>📁 Délais de vérification du stage</h3></div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div><label class="form-label">Début de stage — délai de validation BDS (semaines après le début)</label><input class="form-input" type="number" value="2" id="delai-debut-bds"></div>
+              <div><label class="form-label">Fin de stage — délai de dépôt étudiant (semaines après la fin)</label><input class="form-input" type="number" value="1" id="delai-fin-etudiant"></div>
+              <div><label class="form-label">Fin de stage — délai de validation BDS (semaines, débute après le délai étudiant)</label><input class="form-input" type="number" value="1" id="delai-fin-bds"></div>
+              <div><label class="form-label">Alertes avant deadline (jours)</label><input class="form-input" type="number" value="3" id="delai-alerte"></div>
+            </div>
+            <div style="margin-top:1.25rem"><button class="btn-primary">💾 Enregistrer</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL CONFIGURATION PERIODE (niveau ou classe) -->
+      <div class="modal-overlay" id="modal-config" onclick="closeModal(event,'modal-config')">
+        <div class="modal" onclick="event.stopPropagation()">
+          <div class="modal-head">
+            <h3 id="config-modal-title">Configuration de période</h3>
+            <button class="modal-close" onclick="closeModal(null,'modal-config')">✕</button>
+          </div>
+          <div id="config-classe-select-wrap" style="display:none;margin-bottom:1rem">
+            <label class="form-label">Classe concernée</label>
+            <select class="form-select" id="config-f-classe">
+              <option value="LIG3">LIG3 — Informatique de Gestion</option>
+              <option value="LGC2">LGC2 — Comptabilité</option>
+              <option value="GRHM1">GRHM1 — Gestion des Ressources Humaines</option>
+            </select>
+          </div>
+          <div class="form-grid">
+            <div><label class="form-label">Date de début par défaut</label><input class="form-input" type="date" id="config-f-debut"></div>
+            <div><label class="form-label">Date de fin par défaut</label><input class="form-input" type="date" id="config-f-fin"></div>
+            <div><label class="form-label">Durée minimum (semaines)</label><input class="form-input" type="number" min="1" id="config-f-duree" value="9"></div>
+            <div style="display:flex;align-items:flex-end">
+              <div class="toggle" id="config-f-obligatoire-toggle" onclick="toggleSwitch(this)"><div class="toggle-track on"><div class="toggle-thumb"></div></div><span class="toggle-label">Stage obligatoire</span></div>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeModal(null,'modal-config')">Annuler</button>
+            <button class="btn-primary" onclick="saveConfigPeriode()">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ENTREPRISES ===== -->
+      <div class="page" id="page-entreprises">
+        <div class="page-header">
+          <div class="ph-left"><h2>Répertoire des entreprises</h2><p>Référentiel consultable par les étudiants avant de postuler. Modification directe réservée au DS ; un agent propose, le DS valide.</p></div>
+          <button class="btn-primary" onclick="openEntrepriseModal(null)">➕ Ajouter une entreprise</button>
+        </div>
+
+        <div class="role-banner role-banner-agent">
+          ℹ️ Vous êtes connecté en tant qu'<strong>Agent BDS</strong>. Vos modifications sur une entreprise sont enregistrées comme <strong>propositions</strong> et doivent être validées par le Directeur des Stages avant application.
+        </div>
+        <div class="role-banner role-banner-directeur">
+          🛡️ Vous êtes connecté en tant que <strong>Directeur des Stages</strong>. Vos modifications sur les entreprises s'appliquent <strong>directement</strong>, sans validation supplémentaire.
+        </div>
+
+        <div class="card">
+          <div class="card-body" style="padding-bottom:0">
+            <input class="ent-search" type="text" id="ent-search" placeholder="🔍 Rechercher une entreprise par nom..." oninput="renderEntreprises()">
+          </div>
+        </div>
+
+        <div id="ent-grid" class="ent-grid"></div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:.5rem">
+          <div class="card">
+            <div class="card-head"><div><h3>✅ Pays autorisés</h3><p>Liste blanche géographique</p></div><button class="btn-sm">+ Ajouter</button></div>
+            <div class="card-body">
+              <div class="chips">
+                <div class="chip whitelist">🇨🇲 Cameroun <span class="chip-del" onclick="this.parentElement.remove()">×</span></div>
+                <div class="chip whitelist">🇨🇮 Côte d'Ivoire <span class="chip-del" onclick="this.parentElement.remove()">×</span></div>
+                <div class="chip whitelist">🇸🇳 Sénégal <span class="chip-del" onclick="this.parentElement.remove()">×</span></div>
+                <div class="chip whitelist">🇫🇷 France <span class="chip-del" onclick="this.parentElement.remove()">×</span></div>
+                <div class="chip whitelist">🇬🇦 Gabon <span class="chip-del" onclick="this.parentElement.remove()">×</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-head"><div><h3>📊 Légende des statuts</h3></div></div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:.5rem">
+              <div><span class="ent-badge normale">Disponible</span> demande de lettre possible normalement</div>
+              <div><span class="ent-badge partenaire">Partenaire</span> suggérée en priorité aux étudiants</div>
+              <div><span class="ent-badge quota">Places limitées</span> affectation directe par le DS, hors circuit de demande</div>
+              <div><span class="ent-badge blacklist">Indisponible</span> visible mais aucune demande possible (liste noire)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL FICHE / EDITION ENTREPRISE -->
+      <div class="modal-overlay" id="modal-entreprise" onclick="closeModal(event,'modal-entreprise')">
+        <div class="modal" style="max-width:640px" onclick="event.stopPropagation()">
+          <div class="modal-head">
+            <h3 id="ent-modal-title">Fiche entreprise</h3>
+            <button class="modal-close" onclick="closeModal(null,'modal-entreprise')">✕</button>
+          </div>
+
+          <div class="ent-role-note ent-role-note-agent">
+            ✏️ En tant qu'agent, cette modification sera envoyée au DS comme <strong>proposition</strong>, non appliquée immédiatement.
+          </div>
+          <div class="ent-role-note ent-role-note-directeur">
+            ✅ En tant que DS, cette modification s'applique <strong>immédiatement</strong>.
+          </div>
+
+          <div class="form-grid">
+            <div class="full"><label class="form-label">Nom complet</label><input class="form-input" id="ent-f-nom" placeholder="ex : Societe Anonyme des Boissons du Cameroun"></div>
+            <div><label class="form-label">Forme juridique</label><input class="form-input" id="ent-f-forme" placeholder="ex : SA"></div>
+            <div><label class="form-label">Nationalité</label><input class="form-input" id="ent-f-nationalite" placeholder="ex : Camerounaise"></div>
+            <div><label class="form-label">Date de création</label><input class="form-input" type="date" id="ent-f-date"></div>
+            <div><label class="form-label">Ville du siège social</label><input class="form-input" id="ent-f-siege" placeholder="ex : Douala"></div>
+            <div class="full"><label class="form-label">Destinataire par défaut</label><input class="form-input" id="ent-f-destinataire" placeholder="ex : Monsieur le Directeur Général"></div>
+            <div>
+              <label class="form-label">Statut</label>
+              <select class="form-select" id="ent-f-statut" onchange="toggleQuotaFields()">
+                <option value="NORMALE">Normale (disponible)</option>
+                <option value="PARTENAIRE">Partenaire habituelle</option>
+                <option value="QUOTA">Places limitées (quota géré par le DS)</option>
+                <option value="LISTE_NOIRE">Liste noire (indisponible)</option>
+              </select>
+            </div>
+            <div id="ent-f-places-wrap" style="display:none">
+              <label class="form-label">Places totales / utilisées</label>
+              <div style="display:flex;gap:.5rem">
+                <input class="form-input" type="number" min="0" id="ent-f-places-tot" placeholder="15">
+                <input class="form-input" type="number" min="0" id="ent-f-places-use" placeholder="0">
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:1.25rem">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+              <label class="form-label" style="margin:0">Succursales connues</label>
+              <button class="btn-sm" onclick="ajouterLigneSuccursale()">+ Ajouter une succursale</button>
+            </div>
+            <div id="ent-succursales-list" style="display:flex;flex-direction:column;gap:.5rem"></div>
+          </div>
+
+          <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeModal(null,'modal-entreprise')">Annuler</button>
+            <button class="btn-primary" id="ent-save-btn" onclick="saveEntreprise()">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== IMPORT CSV ===== -->
+      <div class="page" id="page-import">
+        <div class="page-header">
+          <div class="ph-left"><h2>Import CSV</h2><p>Chargez la liste des étudiants en début d'année</p></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Format attendu du fichier CSV</h3></div></div>
+          <div class="card-body">
+            <div style="background:var(--ink);color:#a8d8a8;border-radius:var(--r2);padding:1rem;font-family:monospace;font-size:.83rem;overflow-x:auto">
+              matricule,nom,prenom,classe,faculte,email<br>
+              21G0042,MBALLA,Jean-Pierre,LIG3,FSSG,mballa.jp@ucac.cm<br>
+              21G0078,FOUDA,Karine,LIG3,FSSG,fouda.k@ucac.cm<br>
+              20M0031,NKOMO,Paul,LIM2,FSSG,nkomo.p@ucac.cm
+            </div>
+            <p style="font-size:.82rem;color:var(--ink3);margin-top:.75rem">⚠️ Les colonnes doivent respecter exactement cet ordre. Les emails doivent être valides — chaque étudiant recevra un lien d'activation automatiquement.</p>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Importer un fichier</h3></div></div>
+          <div class="card-body">
+            <div class="upload-zone" onclick="this.querySelector('input').click()">
+              <div class="upload-icon">📥</div>
+              <div class="upload-text">Glissez votre fichier ici ou <strong>cliquez pour parcourir</strong></div>
+              <div style="font-size:.78rem;color:var(--ink3);margin-top:.4rem">Formats acceptés : .csv, .xlsx · Taille max : 5 Mo</div>
+              <input type="file" style="display:none" accept=".csv,.xlsx" onchange="simulerImport()">
+            </div>
+            <div id="import-result" style="display:none;margin-top:1rem">
+              <div class="alert success">✅ 142 étudiants importés avec succès. 142 emails d'activation envoyés. 0 erreur détectée.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== RAPPORTS ===== -->
+      <div class="page" id="page-rapports">
+        <div class="page-header">
+          <div class="ph-left"><h2>Rapports & Statistiques</h2><p>Exportez les données de suivi</p></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem">
+          <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="card-body" style="text-align:center;padding:2rem">
+              <div style="font-size:2.5rem;margin-bottom:.75rem">📊</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.35rem">Rapport global</div>
+              <div style="font-size:.82rem;color:var(--ink3);margin-bottom:1.25rem">Tous les étudiants · Toutes les classes</div>
+              <button class="btn-primary" style="width:100%;justify-content:center">⬇ Exporter PDF</button>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="card-body" style="text-align:center;padding:2rem">
+              <div style="font-size:2.5rem;margin-bottom:.75rem">🎓</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.35rem">Rapport par classe</div>
+              <div style="font-size:.82rem;color:var(--ink3);margin-bottom:1rem">Filtrez par niveau</div>
+              <select class="filter-select" style="width:100%;margin-bottom:.75rem"><option>LIG3</option><option>LIM2</option><option>LGC3</option></select>
+              <button class="btn-primary" style="width:100%;justify-content:center">⬇ Exporter PDF</button>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="card-body" style="text-align:center;padding:2rem">
+              <div style="font-size:2.5rem;margin-bottom:.75rem">👤</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.35rem">Rapport individuel</div>
+              <div style="font-size:.82rem;color:var(--ink3);margin-bottom:1rem">Par matricule</div>
+              <input class="form-input" type="text" placeholder="Matricule étudiant" style="margin-bottom:.75rem">
+              <button class="btn-primary" style="width:100%;justify-content:center">⬇ Exporter PDF</button>
+            </div>
+          </div>
+          <div class="card" style="cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--orange)'" onmouseout="this.style.borderColor='var(--border)'">
+            <div class="card-body" style="text-align:center;padding:2rem">
+              <div style="font-size:2.5rem;margin-bottom:.75rem">📋</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:.35rem">Export données brutes</div>
+              <div style="font-size:.82rem;color:var(--ink3);margin-bottom:1.25rem">Tous les dossiers en CSV</div>
+              <button class="btn-secondary" style="width:100%;justify-content:center">⬇ Exporter CSV</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== MON COMPTE ===== -->
+      <div class="page" id="page-compte">
+        <div class="page-header">
+          <div class="ph-left"><h2>Mon compte</h2><p>Informations personnelles et sécurité</p></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Identité</h3></div></div>
+          <div class="card-body">
+            <div class="detail-grid">
+              <div class="detail-item"><div class="detail-label">Nom complet</div><div class="detail-val" id="compte-nom">Agent BDS</div></div>
+              <div class="detail-item"><div class="detail-label">Rôle</div><div class="detail-val" id="compte-role">Agent BDS</div></div>
+              <div class="detail-item" style="grid-column:1/-1">
+                <div class="detail-label">Adresse email institutionnelle</div>
+                <div class="detail-val">stages@ucac-icy.net</div>
+              </div>
+            </div>
+            <p style="font-size:.8rem;color:var(--ink3);margin-top:.9rem">📧 L'adresse email est fixe et définie par l'administrateur technique. Elle ne peut pas être modifiée depuis cette page, seul le mot de passe vous appartient.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><h3>🔒 Changer le mot de passe</h3></div></div>
+          <div class="card-body">
+            <div class="form-grid">
+              <div class="full"><label class="form-label">Mot de passe actuel</label><input class="form-input" type="password" id="compte-pw-actuel" placeholder="••••••••"></div>
+              <div><label class="form-label">Nouveau mot de passe</label><input class="form-input" type="password" id="compte-pw-nouveau" placeholder="10 caractères minimum"></div>
+              <div><label class="form-label">Confirmer le nouveau mot de passe</label><input class="form-input" type="password" id="compte-pw-confirm" placeholder="10 caractères minimum"></div>
+            </div>
+            <div style="margin-top:1.25rem"><button class="btn-primary" onclick="modifierMotDePasseBDS()">💾 Changer le mot de passe</button></div>
+            <div class="alert" id="alert-compte-pw-ok" style="background:var(--green-dim);border:1px solid #1A7A4A30;color:var(--green)">✅ Mot de passe modifié avec succès.</div>
+            <div class="alert" id="alert-compte-pw-err" style="background:#FCE5E2;border:1px solid #C0392B40;color:var(--red)"></div>
+          </div>
+        </div>
+
+        <!-- SIGNATURE ET CACHET, RESERVE AU DS -->
+        <div class="card" id="card-signature-cachet">
+          <div class="card-head">
+            <div><h3>✍️ Signature et cachet institutionnels</h3><p>Utilisés automatiquement sur toutes les lettres générées par ALS</p></div>
+          </div>
+          <div class="card-body">
+
+            <div class="role-banner role-banner-agent">
+              🔒 Ces éléments engagent la signature de l'université. Seul le <strong>Directeur des Stages</strong> peut les charger ou les remplacer.
+            </div>
+            <div class="role-banner role-banner-directeur">
+              ℹ️ Cette signature et ce cachet seront apposés automatiquement sur <strong>toutes</strong> les lettres générées, quel que soit l'agent à l'origine de la demande. Formats acceptés&nbsp;: PNG ou JPEG, fond transparent recommandé pour la signature.
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-top:1rem">
+
+              <!-- CACHET -->
+              <div>
+                <label class="form-label">Cachet du BDS</label>
+                <div class="sig-upload-zone" id="zone-cachet" onclick="document.getElementById('input-cachet').click()">
+                  <img id="preview-cachet" class="sig-preview" style="display:none" alt="Aperçu du cachet">
+                  <div id="placeholder-cachet" class="sig-placeholder">
+                    <span style="font-size:1.6rem">🖼️</span>
+                    <span>Cliquer pour charger le cachet</span>
+                    <span style="font-size:.72rem;color:var(--ink3)">PNG ou JPEG, 2 Mo max</span>
+                  </div>
+                </div>
+                <input type="file" id="input-cachet" accept="image/png,image/jpeg" style="display:none" onchange="previewSignatureImage(this,'cachet')">
+                <div class="sig-meta" id="meta-cachet"></div>
+              </div>
+
+              <!-- SIGNATURE -->
+              <div>
+                <label class="form-label">Signature du Directeur des Stages</label>
+                <div class="sig-upload-zone" id="zone-signature" onclick="document.getElementById('input-signature').click()">
+                  <img id="preview-signature" class="sig-preview" style="display:none" alt="Aperçu de la signature">
+                  <div id="placeholder-signature" class="sig-placeholder">
+                    <span style="font-size:1.6rem">🖊️</span>
+                    <span>Cliquer pour charger la signature</span>
+                    <span style="font-size:.72rem;color:var(--ink3)">PNG ou JPEG, 2 Mo max</span>
+                  </div>
+                </div>
+                <input type="file" id="input-signature" accept="image/png,image/jpeg" style="display:none" onchange="previewSignatureImage(this,'signature')">
+                <div class="sig-meta" id="meta-signature"></div>
+              </div>
+
+            </div>
+
+            <div style="margin-top:1.25rem" class="config-edit-btn">
+              <button class="btn-primary" onclick="enregistrerSignatureCachet()">💾 Enregistrer</button>
+            </div>
+            <div class="alert" id="alert-sig-ok" style="background:var(--green-dim);border:1px solid #1A7A4A30;color:var(--green)">✅ Signature et cachet mis à jour. Ils seront utilisés dès la prochaine lettre générée.</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ===== MODALES ===== -->
+
+<!-- Modal détail étudiant -->
+<div class="modal-overlay" id="modal-detail" onclick="closeModal(event,'modal-detail')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3>Dossier — MBALLA Jean-Pierre</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-detail')">✕</button>
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
+      <div class="av o" style="width:52px;height:52px;font-size:1.1rem">MJ</div>
+      <div>
+        <div style="font-weight:700;font-size:1.05rem">MBALLA Jean-Pierre</div>
+        <div style="font-size:.82rem;color:var(--ink3)">21G0042 · LIG3 · mballa.jp@ucac.cm</div>
+        <span class="badge normal" style="margin-top:.35rem">● Stage normal</span>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-label">Entreprise</div><div class="detail-val">TOTAL Cameroun</div></div>
+      <div class="detail-item"><div class="detail-label">Ville</div><div class="detail-val">Yaoundé</div></div>
+      <div class="detail-item"><div class="detail-label">Début effectif</div><div class="detail-val">18 mars 2026</div></div>
+      <div class="detail-item"><div class="detail-label">Fin prévue</div><div class="detail-val">18 juin 2026</div></div>
+      <div class="detail-item"><div class="detail-label">Localisation</div><div class="detail-val"><a href="#" style="color:var(--orange);font-size:.85rem">🗺 Voir sur Maps</a></div></div>
+      <div class="detail-item"><div class="detail-label">Lettre ref.</div><div class="detail-val" style="font-size:.82rem">ALS-2026-LIG3-00214</div></div>
+    </div>
+    <div style="margin-top:1.25rem">
+      <div class="detail-label" style="margin-bottom:.6rem">Documents soumis</div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <a href="#" class="doc-row-clickable" onclick="ouvrirDocument('lettre_21G0042_20260310154000.pdf');return false" style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;text-decoration:none;color:inherit;padding:.25rem 0">
+          <span style="color:var(--green)">✓</span> <span class="doc-link" style="color:var(--orange)">Lettre de recommandation</span>
+        </a>
+        <a href="#" class="doc-row-clickable" onclick="ouvrirDocument('convention_21G0042_20260405100200.pdf');return false" style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;text-decoration:none;color:inherit;padding:.25rem 0">
+          <span style="color:var(--green)">✓</span> <span class="doc-link" style="color:var(--orange)">Convention de stage</span>
+        </a>
+        <a href="#" class="doc-row-clickable" onclick="ouvrirDocument('rapport_21G0042_20260714160000.pdf');return false" style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;text-decoration:none;color:inherit;padding:.25rem 0">
+          <span style="color:var(--green)">✓</span> <span class="doc-link" style="color:var(--orange)">Rapport de stage</span>
+        </a>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;padding:.25rem 0"><span style="color:var(--ink3)">○</span> Fiche d'auto-notation <span style="font-size:.75rem;color:var(--ink3)">(non déposée)</span></div>
+        <div style="display:flex;align-items:center;gap:.5rem;font-size:.85rem;padding:.25rem 0"><span style="color:var(--ink3)">○</span> Note d'appréciation (pli fermé) <span style="font-size:.75rem;color:var(--ink3)">(non renseignée)</span></div>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-detail')">Fermer</button>
+      <button class="btn-primary">📨 Envoyer rappel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal ajout étudiant -->
+<div class="modal-overlay" id="modal-ajout" onclick="closeModal(event,'modal-ajout')">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width:640px">
+    <div class="modal-head">
+      <h3>Ajouter un étudiant</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-ajout')">✕</button>
+    </div>
+    <div class="form-grid">
+      <div><label class="form-label">Matricule académique *</label><input class="form-input" placeholder="21G0142"></div>
+      <div><label class="form-label">Identifiant BDS</label><input class="form-input" placeholder="Laisser vide pour génération automatique"></div>
+      <div><label class="form-label">Nom *</label><input class="form-input" placeholder="DUPONT"></div>
+      <div><label class="form-label">Prénom *</label><input class="form-input" placeholder="Marie"></div>
+
+      <div>
+        <label class="form-label">Faculté *</label>
+        <select class="form-select" id="ajout-f-faculte" onchange="onFaculteChange()">
+          <option value="">— Sélectionner —</option>
+          <option value="FSSG">FSSG — Sciences Sociales et de Gestion</option>
+          <option value="FSE">FSE — Sciences de l'Éducation</option>
+        </select>
+      </div>
+      <div>
+        <label class="form-label">Filière *</label>
+        <select class="form-select" id="ajout-f-filiere" onchange="onFiliereChange()" disabled>
+          <option value="">— Choisir d'abord une faculté —</option>
+        </select>
+      </div>
+      <div class="full">
+        <label class="form-label">Classe *</label>
+        <select class="form-select" id="ajout-f-classe" disabled>
+          <option value="">— Choisir d'abord une filière —</option>
+        </select>
+      </div>
+
+      <div><label class="form-label">Année académique *</label><input class="form-input" value="2025-2026"></div>
+      <div><label class="form-label">Téléphone</label><input class="form-input" placeholder="656427601"></div>
+      <div><label class="form-label">Email *</label><input class="form-input" type="email" placeholder="marie.dupont@ucac.cm"></div>
+      <div><label class="form-label">Date de naissance</label><input class="form-input" type="date"></div>
+      <div><label class="form-label">Lieu de naissance</label><input class="form-input" placeholder="Yaoundé"></div>
+    </div>
+    <p style="font-size:.78rem;color:var(--ink3);margin-top:.5rem">Le campus est hérité automatiquement de la classe sélectionnée.</p>
+    <p style="font-size:.8rem;color:var(--ink3);margin-top:.4rem">📨 Un email d'activation sera envoyé automatiquement à l'étudiant.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-ajout')">Annuler</button>
+      <button class="btn-primary" onclick="closeModal(null,'modal-ajout')">✓ Créer le compte</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal blacklist -->
+<div class="modal-overlay" id="modal-blacklist" onclick="closeModal(event,'modal-blacklist')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3>Ajouter à la liste noire</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-blacklist')">✕</button>
+    </div>
+    <div><label class="form-label">Nom de l'entreprise</label><input class="form-input" id="blacklist-input" placeholder="Nom exact de l'entreprise"></div>
+    <p style="font-size:.8rem;color:var(--ink3);margin-top:.6rem">⛔ Toute demande de lettre vers cette entreprise sera automatiquement bloquée.</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-blacklist')">Annuler</button>
+      <button class="btn-primary" style="background:var(--red)" onclick="ajouterBlacklist()">⛔ Bloquer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// LOGIN
+let userRole = 'AGENT'; // AGENT ou DIRECTEUR - determine les droits d'edition (entreprises notamment)
+
+function resetMdpOublieModal(){
+  document.getElementById('mdp-oublie-form').style.display='block';
+  document.getElementById('mdp-oublie-confirmation').style.display='none';
+  document.getElementById('mdp-oublie-email').value='';
+}
+
+function envoyerLienReinit(){
+  const email=document.getElementById('mdp-oublie-email').value.trim();
+  if(!email||!email.includes('@')){alert('Veuillez saisir une adresse email valide.');return;}
+  document.getElementById('mdp-oublie-form').style.display='none';
+  document.getElementById('mdp-oublie-confirmation').style.display='block';
+}
+
+function doLogin(){
+  const e=document.getElementById('l-email').value;
+  const p=document.getElementById('l-pw').value;
+  if(!e||!p){alert('Veuillez remplir tous les champs.');return;}
+  userRole = document.getElementById('l-role').value;
+  document.body.classList.remove('role-agent','role-directeur');
+  document.body.classList.add(userRole==='DIRECTEUR' ? 'role-directeur' : 'role-agent');
+  document.getElementById('sb-user-name').textContent = userRole==='DIRECTEUR' ? 'Directeur des Stages' : 'Agent BDS';
+  document.getElementById('sb-avatar').textContent = userRole==='DIRECTEUR' ? 'DS' : 'AG';
+  document.getElementById('compte-nom').textContent = userRole==='DIRECTEUR' ? 'Directeur des Stages' : 'Agent BDS';
+  document.getElementById('compte-role').textContent = userRole==='DIRECTEUR' ? 'Directeur des Stages (droits élargis)' : 'Agent BDS';
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  buildMiniBars();
+  renderEntreprises();
+  renderConfigNiveau();
+  renderConfigClasse();
+  renderDemandesLettres();
+  renderAllDocPages();
+}
+function doLogout(){
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display='flex';
+}
+
+// NAVIGATION
+const breadcrumbs={
+  dashboard:'Tableau de bord',etudiants:'Étudiants',demandes:'Demandes de lettres',
+  dossiers:'Dossiers de stage',retards:'Retards & Alertes',classes:'Classes & Périodes',
+  entreprises:'Entreprises',import:'Import CSV',rapports:'Rapports',compte:'Mon compte',
+  'doc-lettres':'Documents \u203a Lettres de recommandation',
+  'doc-convention':'Documents \u203a Conventions de stage',
+  'doc-rapport':'Documents \u203a Rapports de stage',
+  'doc-autonotation':'Documents \u203a Fiches d\u2019auto-notation'
+};
+function showPage(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.getElementById('breadcrumb').innerHTML='ALS · BDS → <span>'+breadcrumbs[id]+'</span>';
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  if(el) el.classList.add('active');
+  // Sur mobile/tablette, on referme le menu apres selection
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sb-overlay').classList.remove('open');
+}
+
+// SIDEBAR OFF-CANVAS (tablette / telephone)
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sb-overlay').classList.toggle('open');
+}
+
+// TOGGLE
+function toggleSwitch(el){
+  const t=el.querySelector('.toggle-track');
+  const l=el.querySelector('.toggle-label');
+  t.classList.toggle('on');
+  l.textContent=t.classList.contains('on')?'Activé':'Désactivé';
+}
+
+// MODALS
+function openModal(id){document.getElementById(id).classList.add('open')}
+function closeModal(e,id){
+  if(!e||e.target===document.getElementById(id))
+    document.getElementById(id).classList.remove('open');
+}
+
+// VALIDER LETTRE
+function validerLettre(btn){
+  const row=btn.closest('tr');
+  row.querySelector('.badge').outerHTML='<span class="badge normal">✓ Envoyée</span>';
+  btn.parentElement.innerHTML='<span style="font-size:.8rem;color:var(--green)">✓ Traitée</span>';
+}
+
+// IMPORT SIMULÉ
+function simulerImport(){
+  document.getElementById('import-result').style.display='block';
+}
+
+// BLACKLIST
+function ajouterBlacklist(){
+  const v=document.getElementById('blacklist-input').value.trim();
+  if(!v)return;
+  const chips=document.querySelector('#page-entreprises .chip.blacklist')?.parentElement;
+  if(chips){
+    const c=document.createElement('div');
+    c.className='chip blacklist';
+    c.innerHTML=v+' <span class="chip-del" onclick="this.parentElement.remove()">×</span>';
+    chips.appendChild(c);
+  }
+  closeModal(null,'modal-blacklist');
+}
+
+// ===== REPERTOIRE ENTREPRISES =====
+// Donnees de demonstration - en production, chargees depuis l'API Django (Entreprise + SuccursaleEntreprise)
+let mockEntreprises=[
+  {id:1,nom:"Societe Anonyme des Boissons du Cameroun (SABC)",forme:"SA",nationalite:"Camerounaise",date:"1948-01-01",
+   siege:"Douala",destinataire:"Monsieur le Directeur Général",statut:"PARTENAIRE",placesTot:0,placesUse:0,
+   succursales:[{ville:"Douala",fonction:"Directeur Régional du Littoral",contact:""},{ville:"Yaoundé",fonction:"Directeur Régional du Centre",contact:""}]},
+  {id:2,nom:"MTN Cameroun",forme:"SA",nationalite:"Camerounaise",date:"2000-01-01",
+   siege:"Douala",destinataire:"Monsieur le Directeur Général",statut:"PARTENAIRE",placesTot:0,placesUse:0,
+   succursales:[{ville:"Yaoundé",fonction:"Responsable RH Centre",contact:""}]},
+  {id:3,nom:"CNPS",forme:"Etablissement public",nationalite:"Camerounaise",date:"1974-01-01",
+   siege:"Yaoundé",destinataire:"Monsieur le Directeur Général",statut:"QUOTA",placesTot:15,placesUse:11,
+   succursales:[]},
+  {id:4,nom:"TOTAL Cameroun",forme:"SA",nationalite:"Camerounaise",date:"1954-01-01",
+   siege:"Douala",destinataire:"Monsieur le Directeur Général",statut:"NORMALE",placesTot:0,placesUse:0,
+   succursales:[]},
+  {id:5,nom:"MINFIN",forme:"Administration publique",nationalite:"Camerounaise",date:"1960-01-01",
+   siege:"Yaoundé",destinataire:"",statut:"LISTE_NOIRE",placesTot:0,placesUse:0,succursales:[]},
+];
+let entEditId=null; // id en cours d'edition, null = creation
+
+function badgeInfo(statut){
+  switch(statut){
+    case "PARTENAIRE": return {cls:"partenaire",label:"🤝 Partenaire"};
+    case "QUOTA": return {cls:"quota",label:"🎯 Places limitées"};
+    case "LISTE_NOIRE": return {cls:"blacklist",label:"⛔ Indisponible"};
+    default: return {cls:"normale",label:"✅ Disponible"};
+  }
+}
+
+function renderEntreprises(){
+  const grid=document.getElementById('ent-grid');
+  if(!grid)return;
+  const q=(document.getElementById('ent-search')?.value||'').toLowerCase();
+  grid.innerHTML='';
+  mockEntreprises
+    .filter(e=>e.nom.toLowerCase().includes(q))
+    .forEach(e=>{
+      const b=badgeInfo(e.statut);
+      const card=document.createElement('div');
+      card.className='ent-card'+(e.statut==='LISTE_NOIRE'?' is-blacklist':'');
+      let quotaHtml='';
+      if(e.statut==='QUOTA'){
+        const pct=e.placesTot>0?Math.round(e.placesUse/e.placesTot*100):0;
+        quotaHtml=`<div class="ent-card-meta">${e.placesUse} / ${e.placesTot} places utilisées</div>
+          <div class="ent-card-quota-bar"><div class="ent-card-quota-bar-fill" style="width:${pct}%"></div></div>`;
+      }
+      const succHtml=e.succursales.length
+        ? `<div class="ent-card-succ">${e.succursales.map(s=>`<span class="chip">${s.ville}</span>`).join('')}</div>`
+        : `<div class="ent-card-meta">Aucune succursale enregistrée</div>`;
+      card.innerHTML=`
+        <div class="ent-card-head">
+          <div><div class="ent-card-name">${e.nom}</div><div class="ent-card-meta">${e.forme||'—'} · Siège : ${e.siege||'—'}</div></div>
+          <span class="ent-badge ${b.cls}">${b.label}</span>
+        </div>
+        ${quotaHtml}
+        ${succHtml}
+        <div class="ent-card-foot"><button class="btn-sm" onclick="openEntrepriseModal(${e.id})">✏️ ${userRole==='DIRECTEUR'?'Modifier':'Proposer une modification'}</button></div>
+      `;
+      grid.appendChild(card);
+    });
+  if(!mockEntreprises.some(e=>e.nom.toLowerCase().includes(q))){
+    grid.innerHTML='<p style="color:var(--ink3);padding:1rem">Aucune entreprise ne correspond à cette recherche.</p>';
+  }
+}
+
+function toggleQuotaFields(){
+  const wrap=document.getElementById('ent-f-places-wrap');
+  wrap.style.display = document.getElementById('ent-f-statut').value==='QUOTA' ? 'block' : 'none';
+}
+
+function ajouterLigneSuccursale(ville,fonction,contact){
+  const list=document.getElementById('ent-succursales-list');
+  const row=document.createElement('div');
+  row.className='succ-row';
+  row.innerHTML=`
+    <input placeholder="Ville" value="${ville||''}">
+    <input placeholder="Fonction du contact" value="${fonction||''}">
+    <input placeholder="Nom du contact (optionnel)" value="${contact||''}">
+    <button class="succ-del" onclick="this.closest('.succ-row').remove()">×</button>
+  `;
+  list.appendChild(row);
+}
+
+function openEntrepriseModal(id){
+  entEditId=id;
+  const list=document.getElementById('ent-succursales-list');
+  list.innerHTML='';
+  if(id===null){
+    document.getElementById('ent-modal-title').textContent='Nouvelle entreprise';
+    document.getElementById('ent-f-nom').value='';
+    document.getElementById('ent-f-forme').value='';
+    document.getElementById('ent-f-nationalite').value='';
+    document.getElementById('ent-f-date').value='';
+    document.getElementById('ent-f-siege').value='';
+    document.getElementById('ent-f-destinataire').value='';
+    document.getElementById('ent-f-statut').value='NORMALE';
+    document.getElementById('ent-f-places-tot').value='';
+    document.getElementById('ent-f-places-use').value='';
+  }else{
+    const e=mockEntreprises.find(x=>x.id===id);
+    document.getElementById('ent-modal-title').textContent=e.nom;
+    document.getElementById('ent-f-nom').value=e.nom;
+    document.getElementById('ent-f-forme').value=e.forme;
+    document.getElementById('ent-f-nationalite').value=e.nationalite;
+    document.getElementById('ent-f-date').value=e.date;
+    document.getElementById('ent-f-siege').value=e.siege;
+    document.getElementById('ent-f-destinataire').value=e.destinataire;
+    document.getElementById('ent-f-statut').value=e.statut;
+    document.getElementById('ent-f-places-tot').value=e.placesTot||'';
+    document.getElementById('ent-f-places-use').value=e.placesUse||'';
+    e.succursales.forEach(s=>ajouterLigneSuccursale(s.ville,s.fonction,s.contact));
+  }
+  toggleQuotaFields();
+  document.getElementById('ent-save-btn').textContent = userRole==='DIRECTEUR' ? 'Enregistrer' : 'Envoyer la proposition au DS';
+  openModal('modal-entreprise');
+}
+
+function saveEntreprise(){
+  const nom=document.getElementById('ent-f-nom').value.trim();
+  if(!nom){alert('Le nom de l\'entreprise est obligatoire.');return;}
+
+  const succursales=[...document.querySelectorAll('#ent-succursales-list .succ-row')].map(r=>{
+    const inputs=r.querySelectorAll('input');
+    return {ville:inputs[0].value.trim(),fonction:inputs[1].value.trim(),contact:inputs[2].value.trim()};
+  }).filter(s=>s.ville);
+
+  const data={
+    nom, forme:document.getElementById('ent-f-forme').value.trim(),
+    nationalite:document.getElementById('ent-f-nationalite').value.trim(),
+    date:document.getElementById('ent-f-date').value,
+    siege:document.getElementById('ent-f-siege').value.trim(),
+    destinataire:document.getElementById('ent-f-destinataire').value.trim(),
+    statut:document.getElementById('ent-f-statut').value,
+    placesTot:parseInt(document.getElementById('ent-f-places-tot').value)||0,
+    placesUse:parseInt(document.getElementById('ent-f-places-use').value)||0,
+    succursales
+  };
+
+  if(userRole!=='DIRECTEUR'){
+    // Agent : la modification n'est PAS appliquee, elle part comme proposition
+    // (cote reel : POST vers /bds/entreprises/propositions/, statut EN_ATTENTE,
+    //  donnees_avant/donnees_apres enregistres via le mecanisme HistoriqueModification)
+    closeModal(null,'modal-entreprise');
+    showToast('📩 Proposition envoyée au Directeur des Stages pour validation.');
+    return;
+  }
+
+  // DS : application directe
+  if(entEditId===null){
+    data.id=Math.max(0,...mockEntreprises.map(e=>e.id))+1;
+    mockEntreprises.push(data);
+  }else{
+    const idx=mockEntreprises.findIndex(e=>e.id===entEditId);
+    mockEntreprises[idx]={...mockEntreprises[idx],...data};
+  }
+  closeModal(null,'modal-entreprise');
+  renderEntreprises();
+  showToast('✅ Entreprise enregistrée.');
+}
+
+// ===== MON COMPTE : CHANGEMENT DE MOT DE PASSE (email fixe, non modifiable) =====
+function modifierMotDePasseBDS(){
+  const actuel=document.getElementById('compte-pw-actuel').value;
+  const nouveau=document.getElementById('compte-pw-nouveau').value;
+  const confirmPw=document.getElementById('compte-pw-confirm').value;
+  const err=document.getElementById('alert-compte-pw-err');
+  const ok=document.getElementById('alert-compte-pw-ok');
+  err.classList.remove('show');ok.classList.remove('show');
+
+  if(!actuel||!nouveau||!confirmPw){
+    err.textContent='⚠️ Veuillez remplir les trois champs.';err.classList.add('show');return;
+  }
+  if(nouveau.length<10){
+    err.textContent='⚠️ Le nouveau mot de passe doit contenir au moins 10 caractères.';err.classList.add('show');return;
+  }
+  if(nouveau!==confirmPw){
+    err.textContent='⚠️ La confirmation ne correspond pas au nouveau mot de passe.';err.classList.add('show');return;
+  }
+  ok.classList.add('show');
+  setTimeout(()=>ok.classList.remove('show'),4000);
+  document.getElementById('compte-pw-actuel').value='';
+  document.getElementById('compte-pw-nouveau').value='';
+  document.getElementById('compte-pw-confirm').value='';
+}
+
+// ===== SIGNATURE ET CACHET (reserve au DS) =====
+// Cote reel : upload vers ParametrageSignature (singleton), champs
+// image_cachet / image_signature, controle du role fait aussi cote serveur
+// (jamais uniquement en JS, qui n'est qu'un confort visuel ici).
+const MAX_TAILLE_SIGNATURE = 2 * 1024 * 1024; // 2 Mo
+let fichiersSignatureCachet = { cachet: null, signature: null };
+
+function previewSignatureImage(input, type){
+  if(userRole!=='DIRECTEUR'){
+    showToast('⛔ Seul le Directeur des Stages peut charger la signature et le cachet.');
+    input.value='';
+    return;
+  }
+  const fichier = input.files[0];
+  if(!fichier) return;
+
+  if(!['image/png','image/jpeg'].includes(fichier.type)){
+    showToast('⛔ Format non accepté. Utilisez un fichier PNG ou JPEG.');
+    input.value='';
+    return;
+  }
+  if(fichier.size > MAX_TAILLE_SIGNATURE){
+    showToast('⛔ Fichier trop volumineux (2 Mo maximum).');
+    input.value='';
+    return;
+  }
+
+  fichiersSignatureCachet[type] = fichier;
+
+  const reader = new FileReader();
+  reader.onload = function(e){
+    document.getElementById('preview-'+type).src = e.target.result;
+    document.getElementById('preview-'+type).style.display = 'block';
+    document.getElementById('placeholder-'+type).style.display = 'none';
+  };
+  reader.readAsDataURL(fichier);
+
+  const tailleKo = Math.round(fichier.size/1024);
+  document.getElementById('meta-'+type).textContent = `${fichier.name} (${tailleKo} Ko)`;
+}
+
+function enregistrerSignatureCachet(){
+  if(userRole!=='DIRECTEUR'){
+    showToast('⛔ Seul le Directeur des Stages peut modifier ces éléments.');
+    return;
+  }
+  if(!fichiersSignatureCachet.cachet && !fichiersSignatureCachet.signature){
+    showToast('⚠️ Chargez au moins une image avant d\u2019enregistrer.');
+    return;
+  }
+  // Ici : envoi reel des fichiers vers le serveur (FormData + fetch/POST)
+  const ok=document.getElementById('alert-sig-ok');
+  ok.classList.add('show');
+  setTimeout(()=>ok.classList.remove('show'),5000);
+}
+
+// ===== CASCADE FACULTE -> FILIERE -> CLASSE (formulaire ajout etudiant) =====
+// Donnees de demonstration ; en production, chargees depuis les modeles
+// Faculte / Filiere / Classe (voir Tableau 4 du CDC).
+const FACULTE_FILIERES = {
+  FSSG: [
+    { code: "LIG", label: "Informatique de Gestion" },
+    { code: "GRH", label: "Gestion des Ressources Humaines" },
+    { code: "LGC", label: "Comptabilité" },
+  ],
+  FSE: [
+    { code: "SE", label: "Sciences de l'Éducation" },
+  ],
+};
+
+const FILIERE_CLASSES = {
+  LIG: [
+    { sigle: "LIG1", campus: "Ekounou" },
+    { sigle: "LIG2", campus: "Ekounou" },
+    { sigle: "LIG3", campus: "Nkolbisson" },
+  ],
+  GRH: [
+    { sigle: "GRH1", campus: "Ekounou" },
+    { sigle: "GRH2", campus: "Ekounou" },
+    { sigle: "GRH3", campus: "Nkolbisson" },
+    { sigle: "GRHM1", campus: "Nkolbisson" },
+  ],
+  LGC: [
+    { sigle: "LGC1", campus: "Ekounou" },
+    { sigle: "LGC2", campus: "Ekounou" },
+    { sigle: "LGC3", campus: "Nkolbisson" },
+  ],
+  SE: [
+    { sigle: "SE1", campus: "Ekounou" },
+    { sigle: "SE2", campus: "Ekounou" },
+  ],
+};
+
+function resetSelect(select, placeholder, disabled){
+  select.innerHTML = `<option value="">${placeholder}</option>`;
+  select.disabled = disabled;
+}
+
+function onFaculteChange(){
+  const faculte = document.getElementById('ajout-f-faculte').value;
+  const selFiliere = document.getElementById('ajout-f-filiere');
+  const selClasse = document.getElementById('ajout-f-classe');
+
+  resetSelect(selClasse, "— Choisir d'abord une filière —", true);
+
+  if(!faculte){
+    resetSelect(selFiliere, "— Choisir d'abord une faculté —", true);
+    return;
+  }
+
+  selFiliere.innerHTML = '<option value="">— Sélectionner —</option>';
+  FACULTE_FILIERES[faculte].forEach(f => {
+    const opt = document.createElement('option');
+    opt.value = f.code;
+    opt.textContent = f.label;
+    selFiliere.appendChild(opt);
+  });
+  selFiliere.disabled = false;
+}
+
+function onFiliereChange(){
+  const filiere = document.getElementById('ajout-f-filiere').value;
+  const selClasse = document.getElementById('ajout-f-classe');
+
+  if(!filiere){
+    resetSelect(selClasse, "— Choisir d'abord une filière —", true);
+    return;
+  }
+
+  selClasse.innerHTML = '<option value="">— Sélectionner —</option>';
+  FILIERE_CLASSES[filiere].forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.sigle;
+    opt.textContent = `${c.sigle} (${c.campus})`;
+    selClasse.appendChild(opt);
+  });
+  selClasse.disabled = false;
+}
+
+function resetAjoutEtudiantModal(){
+  document.getElementById('ajout-f-faculte').value = '';
+  resetSelect(document.getElementById('ajout-f-filiere'), "— Choisir d'abord une faculté —", true);
+  resetSelect(document.getElementById('ajout-f-classe'), "— Choisir d'abord une filière —", true);
+}
+
+// ===== PAGES DOCUMENTS =====
+// Normalisation pour une recherche insensible a la casse ET aux accents
+// (ex : "yaounde" retrouve aussi "Yaoundé").
+function normaliserRecherche(texte){
+  return (texte || '')
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+// Genere le nom de fichier tel que stocke reellement par le systeme
+// (renommage systematique, cf. mecanisme applique a tout upload).
+function nomFichierGenere(type, identifiant, dateIso){
+  const h = dateIso.replace(/[-:T]/g,'').slice(0,14);
+  return `${type}_${identifiant}_${h}.pdf`;
+}
+
+function badgeTentative(n){
+  if(n >= 3) return '<span class="tentative-badge bloque">⛔ Bloqué (3/3)</span>';
+  if(n === 2) return '<span class="tentative-badge t2">2/2 tentatives affichées</span>';
+  return '<span class="tentative-badge t1">1/2 tentatives affichées</span>';
+}
+// Note : le systeme autorise reellement 3 tentatives, mais n'en affiche
+// jamais plus de 2 a l'etudiant (regle validee). La 3e reste une marge
+// de securite invisible cote interface.
+
+const mockDocuments = {
+  lettres: [
+    {etudiant:'FOUDA Karine',matricule:'21G0088',classe:'LIG3',faculte:'FSSG',campus:'Nkolbisson',entreprise:'MTN Cameroun',reference:'BDS-00812',date:'2026-03-12T09:14:00'},
+    {etudiant:'CHENDJOU Thierry',matricule:'21G0091',classe:'LIG3',faculte:'FSSG',campus:'Nkolbisson',entreprise:'TOTAL Cameroun',reference:'BDS-00819',date:'2026-03-10T15:40:00'},
+    {etudiant:'MBALLA Jean-Pierre',matricule:'21G0142',classe:'LIM2',faculte:'FSSG',campus:'Ekounou',entreprise:'Orange Cameroun',reference:'BDS-00791',date:'2026-02-28T08:05:00'},
+    {etudiant:'NDONGO Estelle',matricule:'21G0170',classe:'GRHM1',faculte:'FSSG',campus:'Nkolbisson',entreprise:'Afriland Bank',reference:'BDS-00905',date:'2026-04-02T11:22:00'},
+  ],
+  convention: [
+    {etudiant:'FOUDA Karine',matricule:'21G0088',classe:'LIG3',faculte:'FSSG',campus:'Nkolbisson',entreprise:'MTN Cameroun',tentative:1,date:'2026-04-05T10:02:00'},
+    {etudiant:'CHENDJOU Thierry',matricule:'21G0091',classe:'LIG3',faculte:'FSSG',campus:'Nkolbisson',entreprise:'TOTAL Cameroun',tentative:2,date:'2026-04-06T14:18:00'},
+    {etudiant:'ABENA Angèle',matricule:'21G0110',classe:'LGC3',faculte:'FSSG',campus:'Nkolbisson',entreprise:'SABC',tentative:3,date:'2026-04-08T09:30:00'},
+  ],
+  rapport: [
+    {etudiant:'MBALLA Jean-Pierre',matricule:'21G0142',classe:'LIM2',faculte:'FSSG',campus:'Ekounou',entreprise:'Orange Cameroun',tentative:1,date:'2026-07-14T16:00:00'},
+    {etudiant:'NDONGO Estelle',matricule:'21G0170',classe:'GRHM1',faculte:'FSSG',campus:'Nkolbisson',entreprise:'Afriland Bank',tentative:2,date:'2026-07-15T09:45:00'},
+  ],
+  autonotation: [
+    {etudiant:'MBALLA Jean-Pierre',matricule:'21G0142',classe:'LIM2',faculte:'FSSG',campus:'Ekounou',entreprise:'Orange Cameroun',tentative:1,date:'2026-07-14T16:05:00'},
+  ],
+};
+
+const TYPE_FICHIER = { lettres:'lettre', convention:'convention', rapport:'rapport', autonotation:'autonotation' };
+
+function renderDocPage(type){
+  const tbody = document.getElementById('tbody-doc-'+type);
+  if(!tbody) return;
+
+  const q = normaliserRecherche(document.getElementById('search-doc-'+type)?.value);
+  const fClasse = document.getElementById('filtre-classe-'+type)?.value || '';
+  const fFaculte = document.getElementById('filtre-faculte-'+type)?.value || '';
+  const fCampus = document.getElementById('filtre-campus-'+type)?.value || '';
+  const tri = document.getElementById('tri-'+type)?.value || 'date_desc';
+
+  let liste = mockDocuments[type].filter(doc => {
+    if(fClasse && doc.classe !== fClasse) return false;
+    if(fFaculte && doc.faculte !== fFaculte) return false;
+    if(fCampus && doc.campus !== fCampus) return false;
+    if(q){
+      const champsRecherchables = [doc.etudiant, doc.matricule, doc.entreprise, doc.reference, doc.classe]
+        .map(normaliserRecherche).join(' ');
+      if(!champsRecherchables.includes(q)) return false;
+    }
+    return true;
+  });
+
+  liste = liste.slice().sort((a,b) => {
+    if(tri === 'date_asc') return new Date(a.date) - new Date(b.date);
+    if(tri === 'nom') return a.etudiant.localeCompare(b.etudiant);
+    if(tri === 'classe') return a.classe.localeCompare(b.classe);
+    return new Date(b.date) - new Date(a.date); // date_desc par defaut
+  });
+
+  tbody.innerHTML = '';
+  if(!liste.length){
+    const nbCols = type === 'lettres' ? 5 : 5;
+    tbody.innerHTML = `<tr><td colspan="${nbCols}"><div class="doc-empty">Aucun document ne correspond à ces critères.</div></td></tr>`;
+    return;
+  }
+
+  liste.forEach(doc => {
+    const nomFichier = nomFichierGenere(TYPE_FICHIER[type], doc.matricule, doc.date);
+    const dateAffichee = new Date(doc.date).toLocaleString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});
+    const colTentativeOuRef = type === 'lettres'
+      ? `<td>${doc.reference}</td>`
+      : `<td>${badgeTentative(doc.tentative)}</td>`;
+
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><div class="avatar-cell"><div class="av o">${initiales(doc.etudiant)}</div><div><div class="av-name">${doc.etudiant}</div><div class="av-mat">${doc.classe} · ${doc.matricule}</div></div></div></td>
+      <td>${doc.entreprise}</td>
+      ${colTentativeOuRef}
+      <td>${dateAffichee}</td>
+      <td><a href="#" class="doc-link" onclick="ouvrirDocument('${nomFichier}');return false">📄 ${nomFichier}</a></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function ouvrirDocument(nomFichier){
+  // Cote reel : ouverture/telechargement du fichier stocke (chemin issu de
+  // Document.fichier ou DemandeLettre.fichier_pdf selon le type).
+  showToast('📄 Ouverture de '+nomFichier+' (démonstration)');
+}
+
+function renderAllDocPages(){
+  ['lettres','convention','rapport','autonotation'].forEach(renderDocPage);
+}
+
+function showToast(msg){
+  let t=document.getElementById('als-toast');
+  if(!t){
+    t=document.createElement('div');
+    t.id='als-toast';
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.85rem 1.4rem;border-radius:var(--r2);font-size:.85rem;box-shadow:0 8px 30px #00000040;z-index:400;transition:opacity .3s';
+    document.body.appendChild(t);
+  }
+  t.textContent=msg;
+  t.style.opacity='1';
+  clearTimeout(t._timer);
+  t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
+}
+
+// ===== CONFIGURATION DES PERIODES (NIVEAU / CLASSE) =====
+// Regle validee : le DS configure les dates par defaut par niveau en amont,
+// et peut ajouter des derogations pour des classes precises au sein d'un niveau.
+// Resolution a la demande : CLASSE prioritaire, sinon NIVEAU, sinon bloque.
+let mockConfigsNiveau=[
+  {niveau:"L1",label:"Licence 1",debut:"",fin:"",duree:9,obligatoire:false,configure:false},
+  {niveau:"L2",label:"Licence 2",debut:"",fin:"",duree:9,obligatoire:false,configure:false},
+  {niveau:"L3",label:"Licence 3",debut:"2026-05-04",fin:"2026-07-03",duree:9,obligatoire:true,configure:true},
+  {niveau:"M1",label:"Master 1",debut:"2026-05-04",fin:"2026-07-03",duree:9,obligatoire:true,configure:true},
+  {niveau:"M2",label:"Master 2",debut:"2026-04-01",fin:"2026-06-30",duree:12,obligatoire:true,configure:true},
+];
+let mockConfigsClasse=[
+  {classe:"GRHM1",label:"GRHM1 — Gestion des Ressources Humaines",debut:"2026-05-15",fin:"2026-07-15",duree:9,obligatoire:false},
+];
+let configEditContext=null; // {portee:'NIVEAU'|'CLASSE', cle: niveau ou classe, isNew:bool}
+
+function renderConfigNiveau(){
+  const list=document.getElementById('config-niveau-list');
+  if(!list)return;
+  list.innerHTML='';
+  mockConfigsNiveau.forEach(c=>{
+    const row=document.createElement('div');
+    row.className='config-niveau-row';
+    const datesHtml=c.configure
+      ? `<span class="config-niveau-dates">Du <strong>${formatDateFr(c.debut)}</strong> au <strong>${formatDateFr(c.fin)}</strong> · Durée min. <strong>${c.duree} sem.</strong> · ${c.obligatoire?'Obligatoire':'Non obligatoire'}</span>`
+      : `<span class="config-niveau-dates config-not-set">⚠️ Non configuré — les demandes de ce niveau seront bloquées</span>`;
+    row.innerHTML=`
+      <div class="config-niveau-badge">${c.niveau}</div>
+      <div class="config-niveau-info">
+        <div style="font-weight:600">${c.label}</div>
+        ${datesHtml}
+      </div>
+      <button class="btn-sm config-edit-btn" onclick="openConfigModal('NIVEAU','${c.niveau}')">✏️ ${c.configure?'Modifier':'Configurer'}</button>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function renderConfigClasse(){
+  const list=document.getElementById('config-classe-list');
+  if(!list)return;
+  list.innerHTML='';
+  if(!mockConfigsClasse.length){
+    list.innerHTML='<div class="config-empty-state">Aucune dérogation. Toutes les classes suivent la règle de leur niveau.</div>';
+    return;
+  }
+  mockConfigsClasse.forEach(c=>{
+    const row=document.createElement('div');
+    row.className='config-niveau-row';
+    row.innerHTML=`
+      <div class="config-niveau-badge" style="background:var(--amber)">${c.classe}</div>
+      <div class="config-niveau-info">
+        <div style="font-weight:600">${c.label}</div>
+        <span class="config-niveau-dates">Du <strong>${formatDateFr(c.debut)}</strong> au <strong>${formatDateFr(c.fin)}</strong> · Durée min. <strong>${c.duree} sem.</strong> · ${c.obligatoire?'Obligatoire':'Non obligatoire'}</span>
+      </div>
+      <div style="display:flex;gap:.4rem">
+        <button class="btn-sm config-edit-btn" onclick="openConfigModal('CLASSE','${c.classe}')">✏️ Modifier</button>
+        <button class="btn-sm danger config-edit-btn" onclick="supprimerDerogation('${c.classe}')">🗑</button>
+      </div>
+    `;
+    list.appendChild(row);
+  });
+}
+
+function formatDateFr(iso){
+  if(!iso)return '—';
+  const [y,m,d]=iso.split('-');
+  const mois=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+  return `${parseInt(d)} ${mois[parseInt(m)-1]} ${y}`;
+}
+
+function openConfigModal(portee,cle){
+  if(userRole!=='DIRECTEUR'){showToast('⛔ Seul le Directeur des Stages peut modifier ces paramètres.');return;}
+  const isNew = portee==='CLASSE' && cle===null;
+  configEditContext={portee,cle,isNew};
+  document.getElementById('config-classe-select-wrap').style.display = portee==='CLASSE' ? 'block' : 'none';
+
+  let data={debut:"",fin:"",duree:9,obligatoire:true};
+  if(portee==='NIVEAU'){
+    data=mockConfigsNiveau.find(c=>c.niveau===cle);
+    document.getElementById('config-modal-title').textContent='Configuration — Niveau '+cle;
+  }else if(!isNew){
+    data=mockConfigsClasse.find(c=>c.classe===cle);
+    document.getElementById('config-modal-title').textContent='Dérogation — '+cle;
+    document.getElementById('config-f-classe').value=cle;
+  }else{
+    document.getElementById('config-modal-title').textContent='Nouvelle dérogation de classe';
+  }
+
+  document.getElementById('config-f-debut').value=data.debut||'';
+  document.getElementById('config-f-fin').value=data.fin||'';
+  document.getElementById('config-f-duree').value=data.duree||9;
+  const tog=document.getElementById('config-f-obligatoire-toggle');
+  const track=tog.querySelector('.toggle-track');
+  const label=tog.querySelector('.toggle-label');
+  track.classList.toggle('on', !!data.obligatoire);
+  label.textContent = data.obligatoire ? 'Stage obligatoire' : 'Stage non obligatoire';
+
+  openModal('modal-config');
+}
+
+function saveConfigPeriode(){
+  const debut=document.getElementById('config-f-debut').value;
+  const fin=document.getElementById('config-f-fin').value;
+  const duree=parseInt(document.getElementById('config-f-duree').value)||9;
+  const obligatoire=document.getElementById('config-f-obligatoire-toggle').querySelector('.toggle-track').classList.contains('on');
+
+  if(!debut||!fin){alert('Les dates de début et de fin par défaut sont obligatoires.');return;}
+
+  if(configEditContext.portee==='NIVEAU'){
+    const c=mockConfigsNiveau.find(x=>x.niveau===configEditContext.cle);
+    Object.assign(c,{debut,fin,duree,obligatoire,configure:true});
+    renderConfigNiveau();
+  }else{
+    const classeSigle=document.getElementById('config-f-classe').value;
+    const classeLabel=document.getElementById('config-f-classe').selectedOptions[0].textContent;
+    if(configEditContext.isNew){
+      mockConfigsClasse.push({classe:classeSigle,label:classeLabel,debut,fin,duree,obligatoire});
+    }else{
+      const c=mockConfigsClasse.find(x=>x.classe===configEditContext.cle);
+      Object.assign(c,{debut,fin,duree,obligatoire});
+    }
+    renderConfigClasse();
+  }
+  closeModal(null,'modal-config');
+  showToast('✅ Configuration enregistrée.');
+}
+
+function supprimerDerogation(classe){
+  if(userRole!=='DIRECTEUR'){showToast('⛔ Seul le Directeur des Stages peut supprimer une dérogation.');return;}
+  if(!confirm('Supprimer cette dérogation ? La classe retombera sur la règle de son niveau.'))return;
+  mockConfigsClasse=mockConfigsClasse.filter(c=>c.classe!==classe);
+  renderConfigClasse();
+  showToast('🗑 Dérogation supprimée — la classe suit de nouveau la règle du niveau.');
+}
+
+// ===== CIRCUIT DE VALIDATION DES LETTRES =====
+// CAS A : entreprise connue, rien modifie -> envoi automatique, annulable 5 min
+let mockDemandesCasA=[
+  {id:'a1',etudiant:'FOUDA Karine',matricule:'LIG3',entreprise:'MTN Cameroun',ville:'Yaoundé',
+   fonction:'Responsable RH Centre',periode:'Avr — Juil 2026',secondsLeft:284,
+   apercu:"Nous vous recommandons notre étudiante FOUDA Karine, inscrite en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois à compter d'avril 2026. Elle s'est distinguée par son sérieux et son engagement dans ses études..."},
+  {id:'a2',etudiant:'CHENDJOU Thierry',matricule:'LIG3',entreprise:'TOTAL Cameroun',ville:'Douala',
+   fonction:'Directeur des Ressources Humaines',periode:'Mars — Juin 2026',secondsLeft:129,
+   apercu:"Nous vous recommandons notre étudiant CHENDJOU Thierry, inscrit en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois à compter de mars 2026. Il s'est distingué par son sérieux et son engagement dans ses études..."},
+];
+
+// CAS B : entreprise inconnue OU fonction modifiee -> circuit de validation 24h agent puis 24h DS
+let mockDemandesCasB=[
+  {id:'b1',etudiant:'ABENA Angèle',matricule:'LIG3',
+   entreprise:'Societe Anonyme des Boissons du Cameroun (SABC)',ville:'Douala',
+   fonction:'Responsable stage sécurité industrielle',
+   motif:'FONCTION_MODIFIEE',
+   statut:'EN_ATTENTE_AGENT', heuresRestantes:23.2,
+   apercu:"Nous vous recommandons notre étudiante ABENA Angèle, inscrite en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois...",
+   motifRejet:null},
+  {id:'b2',etudiant:'MBALLA Jean-Pierre',matricule:'LIG3',
+   entreprise:'Cabinet Comptable Excellence (non répertorié)',ville:'Bafoussam',
+   fonction:'Directeur Général',
+   motif:'ENTREPRISE_INCONNUE',
+   statut:'EN_ATTENTE_DS', heuresRestantes:14.6,
+   apercu:"Nous vous recommandons notre étudiant MBALLA Jean-Pierre, inscrit en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois...",
+   motifRejet:null},
+  {id:'b3',etudiant:'NKOMO Paul',matricule:'LIM2',
+   entreprise:'Cabinet Juridique Ndzana & Associés (non répertorié)',ville:'Yaoundé',
+   fonction:'Associé fondateur',
+   motif:'ENTREPRISE_INCONNUE',
+   statut:'REJETEE', heuresRestantes:0,
+   apercu:"—",
+   motifRejet:"Le nom de l'entreprise semble incomplet et l'adresse du siège n'a pas pu être vérifiée. Merci de vérifier l'orthographe exacte auprès de l'entreprise."},
+];
+
+let valCurrentId=null;
+
+function badgeStatutValidation(statut){
+  switch(statut){
+    case 'EN_ATTENTE_AGENT': return {cls:'en-attente-agent',label:'⏳ En attente — Agent BDS'};
+    case 'EN_ATTENTE_DS': return {cls:'en-attente-ds',label:'🔺 Escaladé — Directeur des Stages'};
+    case 'VALIDEE': return {cls:'validee',label:'✓ Validée et envoyée'};
+    case 'REJETEE': return {cls:'rejetee',label:'✗ Rejetée'};
+    default: return {cls:'',label:statut};
+  }
+}
+function motifLabel(motif){
+  return motif==='ENTREPRISE_INCONNUE' ? "🏢 Entreprise non répertoriée"
+       : motif==='FONCTION_MODIFIEE' ? "✏️ Fonction du responsable modifiée par l'étudiant"
+       : "↩️ Envoi automatique annulé par le BDS";
+}
+
+function renderDemandesLettres(){
+  renderCasA();
+  renderCasB();
+}
+
+function renderCasA(){
+  const tbody=document.getElementById('tbody-cas-a');
+  if(!tbody)return;
+  tbody.innerHTML='';
+  if(!mockDemandesCasA.length){
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--ink3);padding:1rem">Aucune demande en attente d\'envoi automatique.</td></tr>';
+    return;
+  }
+  mockDemandesCasA.forEach(d=>{
+    const tr=document.createElement('tr');
+    tr.id='row-casa-'+d.id;
+    const m=Math.floor(d.secondsLeft/60), s=d.secondsLeft%60;
+    const cdClass = d.secondsLeft<=60 ? 'countdown expiring' : 'countdown';
+    tr.innerHTML=`
+      <td><div class="avatar-cell"><div class="av g">${initiales(d.etudiant)}</div><div><div class="av-name">${d.etudiant}</div><div class="av-mat">${d.matricule}</div></div></div></td>
+      <td>${d.entreprise}</td>
+      <td>${d.ville}</td>
+      <td><span class="${cdClass}" id="cd-${d.id}">${m}:${String(s).padStart(2,'0')}</span></td>
+      <td><div class="tbl-actions"><button class="btn-sm" onclick="voirCasA('${d.id}')">👁 Voir</button><button class="btn-sm danger" onclick="annulerEnvoiAuto('${d.id}')">✗ Annuler l'envoi</button></div></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function renderCasB(){
+  const wrap=document.getElementById('cards-cas-b');
+  if(!wrap)return;
+  wrap.innerHTML='';
+  if(!mockDemandesCasB.length){
+    wrap.innerHTML='<div class="config-empty-state">Aucune demande en attente de validation.</div>';
+    return;
+  }
+  mockDemandesCasB.forEach(d=>{
+    const b=badgeStatutValidation(d.statut);
+    const traitee = d.statut==='VALIDEE' || d.statut==='REJETEE';
+    const delaiHtml = traitee ? '' :
+      `<div class="val-card-meta">⏱ ${d.statut==='EN_ATTENTE_DS'?'Délai DS':'Délai agent'} restant : <strong>${formatHeures(d.heuresRestantes)}</strong></div>`;
+    const rejetHtml = d.statut==='REJETEE' ? `<div class="val-rejet-motif">Motif du refus envoyé à l'étudiant : ${d.motifRejet}</div>` : '';
+    const card=document.createElement('div');
+    card.className='val-card';
+    card.innerHTML=`
+      <div class="val-card-head">
+        <div>
+          <div class="av-name" style="font-size:.95rem">${d.etudiant} <span style="color:var(--ink3);font-weight:400">(${d.matricule})</span></div>
+          <div class="val-card-meta">${d.entreprise} · ${d.ville}</div>
+          <div class="val-card-motif">${motifLabel(d.motif)}</div>
+        </div>
+        <span class="badge ${b.cls}">${b.label}</span>
+      </div>
+      ${delaiHtml}
+      ${rejetHtml}
+      <div class="val-card-foot">
+        <span></span>
+        ${traitee ? '' : `<button class="btn-sm" onclick="openValidationModal('${d.id}')">👁 Voir & traiter</button>`}
+      </div>
+    `;
+    wrap.appendChild(card);
+  });
+}
+
+function initiales(nom){
+  return nom.split(' ').filter(Boolean).slice(0,2).map(w=>w[0]).join('').toUpperCase();
+}
+function formatHeures(h){
+  const hh=Math.floor(h), mm=Math.round((h-hh)*60);
+  return `${hh}h${String(mm).padStart(2,'0')}`;
+}
+
+// ---- CAS A : compte a rebours reel + annulation ----
+setInterval(()=>{
+  let changed=false;
+  mockDemandesCasA.forEach(d=>{
+    if(d.secondsLeft>0){ d.secondsLeft--; changed=true; }
+  });
+  // Envoi automatique des demandes arrivees a 0
+  const arrivees=mockDemandesCasA.filter(d=>d.secondsLeft<=0);
+  if(arrivees.length){
+    arrivees.forEach(d=>showToast(`📨 Lettre envoyée automatiquement à ${d.etudiant}.`));
+    mockDemandesCasA=mockDemandesCasA.filter(d=>d.secondsLeft>0);
+    renderCasA();
+    return;
+  }
+  if(changed && document.getElementById('page-demandes')?.classList.contains('active')){
+    mockDemandesCasA.forEach(d=>{
+      const el=document.getElementById('cd-'+d.id);
+      if(el){
+        const m=Math.floor(d.secondsLeft/60), s=d.secondsLeft%60;
+        el.textContent=`${m}:${String(s).padStart(2,'0')}`;
+        el.className = d.secondsLeft<=60 ? 'countdown expiring' : 'countdown';
+      }
+    });
+  }
+},1000);
+
+function voirCasA(id){
+  const d=mockDemandesCasA.find(x=>x.id===id);
+  if(!d)return;
+  document.getElementById('va-etudiant').textContent=`${d.etudiant} (${d.matricule})`;
+  document.getElementById('va-entreprise').textContent=d.entreprise;
+  document.getElementById('va-ville').textContent=d.ville;
+  document.getElementById('va-fonction').textContent=d.fonction;
+  document.getElementById('va-periode').textContent=d.periode;
+  document.getElementById('va-apercu').textContent=d.apercu;
+  openModal('modal-voir-casa');
+}
+
+function annulerEnvoiAuto(id){
+  const idx=mockDemandesCasA.findIndex(d=>d.id===id);
+  if(idx===-1)return;
+  const d=mockDemandesCasA[idx];
+  mockDemandesCasA.splice(idx,1);
+  // Bascule automatique vers le circuit de validation (Mecanisme 2), comme convenu
+  mockDemandesCasB.unshift({
+    id:'b-'+Date.now(),etudiant:d.etudiant,matricule:d.matricule,
+    entreprise:d.entreprise,ville:d.ville,fonction:'(à vérifier)',
+    motif:'ANNULEE_AGENT',statut:'EN_ATTENTE_AGENT',heuresRestantes:24,
+    apercu:"Lettre en attente de vérification suite à une annulation manuelle.",
+    motifRejet:null
+  });
+  renderCasA();
+  renderCasB();
+  showToast('↩️ Envoi annulé. La demande a basculé dans le circuit de validation (24h).');
+}
+
+// ---- CAS B : voir / modifier / valider / refuser ----
+function openValidationModal(id){
+  valCurrentId=id;
+  const d=mockDemandesCasB.find(x=>x.id===id);
+  document.getElementById('val-etudiant').textContent=`${d.etudiant} (${d.matricule})`;
+  document.getElementById('val-f-entreprise').value=d.entreprise;
+  document.getElementById('val-f-ville').value=d.ville;
+  document.getElementById('val-f-fonction').value=d.fonction;
+  document.getElementById('val-apercu-lettre').textContent=d.apercu;
+  document.getElementById('val-f-motif').value='';
+  majBoutonRefuser();
+
+  const banner=document.getElementById('val-motif-banner');
+  const etape = d.statut==='EN_ATTENTE_DS' ? "Escaladée au Directeur des Stages" : "En attente de traitement par un Agent BDS";
+  banner.innerHTML=`ℹ️ Motif du contrôle : <strong>${motifLabel(d.motif)}</strong> — ${etape}, ${formatHeures(d.heuresRestantes)} restantes. Vous pouvez corriger directement l'information ci-dessous avant de valider.`;
+
+  openModal('modal-validation');
+}
+
+function majBoutonRefuser(){
+  const motif=document.getElementById('val-f-motif').value.trim();
+  document.getElementById('val-btn-refuser').disabled = motif.length===0;
+}
+
+function traiterValidation(decision){
+  const d=mockDemandesCasB.find(x=>x.id===valCurrentId);
+  if(!d)return;
+
+  // Les corrections eventuelles saisies dans le modal sont appliquees
+  d.entreprise=document.getElementById('val-f-entreprise').value.trim();
+  d.ville=document.getElementById('val-f-ville').value.trim();
+  d.fonction=document.getElementById('val-f-fonction').value.trim();
+
+  if(decision==='REJETEE'){
+    const motif=document.getElementById('val-f-motif').value.trim();
+    if(!motif){alert("Un motif est obligatoire pour refuser une demande.");return;}
+    d.statut='REJETEE';
+    d.motifRejet=motif;
+    showToast(`✗ Demande rejetée. L'étudiant ${d.etudiant} a été notifié par email et sur la plateforme.`);
+  }else{
+    d.statut='VALIDEE';
+    showToast(`✓ Lettre validée et envoyée à ${d.etudiant}.`);
+  }
+  closeModal(null,'modal-validation');
+  renderCasB();
+}
+
+// MINI BARS CHART
+function buildMiniBars(){
+  const vals=[8,14,6,22,18,11,24];
+  const max=Math.max(...vals);
+  const c=document.getElementById('minibars');
+  if(!c)return;
+  c.innerHTML='';
+  vals.forEach(v=>{
+    const b=document.createElement('div');
+    b.className='mini-bar';
+    b.style.height=(v/max*100)+'%';
+    b.title=v+' lettres';
+    c.appendChild(b);
+  });
+}
+</script>
+</body>
+</html>
