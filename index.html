@@ -3,13 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ALS — Bureau des Stages</title>
+<title>ALS - Bureau des Stages</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Epilogue:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
   --bg:#F7F5F0;--bg2:#EFECE5;--bg3:#E6E2D8;
   --ink:#1A1208;--ink2:#4A4033;--ink3:#8A7D6B;
+  --ink-solid:#1A1208;
   --ivory:#FFFDF7;
   --orange:#E8580A;--orange2:#FF6B1A;--orange-dim:#E8580A18;
   --green:#1A7A4A;--green-dim:#1A7A4A15;
@@ -18,15 +19,47 @@
   --blue:#1A4A8A;--blue-dim:#1A4A8A12;
   --card:#FFFDF7;--card2:#F2EFE6;
   --border:#DDD8CC;--border2:#C8C2B4;
+  --amber-text:#8A6200;
   --r:12px;--r2:8px;--r3:18px;
   --shadow:0 2px 12px #1A120812;--shadow2:0 8px 32px #1A120818;
 }
+
+/* ===== MODE SOMBRE =====
+   Seuls les fonds/textes/surfaces changent. Les couleurs de statut
+   (orange, vert, ambre, rouge, bleu) restent identiques dans les deux
+   modes : coherence lexicale (Shneiderman, regle 1) et repere stable
+   pour l'usager qui bascule d'un mode a l'autre. */
+[data-theme="dark"]{
+  --bg:#161310;--bg2:#1E1A15;--bg3:#26211A;
+  --ink:#F0EBE0;--ink2:#B8AD9C;--ink3:#8A7D6B;
+  --ink-solid:#2E2717;
+  --ivory:#211C15;
+  --orange-dim:#E8580A28;
+  --green-dim:#1A7A4A28;
+  --amber-dim:#D4900A28;
+  --amber-text:#F0C060;
+  --red-dim:#C0392B22;
+  --blue-dim:#1A4A8A28;
+  --card:#211C15;--card2:#292319;
+  --border:#3A3225;--border2:#4A4133;
+  --shadow:0 2px 12px #00000040;--shadow2:0 8px 32px #00000055;
+}
+html,body,.sidebar,.card,.tbl,.modal,input,select,textarea{
+  transition:background-color .18s ease,color .18s ease,border-color .18s ease;
+}
+.theme-toggle{
+  width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border);
+  background:var(--card2);font-size:1.05rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .18s ease,border-color .18s ease,transform .15s ease;
+}
+.theme-toggle:hover{border-color:var(--orange);transform:scale(1.06)}
 html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
 /* ===== LOGIN BDS ===== */
 #login-screen{
   min-height:100vh;display:flex;align-items:center;justify-content:center;
-  background:var(--ink);
+  background:var(--ink-solid);
   position:relative;overflow:hidden;
 }
 #login-screen::before{
@@ -50,7 +83,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 
 .bds-header{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;padding-bottom:1.5rem;border-bottom:2px solid var(--bg3)}
 .bds-seal{
-  width:52px;height:52px;background:var(--ink);border-radius:12px;
+  width:52px;height:52px;background:var(--ink-solid);border-radius:12px;
   display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;
 }
 .bds-seal-text h1{font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;color:var(--ink);line-height:1}
@@ -70,7 +103,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 .field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-dim)}
 
 .btn-login{
-  width:100%;padding:1rem;background:var(--ink);color:#fff;
+  width:100%;padding:1rem;background:var(--ink-solid);color:#fff;
   border:none;border-radius:var(--r2);font-family:'Syne',sans-serif;
   font-weight:700;font-size:1rem;cursor:pointer;letter-spacing:.03em;
   transition:all .2s;margin-top:.5rem;
@@ -83,7 +116,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 
 /* SIDEBAR */
 .sidebar{
-  width:260px;background:var(--ink);color:#fff;
+  width:260px;background:var(--ink-solid);color:#fff;
   display:flex;flex-direction:column;flex-shrink:0;
   position:sticky;top:0;height:100vh;overflow-y:auto;
 }
@@ -134,7 +167,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 .notif-dot{position:absolute;top:6px;right:6px;width:8px;height:8px;background:var(--orange);border-radius:50%;border:2px solid var(--ivory)}
 .btn-action{
   display:flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;
-  background:var(--ink);color:#fff;border:none;border-radius:var(--r2);
+  background:var(--ink-solid);color:#fff;border:none;border-radius:var(--r2);
   font-family:'Epilogue',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;
   transition:all .2s;
 }
@@ -242,7 +275,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 
 .btn-primary{
   display:inline-flex;align-items:center;gap:.5rem;padding:.75rem 1.5rem;
-  background:var(--ink);color:#fff;border:none;border-radius:var(--r2);
+  background:var(--ink-solid);color:#fff;border:none;border-radius:var(--r2);
   font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;cursor:pointer;
   transition:all .2s;
 }
@@ -286,7 +319,14 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 .modal-overlay{
   position:fixed;inset:0;background:#00000050;z-index:200;
   display:none;align-items:center;justify-content:center;padding:1rem;
+  /* Un formulaire plus haut que l'ecran etait centre, donc rogne en haut :
+     le titre et les premiers champs devenaient inaccessibles. L'arriere-plan
+     defile, et l'alignement bascule en haut des que le contenu deborde. */
+  overflow-y:auto;overscroll-behavior:contain;
 }
+/* margin:auto plutot que flex-start : la fenetre reste centree quand elle
+   tient dans l'ecran, et n'est plus rognee quand elle deborde. */
+.modal-overlay>.modal{margin:auto}
 .modal-overlay.open{display:flex}
 .modal{
   background:var(--ivory);border-radius:var(--r3);padding:2rem;
@@ -300,7 +340,7 @@ html{font-family:'Epilogue',sans-serif;background:var(--bg);color:var(--ink);min
 
 /* ===== REPERTOIRE ENTREPRISES ===== */
 .role-banner{border-radius:var(--r2);padding:.85rem 1.1rem;font-size:.85rem;margin-bottom:1.25rem;border:1px solid transparent;display:none}
-body.role-agent .role-banner-agent{display:block;background:var(--amber-dim);border-color:#D4900A40;color:#8A6200}
+body.role-agent .role-banner-agent{display:block;background:var(--amber-dim);border-color:#D4900A40;color:var(--amber-text)}
 body.role-directeur .role-banner-directeur{display:block;background:var(--green-dim);border-color:#1A7A4A40;color:var(--green)}
 
 .ent-search{width:100%;background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r2);padding:.85rem 1rem;font-size:.92rem;margin-bottom:1rem}
@@ -314,7 +354,7 @@ body.role-directeur .role-banner-directeur{display:block;background:var(--green-
 .ent-badge{display:inline-flex;align-items:center;gap:.3rem;padding:.22rem .65rem;border-radius:20px;font-size:.7rem;font-weight:700;letter-spacing:.03em;white-space:nowrap}
 .ent-badge.normale{background:var(--green-dim);color:var(--green)}
 .ent-badge.partenaire{background:var(--blue-dim);color:var(--blue)}
-.ent-badge.quota{background:var(--amber-dim);color:#8A6200}
+.ent-badge.quota{background:var(--amber-dim);color:var(--amber-text)}
 .ent-badge.blacklist{background:var(--red-dim);color:var(--red)}
 .ent-card-succ{display:flex;flex-wrap:wrap;gap:.35rem}
 .ent-card-succ .chip{font-size:.7rem;padding:.25rem .6rem}
@@ -323,7 +363,7 @@ body.role-directeur .role-banner-directeur{display:block;background:var(--green-
 .ent-card-foot{display:flex;justify-content:flex-end;margin-top:.3rem}
 
 .ent-role-note{border-radius:var(--r2);padding:.7rem .9rem;font-size:.8rem;margin-bottom:1rem;display:none}
-body.role-agent .ent-role-note-agent{display:block;background:var(--amber-dim);color:#8A6200}
+body.role-agent .ent-role-note-agent{display:block;background:var(--amber-dim);color:var(--amber-text)}
 body.role-directeur .ent-role-note-directeur{display:block;background:var(--green-dim);color:var(--green)}
 
 .succ-row{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:.5rem;align-items:center}
@@ -336,7 +376,7 @@ body.role-directeur .ent-role-note-directeur{display:block;background:var(--gree
   padding:.9rem 1.1rem;background:var(--bg2);border-radius:var(--r2);border:1px solid var(--border);
 }
 .config-niveau-badge{
-  width:44px;height:44px;border-radius:10px;background:var(--ink);color:#fff;
+  width:44px;height:44px;border-radius:10px;background:var(--ink-solid);color:#fff;
   display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0;
 }
 .config-niveau-info{flex:1;min-width:180px}
@@ -371,9 +411,9 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 .val-card{border:1px solid var(--border);border-radius:var(--r);padding:1.1rem 1.25rem;background:var(--ivory)}
 .val-card-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;flex-wrap:wrap}
 .val-card-meta{font-size:.82rem;color:var(--ink3);margin-top:.25rem}
-.val-card-motif{font-size:.78rem;background:var(--amber-dim);color:#8A6200;padding:.3rem .7rem;border-radius:20px;display:inline-block;margin-top:.5rem;font-weight:600}
+.val-card-motif{font-size:.78rem;background:var(--amber-dim);color:var(--amber-text);padding:.3rem .7rem;border-radius:20px;display:inline-block;margin-top:.5rem;font-weight:600}
 .val-card-foot{display:flex;justify-content:space-between;align-items:center;margin-top:.75rem;flex-wrap:wrap;gap:.5rem}
-.badge.en-attente-agent{background:var(--amber-dim);color:#8A6200;border:1px solid #D4900A40}
+.badge.en-attente-agent{background:var(--amber-dim);color:var(--amber-text);border:1px solid #D4900A40}
 .badge.en-attente-ds{background:#1A4A8A15;color:var(--blue);border:1px solid #1A4A8A40}
 .badge.validee{background:var(--green-dim);color:var(--green);border:1px solid #1A7A4A40}
 .badge.rejetee{background:var(--red-dim);color:var(--red);border:1px solid #C0392B40}
@@ -389,7 +429,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 .doc-row-clickable:hover{background:var(--bg2)}
 .tentative-badge{display:inline-flex;align-items:center;gap:.25rem;padding:.2rem .6rem;border-radius:20px;font-size:.72rem;font-weight:700}
 .tentative-badge.t1{background:var(--green-dim);color:var(--green)}
-.tentative-badge.t2{background:var(--amber-dim);color:#8A6200}
+.tentative-badge.t2{background:var(--amber-dim);color:var(--amber-text)}
 .tentative-badge.bloque{background:var(--red-dim);color:var(--red)}
 .doc-empty{text-align:center;color:var(--ink3);padding:2rem;font-size:.88rem}
 .modal-actions{display:flex;gap:.75rem;margin-top:1.5rem;justify-content:flex-end}
@@ -398,6 +438,10 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 .alert{display:none;align-items:center;gap:.75rem;padding:.9rem 1.1rem;border-radius:var(--r2);margin-bottom:1rem;font-size:.88rem}
 .alert.success{background:var(--green-dim);border:1px solid #1A7A4A30;color:var(--green);display:flex}
 .alert.show{display:flex}
+/* La variante d'alerte utilisee par le planning n'existait pas : la boite
+   s'affichait sans fond ni bordure, donc invisible en tant qu'alerte. */
+.alert.warn{background:var(--amber-dim);border:1px solid var(--amber);color:var(--amber-text);display:flex}
+.alert.warn strong,.alert.warn em{color:inherit}
 .alert.error{background:var(--red-dim);border:1px solid #C0392B30;color:var(--red);display:flex}
 
 /* MINI CHART */
@@ -425,7 +469,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 .tag{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.72rem;font-weight:600;background:var(--bg3);color:var(--ink3)}
 
 /* ===================================================================
-   RESPONSIVE — PC / TABLETTE / TELEPHONE / TV
+   RESPONSIVE (PC / TABLETTE / TELEPHONE / TV)
    =================================================================== */
 
 /* Bouton hamburger : invisible sur PC, visible en dessous de 1024px */
@@ -487,6 +531,327 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
   .sb-brand .sb-name span{display:none}
   .card{padding:1rem}
 }
+
+/* ==========================================================================
+   STRUCTURE ACADEMIQUE ET PLANNING
+   ==========================================================================
+   Composants ajoutes pour la saisie de la structure et du planning par le
+   Directeur des Stages. Ils reprennent les variables existantes : aucune
+   couleur en dur, pour que les deux themes restent corrects.
+   ========================================================================== */
+
+/* ----- Sommaire de la structure ----- */
+.str-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem;margin-bottom:1.5rem}
+.str-tuile{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:1.25rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  cursor:pointer;text-decoration:none;color:inherit;
+  transition:border-color .18s ease,transform .15s ease;
+}
+.str-tuile:hover{border-color:var(--orange);transform:translateY(-2px)}
+.str-tuile-nom{font-weight:700;font-size:.95rem;margin-bottom:.2rem}
+.str-tuile-desc{font-size:.76rem;color:var(--ink3);line-height:1.4}
+.str-tuile-nb{
+  font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--orange);
+  line-height:1;flex-shrink:0;
+}
+
+.str-ordre{margin:0;padding-left:1.3rem;line-height:1.9;font-size:.9rem;color:var(--ink2)}
+.str-note{font-size:.79rem;color:var(--ink3);margin-top:.75rem;line-height:1.5}
+.rien-en-bas{margin-bottom:0}
+
+/* ----- Onglets de navigation entre referentiels ----- */
+.str-onglets{
+  display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.25rem;
+  padding:.65rem;background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+}
+.str-onglet{
+  padding:.45rem .85rem;border-radius:var(--r2);border:1px solid var(--border);
+  background:var(--bg2);font-size:.82rem;font-weight:600;cursor:pointer;color:var(--ink2);
+  font-family:'Epilogue',sans-serif;white-space:nowrap;
+  transition:background .15s ease,color .15s ease,border-color .15s ease;
+}
+.str-onglet:hover{border-color:var(--orange);color:var(--ink)}
+.str-onglet.actif{background:var(--orange);border-color:var(--orange);color:#fff}
+
+/* ----- Tableaux de referentiel ----- */
+.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.str-tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+.str-tbl th{
+  text-align:left;padding:.7rem .85rem;font-size:.7rem;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--ink3);font-weight:700;white-space:nowrap;
+  border-bottom:1px solid var(--border);
+}
+.str-tbl td{padding:.75rem .85rem;border-bottom:1px solid var(--border);vertical-align:middle}
+.str-tbl tbody tr:hover{background:var(--bg2)}
+.str-tbl .col-actions{text-align:right;white-space:nowrap}
+.str-vide{padding:2.5rem 1rem;text-align:center;color:var(--ink3);font-size:.88rem}
+.str-sigle{font-weight:700;color:var(--ink)}
+.str-secondaire{font-size:.76rem;color:var(--ink3);margin-top:.15rem}
+
+/* ----- Planning : regles et exceptions ----- */
+.plan-annee-wrap{display:flex;flex-direction:column;gap:.3rem}
+
+.plan-ligne{
+  border:1px solid var(--border);border-radius:var(--r);background:var(--card);
+  margin-bottom:.8rem;overflow:hidden;
+}
+.plan-ligne.brouillon{border-left:4px solid var(--amber)}
+.plan-ligne.validee{border-left:4px solid var(--green)}
+.plan-ligne-head{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;
+  padding:1rem 1.1rem;flex-wrap:wrap;
+}
+.plan-ligne-titre{font-weight:700;font-size:.97rem;margin-bottom:.25rem}
+.plan-ligne-portee{font-size:.78rem;color:var(--ink3);line-height:1.5}
+.plan-ligne-actions{display:flex;gap:.4rem;flex-wrap:wrap;flex-shrink:0}
+.plan-ligne-corps{padding:0 1.1rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+
+.plan-bloc-titre{
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;
+  color:var(--ink3);font-weight:700;margin-bottom:.5rem;
+}
+.plan-periode{
+  display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;
+  background:var(--bg2);border-radius:var(--r2);margin-bottom:.4rem;font-size:.83rem;
+  flex-wrap:wrap;
+}
+/* Une etiquette longue comme « Debut un mercredi, exception au planning »
+   chassait les dates hors de l'ecran sur telephone : elle doit pouvoir
+   passer a la ligne, et les dates rester lisibles. */
+.plan-periode-phase{
+  font-weight:700;font-size:.72rem;padding:.15rem .5rem;border-radius:20px;
+  background:var(--orange-dim);color:var(--orange);flex-shrink:0;max-width:100%;
+}
+.plan-periode-dates{flex:1 1 auto;min-width:0}
+.plan-manquant{
+  padding:.6rem .8rem;border-radius:var(--r2);font-size:.83rem;
+  background:var(--red-dim);color:var(--red);border:1px dashed var(--red);
+}
+
+/* Pastille de faculte sur une regle restreinte */
+.plan-tag-fac{
+  display:inline-block;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;
+  font-weight:700;background:var(--blue-dim);color:var(--blue);margin-left:.35rem;
+}
+.plan-tag-toutes{
+  display:inline-block;padding:.12rem .5rem;border-radius:20px;font-size:.7rem;
+  font-weight:700;background:var(--bg3);color:var(--ink3);margin-left:.35rem;
+}
+.plan-remplacee{
+  font-size:.75rem;color:var(--amber-text);background:var(--amber-dim);
+  padding:.4rem .7rem;border-radius:var(--r2);margin-top:.5rem;display:block;
+}
+
+/* ----- Ordre de resolution ----- */
+.plan-resolution{list-style:none;margin:0;padding:0;counter-reset:none}
+.plan-resolution li{
+  display:flex;gap:.9rem;align-items:flex-start;padding:.7rem 0;
+  border-bottom:1px solid var(--border);
+}
+.plan-resolution li:last-child{border-bottom:none}
+.plan-resolution .plan-rang{
+  width:28px;height:28px;border-radius:50%;background:var(--orange-dim);color:var(--orange);
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;
+  flex-shrink:0;
+}
+.plan-resolution li.plan-bloque .plan-rang{background:var(--red-dim);color:var(--red)}
+.plan-resolution strong{display:block;font-size:.9rem;margin-bottom:.15rem}
+.plan-resolution span:not(.plan-rang){font-size:.8rem;color:var(--ink3);line-height:1.5}
+
+/* ----- Modale large et ses sections ----- */
+.modal-large{max-width:760px}
+.modal-section{margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)}
+.modal-section-head{
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:.8rem;
+}
+.modal-section-head h4{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin:0}
+.champ-aide{font-size:.76rem;color:var(--ink3);margin-top:.35rem;line-height:1.5}
+
+.ligne-saisie{
+  display:grid;grid-template-columns:1.1fr 1fr 1fr auto;gap:.5rem;align-items:end;
+  padding:.6rem;background:var(--bg2);border-radius:var(--r2);margin-bottom:.5rem;
+}
+.ligne-saisie .btn-suppr{
+  background:var(--red-dim);color:var(--red);border:1px solid var(--red);
+  border-radius:var(--r2);padding:.55rem .7rem;cursor:pointer;font-size:.85rem;line-height:1;
+}
+.ligne-saisie label{
+  display:block;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em;
+  color:var(--ink3);font-weight:700;margin-bottom:.25rem;
+}
+.ligne-saisie input,.ligne-saisie select{
+  width:100%;padding:.5rem .6rem;font-size:.85rem;border-radius:var(--r2);
+  border:1.5px solid var(--border);background:var(--card);color:var(--ink);
+  font-family:'Epilogue',sans-serif;
+}
+
+/* ----- Le role commande l'affichage des boutons d'ecriture ----- */
+body.role-agent .role-only-ds{display:none !important}
+
+/* ==========================================================================
+   ADAPTATION AUX ECRANS
+   ========================================================================== */
+
+/* Television et tres grand ecran */
+@media (min-width:1600px){
+  .str-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+}
+
+/* Tablette */
+@media (max-width:1024px){
+  .plan-ligne-corps{grid-template-columns:1fr}
+  .ligne-saisie{grid-template-columns:1fr 1fr;gap:.5rem}
+  .ligne-saisie .btn-suppr{grid-column:1/-1;justify-self:end}
+}
+
+/* Telephone */
+@media (max-width:640px){
+  .str-grid{grid-template-columns:1fr}
+  .str-onglets{padding:.5rem;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .str-onglets::-webkit-scrollbar{display:none}
+  .plan-annee-wrap{width:100%}
+  .plan-annee-wrap .filter-select{width:100%}
+  .plan-ligne-head{flex-direction:column}
+  .plan-ligne-actions{width:100%}
+  .plan-ligne-actions .btn-sm{flex:1;text-align:center}
+  .ligne-saisie{grid-template-columns:1fr}
+  .modal-large{max-width:100%}
+
+  /* Les tableaux de referentiel deviennent des blocs empiles : sept
+     colonnes sur un ecran de telephone restent illisibles, meme en
+     defilement horizontal. */
+  .str-tbl thead{display:none}
+  .str-tbl tbody tr{
+    display:block;margin-bottom:.7rem;padding:.8rem;background:var(--card);
+    border:1px solid var(--border);border-radius:var(--r2);
+  }
+  .str-tbl tbody tr:hover{background:var(--card)}
+  /* La feuille de base impose white-space:nowrap aux cellules sur
+     telephone. En disposition empilee, cela poussait la valeur hors de
+     l'ecran : elle etait invisible. */
+  .str-tbl td{
+    display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+    border:none;padding:.35rem 0;text-align:right;
+    white-space:normal;overflow-wrap:anywhere;min-width:0;
+  }
+  .str-tbl td::before{
+    content:attr(data-libelle);font-size:.68rem;text-transform:uppercase;
+    letter-spacing:.05em;color:var(--ink3);font-weight:700;
+    text-align:left;flex:0 0 40%;max-width:40%;white-space:normal;
+  }
+  /* En disposition empilee, plus rien a faire defiler lateralement. */
+  .tbl-wrap{overflow-x:visible}
+  /* La cellule d'actions n'a pas de libelle a afficher : sans display:none,
+     son pseudo-element occupait quand meme les 40% reserves au libelle et
+     renvoyait les boutons a la ligne. */
+  .str-tbl td.col-actions{
+    justify-content:flex-end;flex-wrap:wrap;gap:.4rem;
+    padding-top:.6rem;margin-top:.35rem;border-top:1px solid var(--border);
+  }
+  .str-tbl td.col-actions::before{display:none}
+  .str-tbl td.col-actions .btn-sm{flex:0 0 auto}
+}
+
+/* ==========================================================================
+   MODELES DE LETTRE : faculte, filiere, classe
+   ========================================================================== */
+.mod-alerte{
+  background:var(--red-dim);border:1px solid var(--red);border-radius:var(--r2);
+  padding:.9rem 1.1rem;margin-bottom:1.25rem;font-size:.85rem;color:var(--red);line-height:1.6;
+}
+.mod-alerte.ok{background:var(--green-dim);border-color:var(--green);color:var(--green)}
+.mod-alerte-liens{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.6rem}
+.mod-alerte-liens button{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  padding:.3rem .6rem;font-size:.78rem;cursor:pointer;color:var(--ink);
+  font-family:'Epilogue',sans-serif;
+}
+.mod-alerte-liens button:hover{border-color:var(--ink3)}
+
+.mod-niveau{
+  display:inline-block;padding:.12rem .5rem;border-radius:var(--r);
+  font-size:.7rem;font-weight:700;white-space:nowrap;
+}
+.mod-niveau.propre{background:var(--green-dim);color:var(--green)}
+.mod-niveau.herite{background:var(--blue-dim);color:var(--blue)}
+.mod-niveau.aucune{background:var(--red-dim);color:var(--red)}
+
+.mod-extrait{
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  font-size:.76rem;color:var(--ink3);margin-top:.25rem;line-height:1.4;
+  width:19ch;overflow:hidden;
+}
+.mod-extrait.nom{width:24ch}
+.mod-val{display:block;min-width:0}
+
+.mod-chaine{font-size:.8rem;color:var(--ink3);line-height:1.6;margin:0 0 1rem}
+.mod-chaine b{color:var(--ink)}
+
+.mod-bloc{
+  border:1px solid var(--border);border-radius:var(--r2);
+  padding:.9rem;margin-bottom:1rem;background:var(--card);
+}
+.mod-bloc-head{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:.6rem;flex-wrap:wrap;margin-bottom:.6rem;
+}
+.mod-bloc-head h4{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;margin:0}
+.mod-herite{
+  border-left:3px solid var(--blue);background:var(--bg2);
+  padding:.6rem .75rem;border-radius:0 var(--r) var(--r) 0;
+  font-size:.82rem;color:var(--ink3);line-height:1.6;margin-bottom:.7rem;
+}
+.mod-herite.sec{border-left-color:var(--red)}
+.mod-herite ul{margin:.4rem 0 0;padding-left:1.1rem}
+.mod-herite li{margin-bottom:.2rem}
+.mod-herite strong{color:var(--ink)}
+
+.mod-mission{grid-template-columns:1fr 1.5fr auto}
+
+/* La colonne Actions reste atteignable quand le tableau defile.
+   Sans elle, entre 641 et 1200 px, les boutons sortaient de l'ecran et
+   rien n'indiquait qu'il fallait faire glisser le tableau. Ce reglage vaut
+   pour tous les tableaux de l'application, pas seulement ceux des modeles :
+   le tableau des classes avait deja le defaut. Sous 641 px, les lignes
+   s'empilent en fiches et la question ne se pose plus. */
+@media (min-width:641px){
+  .tbl .col-actions{
+    position:sticky;right:0;z-index:1;
+    background:var(--card);border-left:1px solid var(--border);
+  }
+  .tbl thead .col-actions{background:var(--bg2)}
+  .tbl tr:hover td.col-actions{background:var(--bg)}
+}
+
+/* Apercu : du papier, donc clair meme en mode sombre. */
+.mod-apercu{
+  background:#FFFFFF;color:#1A1A1A;border:1px solid #D8D2C4;border-radius:var(--r2);
+  padding:1.5rem;font-family:'Liberation Serif',Georgia,serif;font-size:.88rem;line-height:1.6;
+}
+.mod-apercu h5{
+  font-family:'Liberation Serif',Georgia,serif;font-size:.84rem;text-transform:uppercase;
+  letter-spacing:.03em;margin:0 0 1rem;color:#1A1A1A;
+}
+.mod-apercu p{margin:0 0 .7rem}
+.mod-apercu ul{margin:.2rem 0 .7rem;padding-left:1.2rem}
+.mod-apercu .manquant{color:#B42318;font-weight:700}
+.mod-fictif{
+  background:var(--amber-dim);color:var(--amber-text);border-radius:var(--r2);
+  padding:.6rem .8rem;font-size:.8rem;line-height:1.5;margin-bottom:1rem;
+}
+.mod-origines{font-size:.78rem;color:var(--ink3);line-height:1.7;margin-top:.9rem}
+
+@media (max-width:1024px){
+  .mod-mission{grid-template-columns:1fr}
+  .mod-mission .btn-suppr{grid-column:1/-1;justify-self:end}
+}
+@media (max-width:640px){
+  .mod-val{flex:1 1 auto;min-width:0;text-align:right}
+  .mod-val .str-sigle{display:block;white-space:nowrap}
+  .mod-extrait,.mod-extrait.nom{width:auto;max-width:100%;-webkit-line-clamp:3}
+  .mod-apercu{padding:1rem;font-size:.84rem}
+}
 </style>
 </head>
 <body>
@@ -497,7 +862,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
     <div class="bds-header">
       <div class="bds-seal">🏛️</div>
       <div class="bds-seal-text">
-        <h1>ALS — BDS</h1>
+        <h1>ALS · BDS</h1>
         <span>Bureau des Stages · UCAC/ICY</span>
       </div>
     </div>
@@ -580,7 +945,9 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
     <div class="sb-item" onclick="showPage('doc-autonotation',this)"><span class="sb-icon-sm">📋</span>Fiches d'auto-notation</div>
 
     <div class="sb-section">Configuration</div>
-    <div class="sb-item" onclick="showPage('classes',this)"><span class="sb-icon-sm">🎓</span>Classes & Périodes</div>
+    <div class="sb-item" onclick="showPage('structure',this)"><span class="sb-icon-sm">🏛️</span>Structure</div>
+    <div class="sb-item" onclick="showPage('classes',this)"><span class="sb-icon-sm">📅</span>Planning des stages</div>
+    <div class="sb-item" onclick="showPage('modeles',this)"><span class="sb-icon-sm">🖋️</span>Modèles de lettre</div>
     <div class="sb-item" onclick="showPage('entreprises',this)"><span class="sb-icon-sm">🏢</span>Entreprises</div>
     <div class="sb-item" onclick="showPage('import',this)"><span class="sb-icon-sm">📥</span>Import CSV</div>
     <div class="sb-item" onclick="showPage('rapports',this)"><span class="sb-icon-sm">📈</span>Rapports</div>
@@ -606,6 +973,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
         <div class="tb-breadcrumb" id="breadcrumb">ALS · BDS → <span>Tableau de bord</span></div>
       </div>
       <div class="tb-actions">
+        <button class="theme-toggle" onclick="toggleTheme()" id="theme-toggle-btn" aria-label="Changer d'apparence" title="Mode sombre">🌙</button>
         <div class="tb-notif">🔔<div class="notif-dot"></div></div>
         <button class="btn-action" onclick="showPage('import',document.querySelector('.sb-item:nth-child(10))'))">📥 Importer CSV</button>
       </div>
@@ -618,7 +986,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
         <div class="page-header">
           <div class="ph-left">
             <h2>Tableau de bord</h2>
-            <p>Année académique 2025–2026 · Semestre 2 · Mis à jour à 09h14</p>
+            <p>Année académique 2025-2026 · Semestre 2 · Mis à jour à 09h14</p>
           </div>
           <button class="btn-primary" onclick="showPage('rapports',null)">📈 Générer rapport</button>
         </div>
@@ -698,7 +1066,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
       <!-- ===== ÉTUDIANTS ===== -->
       <div class="page" id="page-etudiants">
         <div class="page-header">
-          <div class="ph-left"><h2>Étudiants</h2><p>142 étudiants enregistrés · Année 2025–2026</p></div>
+          <div class="ph-left"><h2>Étudiants</h2><p>142 étudiants enregistrés · Année 2025-2026</p></div>
           <div style="display:flex;gap:.75rem">
             <button class="btn-secondary" onclick="resetAjoutEtudiantModal();openModal('modal-ajout')">➕ Ajouter</button>
             <button class="btn-primary" onclick="showPage('import',null)">📥 Import CSV</button>
@@ -771,7 +1139,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 
         <!-- CAS A : ENVOI AUTOMATIQUE ANNULABLE 5 MIN -->
         <div class="card">
-          <div class="card-head"><div><h3>⚡ Envoi automatique</h3><p>Informations connues et non modifiées — lettre envoyée sous 5 minutes sauf annulation</p></div></div>
+          <div class="card-head"><div><h3>⚡ Envoi automatique</h3><p>Informations connues et non modifiées : la lettre est envoyée sous 5 minutes, sauf annulation</p></div></div>
           <div style="overflow-x:auto">
             <table class="tbl">
               <thead><tr><th>Étudiant</th><th>Entreprise</th><th>Ville</th><th>Compte à rebours</th><th>Action</th></tr></thead>
@@ -782,7 +1150,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 
         <!-- CAS B : CIRCUIT DE VALIDATION -->
         <div class="card">
-          <div class="card-head"><div><h3>🔍 En attente de validation</h3><p>Entreprise inconnue ou fonction modifiée par l'étudiant — vérification humaine requise avant envoi</p></div></div>
+          <div class="card-head"><div><h3>🔍 En attente de validation</h3><p>Entreprise inconnue ou fonction modifiée par l'étudiant : vérification humaine requise avant envoi</p></div></div>
           <div id="cards-cas-b" style="display:flex;flex-direction:column;gap:.9rem"></div>
         </div>
       </div>
@@ -791,7 +1159,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
       <div class="modal-overlay" id="modal-voir-casa" onclick="closeModal(event,'modal-voir-casa')">
         <div class="modal" style="max-width:640px" onclick="event.stopPropagation()">
           <div class="modal-head">
-            <h3>Aperçu — envoi automatique</h3>
+            <h3>Aperçu de l'envoi automatique</h3>
             <button class="modal-close" onclick="closeModal(null,'modal-voir-casa')">✕</button>
           </div>
           <div class="role-banner" style="display:block;background:var(--green-dim);border:1px solid #1A7A4A40;color:var(--green)">
@@ -822,7 +1190,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
             <button class="modal-close" onclick="closeModal(null,'modal-validation')">✕</button>
           </div>
 
-          <div id="val-motif-banner" class="role-banner role-banner-agent" style="display:block;background:var(--amber-dim);border-color:#D4900A40;color:#8A6200"></div>
+          <div id="val-motif-banner" class="role-banner role-banner-agent" style="display:block;background:var(--amber-dim);border-color:#D4900A40;color:var(--amber-text)"></div>
 
           <div class="form-grid">
             <div class="full"><label class="form-label">Étudiant</label><div class="detail-item" id="val-etudiant" style="background:var(--bg2)"></div></div>
@@ -838,7 +1206,7 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 
           <div style="margin-top:1.25rem">
             <label class="form-label">Motif de refus (obligatoire pour refuser)</label>
-            <textarea class="form-input" id="val-f-motif" rows="2" placeholder="Expliquez précisément le problème — ce message sera envoyé à l'étudiant" oninput="majBoutonRefuser()"></textarea>
+            <textarea class="form-input" id="val-f-motif" rows="2" placeholder="Expliquez précisément le problème : ce message sera envoyé à l'étudiant" oninput="majBoutonRefuser()"></textarea>
           </div>
 
           <div class="modal-actions val-actions">
@@ -1012,50 +1380,79 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
         </div>
       </div>
 
-      <!-- ===== CLASSES & PÉRIODES ===== -->
+      <!-- ===================================================================
+           PLANNING DES STAGES
+           ===================================================================
+           Deux classifications, et deux seulement :
+             - la REGLE, par niveau, eventuellement restreinte a une faculte
+             - l'EXCEPTION, par classe, qui l'emporte toujours sur la regle
+           Une classe qui n'a ni regle ni exception est bloquee : aucune
+           lettre ne peut partir pour elle.
+           =================================================================== -->
       <div class="page" id="page-classes">
         <div class="page-header">
-          <div class="ph-left"><h2>Classes & Périodes</h2><p>Configuration des fenêtres de stage par niveau, dérogations par classe, délais de validation</p></div>
+          <div class="ph-left">
+            <h2>Planning des stages</h2>
+            <p>Périodes, soutenances et échéances, transcrits du planning du Bureau des Stages</p>
+          </div>
+          <div class="plan-annee-wrap">
+            <label class="form-label rien-en-bas">Année académique</label>
+            <select class="filter-select" id="plan-annee" onchange="renderPlanning()">
+              <option value="2025-2026">2025-2026 (en cours)</option>
+              <option value="2026-2027">2026-2027</option>
+            </select>
+          </div>
         </div>
 
         <div class="role-banner role-banner-agent">
           ℹ️ Ces paramètres ne sont modifiables que par le <strong>Directeur des Stages</strong>. En tant qu'agent, vous les consultez en lecture seule.
         </div>
+        <div class="role-banner role-banner-directeur">
+          🛡️ Vous êtes <strong>Directeur des Stages</strong>. Vos modifications s'appliquent directement.
+        </div>
 
+        <!-- Rappel permanent : rien ne part tant que ce n'est pas valide -->
+        <div id="plan-alerte-brouillon"></div>
+        <div id="plan-alerte-bloquees"></div>
+
+        <!-- ----- LA REGLE ----- -->
         <div class="card">
-          <div class="card-head"><div><h3>Classes autorisées à demander des lettres</h3></div></div>
-          <div class="card-body">
-            <div style="display:flex;flex-direction:column;gap:.9rem">
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;background:var(--bg2);border-radius:var(--r2)">
-                <div><div style="font-weight:600">Licence 3 Informatique de Gestion (LIG3)</div><div style="font-size:.8rem;color:var(--ink3);margin-top:.15rem">19 étudiants · Nkolbisson</div></div>
-                <div class="toggle" onclick="toggleSwitch(this)"><div class="toggle-track on"><div class="toggle-thumb"></div></div><span class="toggle-label">Activé</span></div>
-              </div>
-              <div style="display:flex;align-items:center;justify-content:space-between;padding:.9rem 1rem;background:var(--bg2);border-radius:var(--r2)">
-                <div><div style="font-weight:600">Licence 2 Comptabilité (LGC2)</div><div style="font-size:.8rem;color:var(--ink3);margin-top:.15rem">61 étudiants · Ekounou</div></div>
-                <div class="toggle" onclick="toggleSwitch(this)"><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Désactivé</span></div>
-              </div>
+          <div class="card-head">
+            <div>
+              <h3>📅 Règles par niveau</h3>
+              <p>Cas général. S'applique à toutes les classes du niveau, ou à celles d'une seule faculté.</p>
             </div>
+            <button class="btn-sm role-only-ds" onclick="openPlanModal('NIVEAU',null)">+ Ajouter une règle</button>
+          </div>
+          <div class="card-body">
+            <div id="plan-regles"></div>
           </div>
         </div>
 
-        <!-- ===== CONFIGURATION PAR NIVEAU ===== -->
+        <!-- ----- L'EXCEPTION ----- -->
         <div class="card">
           <div class="card-head">
-            <div><h3>📅 Configuration des périodes par niveau</h3><p>Règle par défaut appliquée à toutes les classes de ce niveau</p></div>
+            <div>
+              <h3>🎯 Exceptions par classe</h3>
+              <p>Prioritaires sur la règle du niveau. À réserver aux cas qui sortent vraiment de l'ordinaire.</p>
+            </div>
+            <button class="btn-sm role-only-ds" onclick="openPlanModal('CLASSE',null)">+ Ajouter une exception</button>
           </div>
           <div class="card-body">
-            <div id="config-niveau-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
+            <div id="plan-exceptions"></div>
           </div>
         </div>
 
-        <!-- ===== DEROGATIONS PAR CLASSE ===== -->
+        <!-- ----- COMMENT ALS CHOISIT ----- -->
         <div class="card">
-          <div class="card-head">
-            <div><h3>🎯 Dérogations par classe</h3><p>Prioritaires sur la règle du niveau, pour une classe précise</p></div>
-            <button class="btn-sm" onclick="openConfigModal('CLASSE', null)">+ Ajouter une dérogation</button>
-          </div>
+          <div class="card-head"><div><h3>Comment ALS choisit la période d'un étudiant</h3></div></div>
           <div class="card-body">
-            <div id="config-classe-list" style="display:flex;flex-direction:column;gap:.7rem"></div>
+            <ol class="plan-resolution">
+              <li><span class="plan-rang">1</span><div><strong>Une exception existe pour sa classe</strong><span>Elle l'emporte sur tout le reste.</span></div></li>
+              <li><span class="plan-rang">2</span><div><strong>Une règle existe pour son niveau et sa faculté</strong><span>Plus précise que la règle générale, elle passe devant.</span></div></li>
+              <li><span class="plan-rang">3</span><div><strong>Une règle existe pour son niveau, toutes facultés</strong><span>Le cas courant.</span></div></li>
+              <li class="plan-bloque"><span class="plan-rang">⛔</span><div><strong>Aucune des trois</strong><span>La demande de lettre est bloquée. C'est volontaire : une lettre générée sans dates de stage partirait vide chez une entreprise.</span></div></li>
+            </ol>
           </div>
         </div>
 
@@ -1065,12 +1462,12 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
           <div class="card-body">
             <div class="form-grid">
               <div><label class="form-label">Fenêtre d'annulation avant envoi auto (minutes)</label><input class="form-input" type="number" value="5" id="delai-annulation-min"></div>
-              <div><label class="form-label">Délai de traitement — Agent BDS (heures)</label><input class="form-input" type="number" value="24" id="delai-agent-h"></div>
-              <div><label class="form-label">Délai d'escalade — Directeur des Stages (heures)</label><input class="form-input" type="number" value="24" id="delai-ds-h"></div>
+              <div><label class="form-label">Délai de traitement de l'agent BDS (heures)</label><input class="form-input" type="number" value="24" id="delai-agent-h"></div>
+              <div><label class="form-label">Délai d'escalade vers le Directeur des Stages (heures)</label><input class="form-input" type="number" value="24" id="delai-ds-h"></div>
               <div><label class="form-label">Validité d'une lettre générée (jours)</label><input class="form-input" type="number" value="90" id="delai-validite-lettre"></div>
             </div>
-            <p style="font-size:.78rem;color:var(--ink3);margin-top:.75rem">Si l'agent ne traite pas la demande dans son délai, elle est automatiquement escaladée au DS. Si le DS ne traite pas non plus dans son délai, la demande expire et l'étudiant doit la soumettre à nouveau.</p>
-            <div style="margin-top:1.25rem"><button class="btn-primary">💾 Enregistrer</button></div>
+            <p class="str-note">Si l'agent ne traite pas la demande dans son délai, elle est automatiquement escaladée au DS. Si le DS ne traite pas non plus, la demande expire et l'étudiant doit la soumettre à nouveau.</p>
+            <div style="margin-top:1.25rem"><button class="btn-primary role-only-ds">💾 Enregistrer</button></div>
           </div>
         </div>
 
@@ -1079,45 +1476,299 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
           <div class="card-head"><div><h3>📁 Délais de vérification du stage</h3></div></div>
           <div class="card-body">
             <div class="form-grid">
-              <div><label class="form-label">Début de stage — délai de validation BDS (semaines après le début)</label><input class="form-input" type="number" value="2" id="delai-debut-bds"></div>
-              <div><label class="form-label">Fin de stage — délai de dépôt étudiant (semaines après la fin)</label><input class="form-input" type="number" value="1" id="delai-fin-etudiant"></div>
-              <div><label class="form-label">Fin de stage — délai de validation BDS (semaines, débute après le délai étudiant)</label><input class="form-input" type="number" value="1" id="delai-fin-bds"></div>
-              <div><label class="form-label">Alertes avant deadline (jours)</label><input class="form-input" type="number" value="3" id="delai-alerte"></div>
+              <div><label class="form-label">Début de stage : délai de validation BDS (semaines après le début)</label><input class="form-input" type="number" value="2" id="delai-debut-bds"></div>
+              <div><label class="form-label">Fin de stage : délai de dépôt étudiant (semaines après la fin)</label><input class="form-input" type="number" value="1" id="delai-fin-etudiant"></div>
+              <div><label class="form-label">Fin de stage : délai de validation BDS (semaines)</label><input class="form-input" type="number" value="1" id="delai-fin-bds"></div>
+              <div><label class="form-label">Alertes avant échéance (jours)</label><input class="form-input" type="number" value="3" id="delai-alerte"></div>
             </div>
-            <div style="margin-top:1.25rem"><button class="btn-primary">💾 Enregistrer</button></div>
+            <div style="margin-top:1.25rem"><button class="btn-primary role-only-ds">💾 Enregistrer</button></div>
           </div>
         </div>
       </div>
 
-      <!-- MODAL CONFIGURATION PERIODE (niveau ou classe) -->
-      <div class="modal-overlay" id="modal-config" onclick="closeModal(event,'modal-config')">
-        <div class="modal" onclick="event.stopPropagation()">
+      <!-- ===== MODALE : REGLE OU EXCEPTION DE PLANNING ===== -->
+      <div class="modal-overlay" id="modal-plan" onclick="closeModal(event,'modal-plan')">
+        <div class="modal modal-large" onclick="event.stopPropagation()">
           <div class="modal-head">
-            <h3 id="config-modal-title">Configuration de période</h3>
-            <button class="modal-close" onclick="closeModal(null,'modal-config')">✕</button>
+            <h3 id="plan-modal-title">Règle par niveau</h3>
+            <button class="modal-close" onclick="closeModal(null,'modal-plan')">✕</button>
           </div>
-          <div id="config-classe-select-wrap" style="display:none;margin-bottom:1rem">
-            <label class="form-label">Classe concernée</label>
-            <select class="form-select" id="config-f-classe">
-              <option value="LIG3">LIG3 — Informatique de Gestion</option>
-              <option value="LGC2">LGC2 — Comptabilité</option>
-              <option value="GRHM1">GRHM1 — Gestion des Ressources Humaines</option>
-            </select>
-          </div>
+
           <div class="form-grid">
-            <div><label class="form-label">Date de début par défaut</label><input class="form-input" type="date" id="config-f-debut"></div>
-            <div><label class="form-label">Date de fin par défaut</label><input class="form-input" type="date" id="config-f-fin"></div>
-            <div><label class="form-label">Durée minimum (semaines)</label><input class="form-input" type="number" min="1" id="config-f-duree" value="9"></div>
-            <div style="display:flex;align-items:flex-end">
-              <div class="toggle" id="config-f-obligatoire-toggle" onclick="toggleSwitch(this)"><div class="toggle-track on"><div class="toggle-thumb"></div></div><span class="toggle-label">Stage obligatoire</span></div>
+            <div class="full">
+              <label class="form-label">Intitulé de la ligne</label>
+              <input class="form-input" type="text" id="plan-f-libelle" placeholder="ex : Licence 3 (BME 3, LEG 3, LGRH 3, LIG 3)">
+            </div>
+
+            <!-- Portee NIVEAU -->
+            <div class="plan-si-niveau">
+              <label class="form-label">Niveau concerné</label>
+              <select class="form-select" id="plan-f-niveau">
+                <option value="L1">Licence 1</option><option value="L2">Licence 2</option>
+                <option value="L3" selected>Licence 3</option>
+                <option value="M1">Master 1</option><option value="M2">Master 2</option>
+              </select>
+            </div>
+            <div class="plan-si-niveau">
+              <label class="form-label">Faculté concernée</label>
+              <select class="form-select" id="plan-f-faculte">
+                <option value="">Toutes les facultés</option>
+                <option value="FSSG">FSSG uniquement</option>
+                <option value="FSJP">FSJP uniquement</option>
+                <option value="FT">FT uniquement</option>
+              </select>
+              <p class="champ-aide">Laissez « toutes les facultés » tant que les dates sont communes. Le jour où une faculté s'en écarte, ajoutez une seconde règle qui la vise : elle passera devant sans toucher à celle-ci.</p>
+            </div>
+
+            <!-- Portee CLASSE -->
+            <div class="full plan-si-classe">
+              <label class="form-label">Classes concernées</label>
+              <select class="form-select" id="plan-f-classes" multiple size="6"></select>
+              <p class="champ-aide">Maintenez Ctrl (ou Cmd) pour en sélectionner plusieurs.</p>
+            </div>
+
+            <div>
+              <label class="form-label">Type d'activité</label>
+              <select class="form-select" id="plan-f-type">
+                <option value="STAGE">Stage académique</option>
+                <option value="IMPREGNATION">Activité d'imprégnation</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Durée annoncée sur la lettre</label>
+              <input class="form-input" type="text" id="plan-f-duree" placeholder="ex : 2 mois, 21 jours">
+              <p class="champ-aide">Texte libre, recopié tel quel sur la lettre. Ce n'est pas une règle de contrôle.</p>
             </div>
           </div>
+
+          <!-- Periodes -->
+          <div class="modal-section">
+            <div class="modal-section-head">
+              <h4>Périodes de stage</h4>
+              <button class="btn-sm" onclick="ajouterPeriode()">+ Ajouter une période</button>
+            </div>
+            <div id="plan-f-periodes"></div>
+            <p class="champ-aide">Une seule période dans la plupart des cas. Plusieurs pour une alternance, comme MACG 1 qui enchaîne trois mois puis deux mois sur deux années différentes.</p>
+          </div>
+
+          <!-- Groupes de soutenance -->
+          <div class="modal-section">
+            <div class="modal-section-head">
+              <h4>Groupes de soutenance</h4>
+              <button class="btn-sm" onclick="ajouterGroupe()">+ Ajouter un groupe</button>
+            </div>
+            <div id="plan-f-groupes"></div>
+            <p class="champ-aide">À utiliser quand des classes partagent la même période mais soutiennent à des dates différentes. ALS affiche ces dates sans les gérer : la soutenance reste du ressort de la coordination pédagogique.</p>
+          </div>
+
+          <!-- Echeances -->
+          <div class="modal-section">
+            <div class="modal-section-head"><h4>Échéances</h4></div>
+            <div class="form-grid">
+              <div><label class="form-label">Dépôt du rapport au plus tard le</label><input class="form-input" type="date" id="plan-f-depot"></div>
+              <div style="display:flex;align-items:flex-end">
+                <div class="toggle" id="plan-f-rattrapage" onclick="toggleSwitch(this)"><div class="toggle-track"><div class="toggle-thumb"></div></div><span class="toggle-label">Session de rattrapage</span></div>
+              </div>
+              <div><label class="form-label">Dépôt du rattrapage</label><input class="form-input" type="date" id="plan-f-depot-ratt"></div>
+              <div><label class="form-label">Évaluation du rattrapage</label><input class="form-input" type="date" id="plan-f-eval-ratt"></div>
+            </div>
+          </div>
+
           <div class="modal-actions">
-            <button class="btn-secondary" onclick="closeModal(null,'modal-config')">Annuler</button>
-            <button class="btn-primary" onclick="saveConfigPeriode()">Enregistrer</button>
+            <button class="btn-secondary" onclick="closeModal(null,'modal-plan')">Annuler</button>
+            <button class="btn-primary" onclick="savePlan()">Enregistrer en brouillon</button>
+          </div>
+          <p class="champ-aide" style="text-align:right;margin-top:.5rem">Une ligne enregistrée reste en brouillon. Elle ne prend effet qu'une fois validée depuis la liste.</p>
+        </div>
+      </div>
+
+
+      <!-- ===================================================================
+           STRUCTURE ACADEMIQUE
+           ===================================================================
+           Six referentiels que le Directeur des Stages saisit lui-meme.
+           L'agent les consulte en lecture seule.
+           =================================================================== -->
+
+      <!-- ----- SOMMAIRE ----- -->
+      <!-- ===== MODELES DE LETTRE ===== -->
+      <div class="page" id="page-modeles">
+        <div class="page-header">
+          <div class="ph-left">
+            <h2>🖋️ Modèles de lettre</h2>
+            <p>Objectifs, missions et phrase d'appréciation imprimés sur la lettre de recommandation</p>
+          </div>
+        </div>
+
+        <div class="role-banner role-banner-agent">
+          ℹ️ Ces modèles sont modifiables par les <strong>agents</strong> comme par le <strong>Directeur des Stages</strong>. Chaque enregistrement est tracé et s'applique aux lettres suivantes.
+        </div>
+        <div class="role-banner role-banner-directeur">
+          🛡️ Vous êtes <strong>Directeur des Stages</strong>. Les agents du Bureau des Stages peuvent également modifier ces modèles.
+        </div>
+
+        <div id="mod-alerte"></div>
+
+        <div id="onglets-modeles"></div>
+
+        <div class="card">
+          <div class="card-body">
+            <input class="ent-search" type="text" id="rech-modeles" placeholder="🔍 Sigle, intitulé ou texte du modèle..." oninput="renderModeles()">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-modeles"></table></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><div><h3>Comment la lettre choisit son texte</h3></div></div>
+          <div class="card-body">
+            <ol class="str-ordre">
+              <li>La fiche de la <strong>classe</strong>, si elle porte le texte.</li>
+              <li>Sinon celle de sa <strong>filière</strong>.</li>
+              <li>Sinon celle de sa <strong>faculté</strong>.</li>
+            </ol>
+            <p class="str-note">Le choix se fait <strong>champ par champ</strong>. Une classe qui ne remplit que ses missions garde les objectifs de sa filière ou de sa faculté. Remplir la faculté une fois suffit donc à faire fonctionner toutes ses classes.</p>
+            <p class="str-note">Une classe ouverte aux demandes dont <strong>aucun</strong> des trois niveaux ne porte d'objectifs ou de missions ne peut pas produire de lettre. L'étudiant est bloqué avec un message explicite, et la classe apparaît dans l'alerte en haut de cet écran. Le même avertissement s'affiche au moment où l'on autorise les demandes d'une classe.</p>
+            <p class="str-note rien-en-bas">La phrase d'appréciation est facultative. Sans elle, la lettre imprime une formule neutre. Aucun mot de la lettre ne s'accorde au masculin ou au féminin : la civilité n'y figure pas.</p>
           </div>
         </div>
       </div>
+
+      <div class="page" id="page-structure">
+        <div class="page-header">
+          <div class="ph-left">
+            <h2>Structure académique</h2>
+            <p>Facultés, filières, classes, cycles, campus et années académiques</p>
+          </div>
+        </div>
+
+        <div class="role-banner role-banner-agent">
+          ℹ️ Ces référentiels ne sont modifiables que par le <strong>Directeur des Stages</strong>. En tant qu'agent, vous les consultez en lecture seule.
+        </div>
+        <div class="role-banner role-banner-directeur">
+          🛡️ Vous êtes <strong>Directeur des Stages</strong>. Vos modifications sur la structure s'appliquent directement.
+        </div>
+
+        <div class="str-grid" id="str-sommaire"></div>
+
+        <div class="card">
+          <div class="card-head"><div><h3>Dans quel ordre s'y prendre</h3></div></div>
+          <div class="card-body">
+            <ol class="str-ordre">
+              <li><strong>Cycles</strong> et <strong>Campus</strong> d'abord : ils ne dépendent de rien.</li>
+              <li><strong>Facultés</strong> ensuite.</li>
+              <li><strong>Filières</strong>, rattachées à une faculté et à un cycle.</li>
+              <li><strong>Classes</strong>, rattachées à une filière et à un campus.</li>
+              <li><strong>Année académique</strong>, à ouvrir avant tout import d'étudiants.</li>
+            </ol>
+            <p class="str-note">La suppression suit le chemin inverse. Une faculté qui porte des filières ne peut pas être supprimée : le système refuse et explique pourquoi.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- FACULTES ----- -->
+      <div class="page" id="page-str-facultes">
+        <div class="page-header">
+          <div class="ph-left"><h2>🏛️ Facultés</h2><p>Facultés couvertes par le Bureau des Stages</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('facultes',null)">➕ Ajouter une faculté</button>
+        </div>
+        <div id="onglets-facultes"></div>
+        <div class="card">
+          <div class="card-body">
+            <input class="ent-search" type="text" id="rech-facultes" placeholder="🔍 Rechercher une faculté..." oninput="renderStr('facultes')">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-facultes"></table></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head"><div><h3>Périmètre actuel</h3></div></div>
+          <div class="card-body">
+            <p class="str-note rien-en-bas">Le Bureau des Stages ne gère aujourd'hui que les stages de la <strong>FSSG</strong> et de la <strong>FSJP</strong>. Les autres facultés de l'UCAC/ICY relèvent d'un autre circuit et ne sont pas dans le périmètre d'ALS. Le système est conçu pour les accueillir sans refonte le jour où ce périmètre s'étendra.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- FILIERES ----- -->
+      <div class="page" id="page-str-filieres">
+        <div class="page-header">
+          <div class="ph-left"><h2>🎓 Filières</h2><p>Programmes rattachés à une faculté et à un cycle</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('filieres',null)">➕ Ajouter une filière</button>
+        </div>
+        <div id="onglets-filieres"></div>
+        <div class="card">
+          <div class="card-body">
+            <div class="search-row">
+              <input class="search-input" type="text" id="rech-filieres" placeholder="🔍 Sigle, intitulé ou faculté..." oninput="renderStr('filieres')">
+              <select class="filter-select" id="filtre-filieres-fac" onchange="renderStr('filieres')">
+                <option value="">Toutes les facultés</option>
+                <option value="FSSG">FSSG</option>
+                <option value="FSJP">FSJP</option>
+                <option value="FT">FT</option>
+              </select>
+            </div>
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-filieres"></table></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- CLASSES ----- -->
+      <div class="page" id="page-str-classes">
+        <div class="page-header">
+          <div class="ph-left"><h2>👥 Classes</h2><p>Promotions concrètes, rattachées à une filière et à un campus</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('classes',null)">➕ Ajouter une classe</button>
+        </div>
+        <div id="onglets-classes"></div>
+        <div class="card">
+          <div class="card-body">
+            <input class="ent-search" type="text" id="rech-classes" placeholder="🔍 Sigle, intitulé, filière ou campus..." oninput="renderStr('classes')">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-classes"></table></div>
+            <p class="str-note">L'intitulé en toutes lettres est celui qui s'imprime sur la lettre envoyée à l'entreprise. « LIG3 » ne veut rien dire pour un employeur.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- CYCLES ----- -->
+      <div class="page" id="page-str-cycles">
+        <div class="page-header">
+          <div class="ph-left"><h2>📚 Cycles</h2><p>Niveaux d'études proposés par l'établissement</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('cycles',null)">➕ Ajouter un cycle</button>
+        </div>
+        <div id="onglets-cycles"></div>
+        <div class="card">
+          <div class="card-body">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-cycles"></table></div>
+            <p class="str-note">La liste est modifiable parce que le catalogue de l'UCAC contient un « Bachelor in Management Economics », qui n'est ni une licence ni un master dans son intitulé. Un autre établissement aura des BTS ou des doctorats.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- CAMPUS ----- -->
+      <div class="page" id="page-str-campus">
+        <div class="page-header">
+          <div class="ph-left"><h2>🏫 Campus</h2><p>Sites géographiques où se trouvent les classes</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('campus',null)">➕ Ajouter un campus</button>
+        </div>
+        <div id="onglets-campus"></div>
+        <div class="card">
+          <div class="card-body">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-campus"></table></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ----- ANNEES ACADEMIQUES ----- -->
+      <div class="page" id="page-str-annees">
+        <div class="page-header">
+          <div class="ph-left"><h2>📅 Années académiques</h2><p>Une seule année est ouverte à la fois</p></div>
+          <button class="btn-primary role-only-ds" onclick="openStrModal('annees',null)">➕ Ajouter une année</button>
+        </div>
+        <div id="onglets-annees"></div>
+        <div class="card">
+          <div class="card-body">
+            <div class="tbl-wrap"><table class="tbl str-tbl" id="tbl-annees"></table></div>
+            <p class="str-note">Ouvrir une année ferme automatiquement la précédente. Une année clôturée reste consultable mais n'accepte plus ni inscription ni demande de lettre. L'année en cours ne peut pas être clôturée : le système se retrouverait sans année de travail.</p>
+          </div>
+        </div>
+      </div>
+
 
       <!-- ===== ENTREPRISES ===== -->
       <div class="page" id="page-entreprises">
@@ -1229,13 +1880,13 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
         <div class="card">
           <div class="card-head"><div><h3>Format attendu du fichier CSV</h3></div></div>
           <div class="card-body">
-            <div style="background:var(--ink);color:#a8d8a8;border-radius:var(--r2);padding:1rem;font-family:monospace;font-size:.83rem;overflow-x:auto">
+            <div style="background:var(--ink-solid);color:#a8d8a8;border-radius:var(--r2);padding:1rem;font-family:monospace;font-size:.83rem;overflow-x:auto">
               matricule,nom,prenom,classe,faculte,email<br>
               21G0042,MBALLA,Jean-Pierre,LIG3,FSSG,mballa.jp@ucac.cm<br>
               21G0078,FOUDA,Karine,LIG3,FSSG,fouda.k@ucac.cm<br>
               20M0031,NKOMO,Paul,LIM2,FSSG,nkomo.p@ucac.cm
             </div>
-            <p style="font-size:.82rem;color:var(--ink3);margin-top:.75rem">⚠️ Les colonnes doivent respecter exactement cet ordre. Les emails doivent être valides — chaque étudiant recevra un lien d'activation automatiquement.</p>
+            <p style="font-size:.82rem;color:var(--ink3);margin-top:.75rem">⚠️ Les colonnes doivent respecter exactement cet ordre. Les emails doivent être valides : chaque étudiant recevra un lien d'activation automatiquement.</p>
           </div>
         </div>
         <div class="card">
@@ -1391,13 +2042,62 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
   </div><!-- /main -->
 </div><!-- /app -->
 
+
+<!-- ===== MODALE : SAISIE D'UN ELEMENT DE STRUCTURE ===== -->
+<div class="modal-overlay" id="modal-str" onclick="closeModal(event,'modal-str')">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3 id="str-modal-title">Ajouter</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-str')">✕</button>
+    </div>
+    <div id="str-modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-str')">Annuler</button>
+      <button class="btn-primary" onclick="saveStr()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALE : FICHE D'UN MODELE DE LETTRE ===== -->
+<div class="modal-overlay" id="modal-modeles" onclick="closeModal(event,'modal-modeles')">
+  <div class="modal modal-large" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3 id="mod-modal-title">Fiche</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-modeles')">✕</button>
+    </div>
+    <div id="mod-modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-modeles')">Annuler</button>
+      <button class="btn-secondary" onclick="apercuDepuisFiche()">👁 Voir la lettre</button>
+      <button class="btn-primary" onclick="saveModele()">💾 Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODALE : APERCU DE LA LETTRE ===== -->
+<div class="modal-overlay" id="modal-apercu" onclick="closeModal(event,'modal-apercu')">
+  <div class="modal modal-large" onclick="event.stopPropagation()">
+    <div class="modal-head">
+      <h3 id="apercu-title">Aperçu de la lettre</h3>
+      <button class="modal-close" onclick="closeModal(null,'modal-apercu')">✕</button>
+    </div>
+    <div id="apercu-body"></div>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeModal(null,'modal-apercu')">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Donnees reelles de l'etablissement, injectees en JSON et non en code -->
+<script type="application/json" id="donnees-structure">{"cycles":[{"code":"LICENCE","libelle":"Licence","ordre":1},{"code":"MASTER","libelle":"Master","ordre":2}],"campus":[{"nom":"Nkolbisson","ville":"Yaoundé"},{"nom":"Ekounou","ville":"Yaoundé"}],"facultes":[{"sigle":"FSSG","nom":"Faculté des Sciences Sociales et de Gestion","est_fictive":false},{"sigle":"FSJP","nom":"Faculté des Sciences Juridiques et Politiques","est_fictive":false},{"sigle":"FT","nom":"Faculté de test (bac à sable)","est_fictive":true}],"filieres":[{"faculte":"FSSG","sigle":"LSSD","nom":"Licence en Sciences Sociales et développement","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSSG","sigle":"LESS","nom":"Licence en Économie Sociale et Solidaire","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSSG","sigle":"LQSSE","nom":"Licence en Qualité, Santé, Sécurité et environnement","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LGRH","nom":"Licence en Gestion des Ressources Humaines","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LEG","nom":"Licence en Économie de Gestion","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"BME","nom":"Bachelor in Management Economics","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LIG","nom":"Licence en Informatique de Gestion","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LIMAC","nom":"Licence en Management, Audit et Contrôle","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LICOFI","nom":"Licence en Comptabilité-Finance","cycle":"LICENCE","sigle_confirme":true},{"faculte":"FSSG","sigle":"LCMV","nom":"Licence en Communication, Marketing et Vente","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSSG","sigle":"MGRH","nom":"Master en Gestion des Ressources Humaines","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSSG","sigle":"MMS","nom":"Master en Marketing et Stratégies","cycle":"MASTER","sigle_confirme":true},{"faculte":"FSSG","sigle":"MMSI","nom":"Master en Management et Système d’Information","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSSG","sigle":"MMDPA","nom":"Master Management et Développement des projets en Afrique","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSSG","sigle":"BF","nom":"Master en Banque-Finance","cycle":"MASTER","sigle_confirme":true},{"faculte":"FSSG","sigle":"CFE","nom":"Master en Comptabilité-Finance","cycle":"MASTER","sigle_confirme":true},{"faculte":"FSSG","sigle":"MACG","nom":"Master Audit et Contrôle de Gestion","cycle":"MASTER","sigle_confirme":true},{"faculte":"FSJP","sigle":"LSJP","nom":"Licence Sciences Juridiques et Politiques","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"LSJP-AGIR","nom":"Licence Sciences Juridiques et Politiques Option Applied Geopolitics and International Relations","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"LSJP-DPRI","nom":"Licence Sciences Juridiques et Politiques Option Droit Privé","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"LSJP-DPUB","nom":"Licence Sciences Juridiques et Politiques Option Droit Public","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"LSJP-LLP","nom":"Licence Sciences Juridiques et Politiques Option Law and Legal Practice","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"LSJP-SP","nom":"Licence Sciences Juridiques et Politiques Option Science Politique","cycle":"LICENCE","sigle_confirme":false},{"faculte":"FSJP","sigle":"MAGSP","nom":"Master Analyse et Gouvernance des Sociétés Politiques","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MAGIR","nom":"Master Applied Geopolitics and International Relations","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDDCC","nom":"Master en Développement Durable et Changement Climatique","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDA","nom":"Master en Droit des Affaires","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDPV","nom":"Master en Droit et Protection des Victimes","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDPSC","nom":"Master en Droit Pénal et Sciences Criminelles","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MLPP","nom":"Master Legal Practice and Procédures","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDHAH","nom":"Master Droits de l’Homme et Actions Humanitaires","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MAHPR","nom":"Master Actions Humanitaires et Protection des réfugiés","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MCAA","nom":"Master Contentieux et Arbitrage des Affaires","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MCMP","nom":"Master en Communication et Marketing Politique","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDAF","nom":"Master en Droit des Affaires et Fiscalités","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDIA","nom":"Master en Droit International des Affaires","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MDPA","nom":"Master en Droit Public des Affaires","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MGAP","nom":"Master en Gouvernance et Action Publique","cycle":"MASTER","sigle_confirme":false},{"faculte":"FSJP","sigle":"MPGC","nom":"Master en Paix et Gestion des conflits","cycle":"MASTER","sigle_confirme":false},{"faculte":"FT","sigle":"DATA","nom":"Data Analytics","cycle":"LICENCE","sigle_confirme":false}],"classes":[{"sigle":"LIG1","nom_complet":"Licence 1 Informatique de Gestion","filiere":"LIG","niveau":"L1","campus":"Nkolbisson"},{"sigle":"LIG2","nom_complet":"Licence 2 Informatique de Gestion","filiere":"LIG","niveau":"L2","campus":"Nkolbisson"},{"sigle":"LIG3","nom_complet":"Licence 3 Informatique de Gestion","filiere":"LIG","niveau":"L3","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"LGRH3","nom_complet":"Licence 3 Gestion des Ressources Humaines","filiere":"LGRH","niveau":"L3","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"LEG3","nom_complet":"Licence 3 Économie de Gestion","filiere":"LEG","niveau":"L3","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"BME3","nom_complet":"Bachelor 3 in Management Economics","filiere":"BME","niveau":"L3","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"LICOFI2","nom_complet":"Licence 2 Comptabilité-Finance","filiere":"LICOFI","niveau":"L2","campus":"Nkolbisson"},{"sigle":"LIMAC2","nom_complet":"Licence 2 Management, Audit et Contrôle","filiere":"LIMAC","niveau":"L2","campus":"Nkolbisson"},{"sigle":"LQSSE2","nom_complet":"Licence 2 Qualité, Santé, Sécurité et Environnement","filiere":"LQSSE","niveau":"L2","campus":"Nkolbisson"},{"sigle":"MACG1","nom_complet":"Master 1 Audit et Contrôle de Gestion","filiere":"MACG","niveau":"M1","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"BF1","nom_complet":"Master 1 Banque-Finance","filiere":"BF","niveau":"M1","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"CFE1","nom_complet":"Master 1 Comptabilité-Finance","filiere":"CFE","niveau":"M1","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"MMS1","nom_complet":"Master 1 Marketing et Stratégies","filiere":"MMS","niveau":"M1","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"MSI1","nom_complet":"Master 1 Management et Système d'Information","filiere":"MMSI","niveau":"M1","campus":"Nkolbisson","demandes_autorisees":true},{"sigle":"DATA3","nom_complet":"Licence 3 Data Analytics (bac à sable)","filiere":"DATA","niveau":"L3","campus":"Nkolbisson","demandes_autorisees":true}]}</script>
+
 <!-- ===== MODALES ===== -->
 
 <!-- Modal détail étudiant -->
 <div class="modal-overlay" id="modal-detail" onclick="closeModal(event,'modal-detail')">
   <div class="modal" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <h3>Dossier — MBALLA Jean-Pierre</h3>
+      <h3>Dossier de MBALLA Jean-Pierre</h3>
       <button class="modal-close" onclick="closeModal(null,'modal-detail')">✕</button>
     </div>
     <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border)">
@@ -1455,21 +2155,21 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
       <div>
         <label class="form-label">Faculté *</label>
         <select class="form-select" id="ajout-f-faculte" onchange="onFaculteChange()">
-          <option value="">— Sélectionner —</option>
-          <option value="FSSG">FSSG — Sciences Sociales et de Gestion</option>
-          <option value="FSE">FSE — Sciences de l'Éducation</option>
+          <option value="">Sélectionner...</option>
+          <option value="FSSG">FSSG : Sciences Sociales et de Gestion</option>
+          <option value="FSE">FSE : Sciences de l'Éducation</option>
         </select>
       </div>
       <div>
         <label class="form-label">Filière *</label>
         <select class="form-select" id="ajout-f-filiere" onchange="onFiliereChange()" disabled>
-          <option value="">— Choisir d'abord une faculté —</option>
+          <option value="">Choisir d'abord une faculté</option>
         </select>
       </div>
       <div class="full">
         <label class="form-label">Classe *</label>
         <select class="form-select" id="ajout-f-classe" disabled>
-          <option value="">— Choisir d'abord une filière —</option>
+          <option value="">Choisir d'abord une filière</option>
         </select>
       </div>
 
@@ -1508,6 +2208,31 @@ body.role-agent #card-signature-cachet .config-edit-btn{display:none}
 // LOGIN
 let userRole = 'AGENT'; // AGENT ou DIRECTEUR - determine les droits d'edition (entreprises notamment)
 
+// ===== MODE CLAIR / SOMBRE =====
+// Pas de persistance (localStorage exclu dans ce contexte) : le mode
+// choisi reste valable pour la session en cours, revient au mode clair
+// par defaut au rechargement.
+let currentTheme = 'light';
+
+function toggleTheme(){
+  currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+  applyTheme();
+}
+
+function applyTheme(){
+  const html = document.documentElement;
+  const btn = document.getElementById('theme-toggle-btn');
+  if(currentTheme === 'dark'){
+    html.setAttribute('data-theme', 'dark');
+    btn.textContent = '☀️';
+    btn.title = 'Mode clair';
+  }else{
+    html.removeAttribute('data-theme');
+    btn.textContent = '🌙';
+    btn.title = 'Mode sombre';
+  }
+}
+
 function resetMdpOublieModal(){
   document.getElementById('mdp-oublie-form').style.display='block';
   document.getElementById('mdp-oublie-confirmation').style.display='none';
@@ -1536,10 +2261,11 @@ function doLogin(){
   document.getElementById('app').classList.add('visible');
   buildMiniBars();
   renderEntreprises();
-  renderConfigNiveau();
-  renderConfigClasse();
+  renderStrSommaire();
+  renderPlanning();
   renderDemandesLettres();
   renderAllDocPages();
+  renderModeles();
 }
 function doLogout(){
   document.getElementById('app').classList.remove('visible');
@@ -1549,7 +2275,12 @@ function doLogout(){
 // NAVIGATION
 const breadcrumbs={
   dashboard:'Tableau de bord',etudiants:'Étudiants',demandes:'Demandes de lettres',
-  dossiers:'Dossiers de stage',retards:'Retards & Alertes',classes:'Classes & Périodes',
+  dossiers:'Dossiers de stage',retards:'Retards & Alertes',
+  classes:'Planning des stages', structure:'Structure académique',
+  modeles:'Modèles de lettre',
+  'str-facultes':'Structure \u203a Facultés', 'str-filieres':'Structure \u203a Filières',
+  'str-classes':'Structure \u203a Classes',   'str-cycles':'Structure \u203a Cycles',
+  'str-campus':'Structure \u203a Campus',     'str-annees':'Structure \u203a Années académiques',
   entreprises:'Entreprises',import:'Import CSV',rapports:'Rapports',compte:'Mon compte',
   'doc-lettres':'Documents \u203a Lettres de recommandation',
   'doc-convention':'Documents \u203a Conventions de stage',
@@ -1559,9 +2290,27 @@ const breadcrumbs={
 function showPage(id,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
-  document.getElementById('breadcrumb').innerHTML='ALS · BDS → <span>'+breadcrumbs[id]+'</span>';
+  document.getElementById('breadcrumb').innerHTML='ALS · BDS → <span>'+(breadcrumbs[id]||id)+'</span>';
   document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
   if(el) el.classList.add('active');
+
+  // La section Structure et le Planning se redessinent a l'affichage : les
+  // compteurs et les etats doivent refleter les dernieres modifications.
+  if(id==='structure') renderStrSommaire();
+  else if(id.indexOf('str-')===0) renderStr(id.slice(4));
+  else if(id==='classes') renderPlanning();
+  else if(id==='modeles') renderModeles();
+
+  // Le menu lateral doit rester coherent meme quand la navigation vient
+  // d'un onglet ou d'une tuile, et non d'un clic sur le menu.
+  if(!el){
+    const cible = (id==='structure'||id.indexOf('str-')===0) ? 'structure'
+                : (id==='classes' ? 'classes' : id);
+    document.querySelectorAll('.sb-item').forEach(i=>{
+      if(i.getAttribute('onclick') && i.getAttribute('onclick').indexOf("'"+cible+"'")>-1)
+        i.classList.add('active');
+    });
+  }
   // Sur mobile/tablette, on referme le menu apres selection
   document.getElementById('sidebar').classList.remove('open');
   document.getElementById('sb-overlay').classList.remove('open');
@@ -1665,7 +2414,7 @@ function renderEntreprises(){
         : `<div class="ent-card-meta">Aucune succursale enregistrée</div>`;
       card.innerHTML=`
         <div class="ent-card-head">
-          <div><div class="ent-card-name">${e.nom}</div><div class="ent-card-meta">${e.forme||'—'} · Siège : ${e.siege||'—'}</div></div>
+          <div><div class="ent-card-name">${e.nom}</div><div class="ent-card-meta">${e.forme||'-'} · Siège : ${e.siege||'-'}</div></div>
           <span class="ent-badge ${b.cls}">${b.label}</span>
         </div>
         ${quotaHtml}
@@ -1902,14 +2651,14 @@ function onFaculteChange(){
   const selFiliere = document.getElementById('ajout-f-filiere');
   const selClasse = document.getElementById('ajout-f-classe');
 
-  resetSelect(selClasse, "— Choisir d'abord une filière —", true);
+  resetSelect(selClasse, "Choisir d'abord une filière", true);
 
   if(!faculte){
-    resetSelect(selFiliere, "— Choisir d'abord une faculté —", true);
+    resetSelect(selFiliere, "Choisir d'abord une faculté", true);
     return;
   }
 
-  selFiliere.innerHTML = '<option value="">— Sélectionner —</option>';
+  selFiliere.innerHTML = '<option value="">Sélectionner...</option>';
   FACULTE_FILIERES[faculte].forEach(f => {
     const opt = document.createElement('option');
     opt.value = f.code;
@@ -1924,11 +2673,11 @@ function onFiliereChange(){
   const selClasse = document.getElementById('ajout-f-classe');
 
   if(!filiere){
-    resetSelect(selClasse, "— Choisir d'abord une filière —", true);
+    resetSelect(selClasse, "Choisir d'abord une filière", true);
     return;
   }
 
-  selClasse.innerHTML = '<option value="">— Sélectionner —</option>';
+  selClasse.innerHTML = '<option value="">Sélectionner...</option>';
   FILIERE_CLASSES[filiere].forEach(c => {
     const opt = document.createElement('option');
     opt.value = c.sigle;
@@ -1940,8 +2689,8 @@ function onFiliereChange(){
 
 function resetAjoutEtudiantModal(){
   document.getElementById('ajout-f-faculte').value = '';
-  resetSelect(document.getElementById('ajout-f-filiere'), "— Choisir d'abord une faculté —", true);
-  resetSelect(document.getElementById('ajout-f-classe'), "— Choisir d'abord une filière —", true);
+  resetSelect(document.getElementById('ajout-f-filiere'), "Choisir d'abord une faculté", true);
+  resetSelect(document.getElementById('ajout-f-classe'), "Choisir d'abord une filière", true);
 }
 
 // ===== PAGES DOCUMENTS =====
@@ -2065,7 +2814,11 @@ function showToast(msg){
   if(!t){
     t=document.createElement('div');
     t.id='als-toast';
-    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.85rem 1.4rem;border-radius:var(--r2);font-size:.85rem;box-shadow:0 8px 30px #00000040;z-index:400;transition:opacity .3s';
+    // pointer-events:none est indispensable, pas decoratif : le message
+    // reste dans la page une fois efface, et sans cela il continue
+    // d'avaler les clics au bas de l'ecran. Sur telephone, il recouvre
+    // exactement les boutons d'une modale ouverte.
+    t.style.cssText='position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink-solid);color:#fff;padding:.85rem 1.4rem;border-radius:var(--r2);font-size:.85rem;box-shadow:0 8px 30px #00000040;z-index:400;transition:opacity .3s;pointer-events:none;max-width:calc(100vw - 2rem);text-align:center';
     document.body.appendChild(t);
   }
   t.textContent=msg;
@@ -2074,150 +2827,21 @@ function showToast(msg){
   t._timer=setTimeout(()=>{t.style.opacity='0';},3500);
 }
 
-// ===== CONFIGURATION DES PERIODES (NIVEAU / CLASSE) =====
-// Regle validee : le DS configure les dates par defaut par niveau en amont,
-// et peut ajouter des derogations pour des classes precises au sein d'un niveau.
-// Resolution a la demande : CLASSE prioritaire, sinon NIVEAU, sinon bloque.
-let mockConfigsNiveau=[
-  {niveau:"L1",label:"Licence 1",debut:"",fin:"",duree:9,obligatoire:false,configure:false},
-  {niveau:"L2",label:"Licence 2",debut:"",fin:"",duree:9,obligatoire:false,configure:false},
-  {niveau:"L3",label:"Licence 3",debut:"2026-05-04",fin:"2026-07-03",duree:9,obligatoire:true,configure:true},
-  {niveau:"M1",label:"Master 1",debut:"2026-05-04",fin:"2026-07-03",duree:9,obligatoire:true,configure:true},
-  {niveau:"M2",label:"Master 2",debut:"2026-04-01",fin:"2026-06-30",duree:12,obligatoire:true,configure:true},
-];
-let mockConfigsClasse=[
-  {classe:"GRHM1",label:"GRHM1 — Gestion des Ressources Humaines",debut:"2026-05-15",fin:"2026-07-15",duree:9,obligatoire:false},
-];
-let configEditContext=null; // {portee:'NIVEAU'|'CLASSE', cle: niveau ou classe, isNew:bool}
-
-function renderConfigNiveau(){
-  const list=document.getElementById('config-niveau-list');
-  if(!list)return;
-  list.innerHTML='';
-  mockConfigsNiveau.forEach(c=>{
-    const row=document.createElement('div');
-    row.className='config-niveau-row';
-    const datesHtml=c.configure
-      ? `<span class="config-niveau-dates">Du <strong>${formatDateFr(c.debut)}</strong> au <strong>${formatDateFr(c.fin)}</strong> · Durée min. <strong>${c.duree} sem.</strong> · ${c.obligatoire?'Obligatoire':'Non obligatoire'}</span>`
-      : `<span class="config-niveau-dates config-not-set">⚠️ Non configuré — les demandes de ce niveau seront bloquées</span>`;
-    row.innerHTML=`
-      <div class="config-niveau-badge">${c.niveau}</div>
-      <div class="config-niveau-info">
-        <div style="font-weight:600">${c.label}</div>
-        ${datesHtml}
-      </div>
-      <button class="btn-sm config-edit-btn" onclick="openConfigModal('NIVEAU','${c.niveau}')">✏️ ${c.configure?'Modifier':'Configurer'}</button>
-    `;
-    list.appendChild(row);
-  });
-}
-
-function renderConfigClasse(){
-  const list=document.getElementById('config-classe-list');
-  if(!list)return;
-  list.innerHTML='';
-  if(!mockConfigsClasse.length){
-    list.innerHTML='<div class="config-empty-state">Aucune dérogation. Toutes les classes suivent la règle de leur niveau.</div>';
-    return;
-  }
-  mockConfigsClasse.forEach(c=>{
-    const row=document.createElement('div');
-    row.className='config-niveau-row';
-    row.innerHTML=`
-      <div class="config-niveau-badge" style="background:var(--amber)">${c.classe}</div>
-      <div class="config-niveau-info">
-        <div style="font-weight:600">${c.label}</div>
-        <span class="config-niveau-dates">Du <strong>${formatDateFr(c.debut)}</strong> au <strong>${formatDateFr(c.fin)}</strong> · Durée min. <strong>${c.duree} sem.</strong> · ${c.obligatoire?'Obligatoire':'Non obligatoire'}</span>
-      </div>
-      <div style="display:flex;gap:.4rem">
-        <button class="btn-sm config-edit-btn" onclick="openConfigModal('CLASSE','${c.classe}')">✏️ Modifier</button>
-        <button class="btn-sm danger config-edit-btn" onclick="supprimerDerogation('${c.classe}')">🗑</button>
-      </div>
-    `;
-    list.appendChild(row);
-  });
-}
-
 function formatDateFr(iso){
-  if(!iso)return '—';
+  if(!iso)return '-';
   const [y,m,d]=iso.split('-');
   const mois=['jan.','fév.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
   return `${parseInt(d)} ${mois[parseInt(m)-1]} ${y}`;
-}
-
-function openConfigModal(portee,cle){
-  if(userRole!=='DIRECTEUR'){showToast('⛔ Seul le Directeur des Stages peut modifier ces paramètres.');return;}
-  const isNew = portee==='CLASSE' && cle===null;
-  configEditContext={portee,cle,isNew};
-  document.getElementById('config-classe-select-wrap').style.display = portee==='CLASSE' ? 'block' : 'none';
-
-  let data={debut:"",fin:"",duree:9,obligatoire:true};
-  if(portee==='NIVEAU'){
-    data=mockConfigsNiveau.find(c=>c.niveau===cle);
-    document.getElementById('config-modal-title').textContent='Configuration — Niveau '+cle;
-  }else if(!isNew){
-    data=mockConfigsClasse.find(c=>c.classe===cle);
-    document.getElementById('config-modal-title').textContent='Dérogation — '+cle;
-    document.getElementById('config-f-classe').value=cle;
-  }else{
-    document.getElementById('config-modal-title').textContent='Nouvelle dérogation de classe';
-  }
-
-  document.getElementById('config-f-debut').value=data.debut||'';
-  document.getElementById('config-f-fin').value=data.fin||'';
-  document.getElementById('config-f-duree').value=data.duree||9;
-  const tog=document.getElementById('config-f-obligatoire-toggle');
-  const track=tog.querySelector('.toggle-track');
-  const label=tog.querySelector('.toggle-label');
-  track.classList.toggle('on', !!data.obligatoire);
-  label.textContent = data.obligatoire ? 'Stage obligatoire' : 'Stage non obligatoire';
-
-  openModal('modal-config');
-}
-
-function saveConfigPeriode(){
-  const debut=document.getElementById('config-f-debut').value;
-  const fin=document.getElementById('config-f-fin').value;
-  const duree=parseInt(document.getElementById('config-f-duree').value)||9;
-  const obligatoire=document.getElementById('config-f-obligatoire-toggle').querySelector('.toggle-track').classList.contains('on');
-
-  if(!debut||!fin){alert('Les dates de début et de fin par défaut sont obligatoires.');return;}
-
-  if(configEditContext.portee==='NIVEAU'){
-    const c=mockConfigsNiveau.find(x=>x.niveau===configEditContext.cle);
-    Object.assign(c,{debut,fin,duree,obligatoire,configure:true});
-    renderConfigNiveau();
-  }else{
-    const classeSigle=document.getElementById('config-f-classe').value;
-    const classeLabel=document.getElementById('config-f-classe').selectedOptions[0].textContent;
-    if(configEditContext.isNew){
-      mockConfigsClasse.push({classe:classeSigle,label:classeLabel,debut,fin,duree,obligatoire});
-    }else{
-      const c=mockConfigsClasse.find(x=>x.classe===configEditContext.cle);
-      Object.assign(c,{debut,fin,duree,obligatoire});
-    }
-    renderConfigClasse();
-  }
-  closeModal(null,'modal-config');
-  showToast('✅ Configuration enregistrée.');
-}
-
-function supprimerDerogation(classe){
-  if(userRole!=='DIRECTEUR'){showToast('⛔ Seul le Directeur des Stages peut supprimer une dérogation.');return;}
-  if(!confirm('Supprimer cette dérogation ? La classe retombera sur la règle de son niveau.'))return;
-  mockConfigsClasse=mockConfigsClasse.filter(c=>c.classe!==classe);
-  renderConfigClasse();
-  showToast('🗑 Dérogation supprimée — la classe suit de nouveau la règle du niveau.');
 }
 
 // ===== CIRCUIT DE VALIDATION DES LETTRES =====
 // CAS A : entreprise connue, rien modifie -> envoi automatique, annulable 5 min
 let mockDemandesCasA=[
   {id:'a1',etudiant:'FOUDA Karine',matricule:'LIG3',entreprise:'MTN Cameroun',ville:'Yaoundé',
-   fonction:'Responsable RH Centre',periode:'Avr — Juil 2026',secondsLeft:284,
+   fonction:'Responsable RH Centre',periode:'Avril à juillet 2026',secondsLeft:284,
    apercu:"Nous vous recommandons notre étudiante FOUDA Karine, inscrite en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois à compter d'avril 2026. Elle s'est distinguée par son sérieux et son engagement dans ses études..."},
   {id:'a2',etudiant:'CHENDJOU Thierry',matricule:'LIG3',entreprise:'TOTAL Cameroun',ville:'Douala',
-   fonction:'Directeur des Ressources Humaines',periode:'Mars — Juin 2026',secondsLeft:129,
+   fonction:'Directeur des Ressources Humaines',periode:'Mars à juin 2026',secondsLeft:129,
    apercu:"Nous vous recommandons notre étudiant CHENDJOU Thierry, inscrit en troisième année de Licence en Informatique de Gestion, pour un stage de deux mois à compter de mars 2026. Il s'est distingué par son sérieux et son engagement dans ses études..."},
 ];
 
@@ -2242,7 +2866,7 @@ let mockDemandesCasB=[
    fonction:'Associé fondateur',
    motif:'ENTREPRISE_INCONNUE',
    statut:'REJETEE', heuresRestantes:0,
-   apercu:"—",
+   apercu:"-",
    motifRejet:"Le nom de l'entreprise semble incomplet et l'adresse du siège n'a pas pu être vérifiée. Merci de vérifier l'orthographe exacte auprès de l'entreprise."},
 ];
 
@@ -2250,8 +2874,8 @@ let valCurrentId=null;
 
 function badgeStatutValidation(statut){
   switch(statut){
-    case 'EN_ATTENTE_AGENT': return {cls:'en-attente-agent',label:'⏳ En attente — Agent BDS'};
-    case 'EN_ATTENTE_DS': return {cls:'en-attente-ds',label:'🔺 Escaladé — Directeur des Stages'};
+    case 'EN_ATTENTE_AGENT': return {cls:'en-attente-agent',label:'⏳ En attente (agent BDS)'};
+    case 'EN_ATTENTE_DS': return {cls:'en-attente-ds',label:'🔺 Escaladé (Directeur des Stages)'};
     case 'VALIDEE': return {cls:'validee',label:'✓ Validée et envoyée'};
     case 'REJETEE': return {cls:'rejetee',label:'✗ Rejetée'};
     default: return {cls:'',label:statut};
@@ -2406,7 +3030,7 @@ function openValidationModal(id){
 
   const banner=document.getElementById('val-motif-banner');
   const etape = d.statut==='EN_ATTENTE_DS' ? "Escaladée au Directeur des Stages" : "En attente de traitement par un Agent BDS";
-  banner.innerHTML=`ℹ️ Motif du contrôle : <strong>${motifLabel(d.motif)}</strong> — ${etape}, ${formatHeures(d.heuresRestantes)} restantes. Vous pouvez corriger directement l'information ci-dessous avant de valider.`;
+  banner.innerHTML=`ℹ️ Motif du contrôle : <strong>${motifLabel(d.motif)}</strong> : ${etape}, ${formatHeures(d.heuresRestantes)} restantes. Vous pouvez corriger directement l'information ci-dessous avant de valider.`;
 
   openModal('modal-validation');
 }
@@ -2454,6 +3078,1146 @@ function buildMiniBars(){
     c.appendChild(b);
   });
 }
+// ==========================================================================
+// STRUCTURE ACADEMIQUE
+// ==========================================================================
+// Six referentiels saisis par le Directeur des Stages. Les donnees ci-dessous
+// sont les vraies : 17 filieres FSSG, 22 FSJP, plus une faculte de test.
+// L'agent consulte, seul le DS ecrit : body.role-agent masque les boutons
+// d'ecriture, et chaque action revalide le role avant d'agir.
+
+const STR_DEF = {
+  facultes: {
+    titre:"Facultés", icone:"🏛️", singulier:"faculté",
+    desc:"Facultés couvertes par le Bureau des Stages",
+    colonnes:[["Sigle","sigle"],["Intitulé","nom"],["Filières","_nb"],["Type","_type"]]
+  },
+  filieres: {
+    titre:"Filières", icone:"🎓", singulier:"filière",
+    desc:"Programmes rattachés à une faculté",
+    colonnes:[["Sigle","sigle"],["Intitulé officiel","nom"],["Faculté","faculte"],["Cycle","cycle"],["Classes","_nb"]]
+  },
+  classes: {
+    titre:"Classes", icone:"👥", singulier:"classe",
+    desc:"Promotions rattachées à une filière et à un campus",
+    colonnes:[["Sigle","sigle"],["Intitulé en toutes lettres","nom_complet"],["Filière","filiere"],["Niveau","niveau"],["Campus","campus"],["Demandes","_demandes"]]
+  },
+  cycles: {
+    titre:"Cycles", icone:"📚", singulier:"cycle",
+    desc:"Niveaux d'études proposés",
+    colonnes:[["Code","code"],["Intitulé","libelle"],["Ordre","ordre"],["Filières","_nb"]]
+  },
+  campus: {
+    titre:"Campus", icone:"🏫", singulier:"campus",
+    desc:"Sites géographiques",
+    colonnes:[["Nom","nom"],["Ville","ville"],["Classes","_nb"]]
+  },
+  annees: {
+    titre:"Années académiques", icone:"📅", singulier:"année",
+    desc:"Une seule année ouverte à la fois",
+    colonnes:[["Libellé","libelle"],["Début","date_debut"],["Fin","date_fin"],["État","_etat"],["Inscriptions","_nb"]]
+  }
+};
+
+let STR = JSON.parse(document.getElementById('donnees-structure').textContent);
+STR.annees = [
+  {libelle:"2025-2026", date_debut:"2025-10-01", date_fin:"2026-07-31", est_courante:true,  est_cloturee:false, nb:19},
+  {libelle:"2026-2027", date_debut:"",           date_fin:"",           est_courante:false, est_cloturee:false, nb:0},
+  {libelle:"2024-2025", date_debut:"2024-10-01", date_fin:"2025-07-31", est_courante:false, est_cloturee:true,  nb:0}
+];
+
+function estDS(){ return userRole === 'DIRECTEUR'; }
+
+function refuserSiAgent(){
+  if(!estDS()){ showToast('⛔ Seul le Directeur des Stages peut modifier la structure.'); return true; }
+  return false;
+}
+
+/* ----- Compteurs derives ----- */
+function strCompte(entite, obj){
+  if(entite==='facultes') return STR.filieres.filter(f=>f.faculte===obj.sigle).length;
+  if(entite==='filieres') return STR.classes.filter(c=>c.filiere===obj.sigle).length;
+  if(entite==='cycles')   return STR.filieres.filter(f=>f.cycle===obj.code).length;
+  if(entite==='campus')   return STR.classes.filter(c=>c.campus===obj.nom).length;
+  if(entite==='annees')   return obj.nb || 0;
+  return '';
+}
+
+function strValeur(entite, obj, cle){
+  if(cle==='_nb') return strCompte(entite,obj);
+  if(cle==='_type') return obj.est_fictive
+      ? '<span class="badge attente">test</span>' : '<span class="badge normal">réelle</span>';
+  if(cle==='_demandes') return obj.demandes_autorisees
+      ? '<span class="badge complet">ouvertes</span>' : '<span class="badge attente">fermées</span>';
+  if(cle==='_etat'){
+    if(obj.est_courante) return '<span class="badge complet">● en cours</span>';
+    if(obj.est_cloturee) return '<span class="badge retard">clôturée</span>';
+    return '<span class="badge attente">à venir</span>';
+  }
+  if(cle==='cycle'){
+    const c = STR.cycles.find(x=>x.code===obj.cycle);
+    return c ? c.libelle : obj.cycle;
+  }
+  if((cle==='date_debut'||cle==='date_fin')) return obj[cle] ? formatDateFr(obj[cle]) : '-';
+  const v = obj[cle];
+  return (v===undefined||v===null||v==='') ? '-' : v;
+}
+
+/* ----- Onglets ----- */
+function renderOnglets(entiteCourante){
+  const cible = document.getElementById('onglets-'+entiteCourante);
+  if(!cible) return;
+  let h = '<div class="str-onglets"><button class="str-onglet" onclick="showPage(\'structure\',null)">← Structure</button>';
+  Object.keys(STR_DEF).forEach(k=>{
+    const d = STR_DEF[k];
+    h += `<button class="str-onglet${k===entiteCourante?' actif':''}" onclick="showPage('str-${k}',null)">${d.icone} ${d.titre}</button>`;
+  });
+  cible.innerHTML = h + '</div>';
+}
+
+/* ----- Sommaire ----- */
+function renderStrSommaire(){
+  const g = document.getElementById('str-sommaire');
+  if(!g) return;
+  g.innerHTML = Object.keys(STR_DEF).map(k=>{
+    const d = STR_DEF[k];
+    return `<a class="str-tuile" onclick="showPage('str-${k}',null);return false" href="#">
+      <div><div class="str-tuile-nom">${d.icone} ${d.titre}</div><div class="str-tuile-desc">${d.desc}</div></div>
+      <div class="str-tuile-nb">${STR[k].length}</div></a>`;
+  }).join('');
+}
+
+/* ----- Tableaux ----- */
+function renderStr(entite){
+  const def = STR_DEF[entite];
+  const tbl = document.getElementById('tbl-'+entite);
+  if(!def || !tbl) return;
+  renderOnglets(entite);
+
+  const champRech = document.getElementById('rech-'+entite);
+  const q = (champRech ? champRech.value : '').toLowerCase().trim();
+  const filtreFac = document.getElementById('filtre-filieres-fac');
+  const fac = (entite==='filieres' && filtreFac) ? filtreFac.value : '';
+
+  let lignes = STR[entite].filter(o=>{
+    if(fac && o.faculte !== fac) return false;
+    if(!q) return true;
+    return Object.values(o).some(v=>String(v).toLowerCase().includes(q));
+  });
+
+  let h = '<thead><tr>' + def.colonnes.map(c=>`<th>${c[0]}</th>`).join('')
+        + '<th class="col-actions">Actions</th></tr></thead><tbody>';
+
+  if(!lignes.length){
+    h += `<tr><td colspan="${def.colonnes.length+1}" class="str-vide">Aucun résultat.</td></tr>`;
+  } else {
+    lignes.forEach((o,i)=>{
+      h += '<tr>' + def.colonnes.map(c=>
+        `<td data-libelle="${c[0]}">${strValeur(entite,o,c[1])}</td>`).join('');
+      h += '<td class="col-actions" data-libelle="Actions">';
+      if(entite==='annees'){
+        if(!o.est_courante) h += `<button class="btn-sm role-only-ds" onclick="ouvrirAnnee('${o.libelle}')">Ouvrir</button> `;
+        if(!o.est_courante)
+          h += `<button class="btn-sm role-only-ds" onclick="cloturerAnnee('${o.libelle}')">${o.est_cloturee?'Rouvrir':'Clôturer'}</button> `;
+      }
+      h += `<button class="btn-sm role-only-ds" onclick="openStrModal('${entite}',${i})">✏️ Modifier</button> `;
+      h += `<button class="btn-sm danger role-only-ds" onclick="supprimerStr('${entite}',${i})">🗑</button>`;
+      h += '</td></tr>';
+    });
+  }
+  tbl.innerHTML = h + '</tbody>';
+}
+
+/* ----- Actions sur les annees ----- */
+function ouvrirAnnee(libelle){
+  if(refuserSiAgent()) return;
+  const ancienne = STR.annees.find(a=>a.est_courante);
+  if(!confirm(`Ouvrir l'année ${libelle} ?\n\n` +
+      (ancienne ? `${ancienne.libelle} ne sera plus l'année en cours.` : ''))) return;
+  STR.annees.forEach(a=>a.est_courante=false);
+  const a = STR.annees.find(x=>x.libelle===libelle);
+  a.est_courante = true; a.est_cloturee = false;
+  renderStr('annees');
+  showToast(`✅ Année ${libelle} ouverte.`);
+}
+
+function cloturerAnnee(libelle){
+  if(refuserSiAgent()) return;
+  const a = STR.annees.find(x=>x.libelle===libelle);
+  if(a.est_courante){
+    showToast("⛔ Impossible de clôturer l'année en cours. Ouvrez d'abord une autre année.");
+    return;
+  }
+  a.est_cloturee = !a.est_cloturee;
+  renderStr('annees');
+  showToast(a.est_cloturee ? `🔒 Année ${libelle} clôturée.` : `🔓 Année ${libelle} rouverte.`);
+}
+
+/* ----- Suppression, avec refus explique ----- */
+function supprimerStr(entite, i){
+  if(refuserSiAgent()) return;
+  const o = STR[entite][i];
+  if(entite==='annees' && o.est_courante){
+    showToast("⛔ Impossible de supprimer l'année en cours. Ouvrez d'abord une autre année.");
+    return;
+  }
+  const n = strCompte(entite, o);
+  if(n > 0){
+    showToast(`⛔ Suppression impossible : ${n} élément(s) en dépendent. Supprimez-les ou rattachez-les ailleurs d'abord.`);
+    return;
+  }
+  if(!confirm(`Supprimer définitivement « ${o.nom || o.libelle || o.sigle} » ?`)) return;
+  STR[entite].splice(i,1);
+  renderStr(entite);
+  renderStrSommaire();
+  showToast('🗑 Supprimé.');
+}
+
+/* ----- Modale de saisie ----- */
+let strCtx = null;
+
+const STR_CHAMPS = {
+  facultes:[["sigle","Sigle","text","ex : FSSG"],["nom","Intitulé complet","text","ex : Faculté des Sciences Sociales et de Gestion"],["est_fictive","Faculté de test","toggle",""]],
+  filieres:[["faculte","Faculté de rattachement","select-faculte",""],["cycle","Cycle","select-cycle",""],["sigle","Sigle","text","ex : LIG"],["nom","Intitulé officiel","text","Il s'imprime sur la lettre envoyée à l'entreprise"]],
+  classes:[["filiere","Filière de rattachement","select-filiere",""],["sigle","Sigle","text","ex : LIG3"],["nom_complet","Intitulé en toutes lettres","text","ex : Licence 3 Informatique de Gestion"],["niveau","Niveau","select-niveau",""],["campus","Campus","select-campus",""],["demandes_autorisees","Autorisée à demander des lettres","toggle",""]],
+  cycles:[["code","Code","text","ex : LICENCE, MASTER, DOCTORAT"],["libelle","Intitulé","text","ex : Licence"],["ordre","Ordre d'affichage","number",""]],
+  campus:[["nom","Nom du campus","text","ex : Nkolbisson"],["ville","Ville","text","ex : Yaoundé"]],
+  annees:[["libelle","Libellé","text","ex : 2025-2026"],["date_debut","Début (facultatif)","date",""],["date_fin","Fin (facultatif)","date",""]]
+};
+
+function openStrModal(entite, index){
+  if(refuserSiAgent()) return;
+  const def = STR_DEF[entite];
+  const obj = (index===null || index===undefined) ? {} : STR[entite][index];
+  strCtx = {entite, index, nouveau:(index===null||index===undefined)};
+
+  document.getElementById('str-modal-title').textContent =
+    (strCtx.nouveau ? 'Ajouter ' : 'Modifier ') + (entite==='annees' ? 'une année' : 'un'+(entite==='campus'||entite==='cycles'?'':'e')+' '+def.singulier);
+
+  let h = '<div class="form-grid">';
+  STR_CHAMPS[entite].forEach(([cle,label,type,aide])=>{
+    const val = obj[cle]!==undefined ? obj[cle] : '';
+    h += '<div class="'+(type==='text'&&(cle==='nom'||cle==='nom_complet')?'full':'')+'">';
+    if(type==='toggle'){
+      h += `<label class="form-label">${label}</label>
+            <div class="toggle" id="strf-${cle}" onclick="toggleSwitch(this)">
+              <div class="toggle-track${val?' on':''}"><div class="toggle-thumb"></div></div>
+              <span class="toggle-label">${val?'Oui':'Non'}</span></div>`;
+    } else if(type.startsWith('select-')){
+      const source = {
+        'select-faculte':[STR.facultes,'sigle',o=>`${o.sigle} : ${o.nom}`],
+        'select-cycle':[STR.cycles,'code',o=>o.libelle],
+        'select-filiere':[STR.filieres,'sigle',o=>`${o.faculte} / ${o.sigle} : ${o.nom}`],
+        'select-campus':[STR.campus,'nom',o=>`${o.nom} (${o.ville})`],
+        'select-niveau':[[{v:'L1',l:'Licence 1'},{v:'L2',l:'Licence 2'},{v:'L3',l:'Licence 3'},{v:'M1',l:'Master 1'},{v:'M2',l:'Master 2'}],'v',o=>o.l]
+      }[type];
+      h += `<label class="form-label">${label}</label><select class="form-select" id="strf-${cle}">`;
+      source[0].forEach(o=>{
+        const v = o[source[1]];
+        h += `<option value="${v}"${v===val?' selected':''}>${source[2](o)}</option>`;
+      });
+      h += '</select>';
+    } else {
+      h += `<label class="form-label">${label}</label>
+            <input class="form-input" type="${type}" id="strf-${cle}" value="${val}">`;
+    }
+    if(aide) h += `<p class="champ-aide">${aide}</p>`;
+    h += '</div>';
+  });
+  document.getElementById('str-modal-body').innerHTML = h + '</div>';
+  openModal('modal-str');
+}
+
+// Ce qui identifie un enregistrement de maniere unique, calque sur les
+// contraintes de la base.
+const STR_CLES = {
+  facultes:["sigle"], filieres:["sigle","faculte"], classes:["sigle"],
+  cycles:["code"],    campus:["nom"],               annees:["libelle"]
+};
+const STR_CLES_MSG = {
+  facultes:"Une faculté porte déjà ce sigle.",
+  filieres:"Cette faculté a déjà une filière portant ce sigle.",
+  classes:"Une classe porte déjà ce sigle.",
+  cycles:"Un cycle porte déjà ce code.",
+  campus:"Un campus porte déjà ce nom.",
+  annees:"Cette année académique existe déjà."
+};
+
+function saveStr(){
+  if(refuserSiAgent()) return;
+  const {entite, index, nouveau} = strCtx;
+  const obj = nouveau ? {} : Object.assign({}, STR[entite][index]);
+  let manquant = null;
+
+  STR_CHAMPS[entite].forEach(([cle,label,type])=>{
+    const el = document.getElementById('strf-'+cle);
+    if(!el) return;
+    if(type==='toggle'){
+      obj[cle] = el.querySelector('.toggle-track').classList.contains('on');
+    } else {
+      let v = el.value.trim();
+      if(cle==='sigle'||cle==='code') v = v.toUpperCase();
+      // Normalisation de l'annee a la saisie : "2025 / 2026" devient
+      // "2025-2026". C'est la source des annees fantomes, autant la
+      // fermer des le formulaire.
+      if(entite==='annees' && cle==='libelle'){
+        const ch = v.match(/\d{4}/g);
+        if(ch && ch.length>=2) v = ch[0]+'-'+ch[1];
+      }
+      if(!v && ['sigle','nom','code','libelle','nom_complet'].includes(cle)) manquant = label;
+      obj[cle] = (type==='number') ? (parseInt(v)||1) : v;
+    }
+  });
+
+  if(manquant){ showToast('⚠️ Le champ « '+manquant+' » est obligatoire.'); return; }
+
+  // Unicite. Ces contraintes existent en base : les laisser passer ici
+  // reviendrait a faire remplir un formulaire que le serveur refusera.
+  const doublon = STR[entite].some((autre,j)=>{
+    if(!nouveau && j===index) return false;
+    return STR_CLES[entite].every(c =>
+      String(autre[c]||'').toUpperCase() === String(obj[c]||'').toUpperCase());
+  });
+  if(doublon){
+    showToast('⛔ ' + STR_CLES_MSG[entite]);
+    return;
+  }
+
+  // Une classe ouverte aux demandes sans modele de lettre produit un
+  // blocage invisible : l'etudiant demande, et rien ne peut sortir. On
+  // avertit sans interdire, parce qu'on peut vouloir ouvrir maintenant et
+  // rediger dans l'heure.
+  if(entite==='classes' && obj.demandes_autorisees){
+    const manque = modManqueChaine(modChaineDeClasse(obj));
+    if(manque.length && !confirm(
+        'La classe ' + obj.sigle + " n'a " + modPhraseManque(manque) +
+        ", ni au niveau de la classe, ni de sa fili\u00e8re, ni de sa facult\u00e9.\n\n" +
+        "Vous pouvez autoriser les demandes maintenant, mais aucune lettre ne pourra " +
+        "\u00eatre produite avant que le mod\u00e8le ne soit rempli.\n\nAutoriser quand m\u00eame ?")) return;
+  }
+
+  if(nouveau) STR[entite].push(obj); else STR[entite][index] = obj;
+  closeModal(null,'modal-str');
+  renderStr(entite);
+  renderStrSommaire();
+  showToast(nouveau ? '✅ Créé.' : '✅ Modifié.');
+}
+
+// ==========================================================================
+// PLANNING DES STAGES
+// ==========================================================================
+// Deux classifications seulement : la REGLE par niveau, l'EXCEPTION par
+// classe. Une regle peut viser toutes les facultes ou une seule. Une classe
+// sans regle ni exception est bloquee.
+
+let PLAN = [
+  {id:1, annee:"2025-2026", portee:"NIVEAU", niveau:"L3", faculte:"",
+   libelle:"Licence 3 (BME 3, LEG 3, LGRH 3, LIG 3)", type:"STAGE", duree:"2 mois",
+   depot:"2026-07-10", rattrapage:true, depotRatt:"", evalRatt:"", validee:true,
+   periodes:[{phase:"Période unique", debut:"2026-05-04", fin:"2026-07-03"}],
+   groupes:[{libelle:"Groupe 1", classes:"BME3, LEG3", debut:"2026-07-21", fin:"2026-07-22"},
+            {libelle:"Groupe 2", classes:"LGRH3, LIG3", debut:"2026-07-23", fin:"2026-07-24"}]},
+
+  {id:2, annee:"2025-2026", portee:"NIVEAU", niveau:"M1", faculte:"",
+   libelle:"Master 1 (BF, CFE, MMS, MSI)", type:"STAGE", duree:"31 jours",
+   depot:"", rattrapage:false, validee:true,
+   periodes:[{phase:"Période unique", debut:"2026-10-30", fin:"2026-11-30"}], groupes:[]},
+
+  {id:3, annee:"2025-2026", portee:"CLASSE", classes:"LICOFI2, LIMAC2",
+   libelle:"LICOFI 2 et LIMAC 2", type:"IMPREGNATION", duree:"21 jours",
+   depot:"", rattrapage:false, validee:true,
+   periodes:[{phase:"Début un mercredi, exception au planning", debut:"2026-06-10", fin:"2026-06-30"}],
+   groupes:[]},
+
+  {id:4, annee:"2025-2026", portee:"CLASSE", classes:"MACG1",
+   libelle:"MACG 1 (alternance)", type:"STAGE", duree:"3 mois puis 2 mois",
+   depot:"", rattrapage:false, validee:true,
+   periodes:[{phase:"Phase 1", debut:"2026-08-03", fin:"2026-10-30"},
+             {phase:"Phase 2", debut:"2027-03-01", fin:"2027-04-30"}], groupes:[]},
+
+  {id:5, annee:"2025-2026", portee:"CLASSE", classes:"LIG1, LIG2",
+   libelle:"LIG 1 et LIG 2 (imprégnation)", type:"IMPREGNATION", duree:"21 jours",
+   depot:"", rattrapage:false, validee:false, periodes:[], groupes:[]},
+
+  {id:6, annee:"2025-2026", portee:"CLASSE", classes:"LQSSE2",
+   libelle:"LQSSE 2", type:"IMPREGNATION", duree:"21 jours",
+   depot:"", rattrapage:false, validee:false, periodes:[], groupes:[]}
+];
+
+const LIB_NIVEAU = {L1:"Licence 1", L2:"Licence 2", L3:"Licence 3", M1:"Master 1", M2:"Master 2"};
+
+function planAnneeCourante(){
+  const s = document.getElementById('plan-annee');
+  return s ? s.value : '2025-2026';
+}
+
+function renderPlanning(){
+  const annee = planAnneeCourante();
+  const lignes = PLAN.filter(p=>p.annee===annee);
+  const regles = lignes.filter(p=>p.portee==='NIVEAU');
+  const exceptions = lignes.filter(p=>p.portee==='CLASSE');
+
+  // Rappel permanent tant que des lignes restent en brouillon
+  const brouillons = lignes.filter(p=>!p.validee);
+  document.getElementById('plan-alerte-brouillon').innerHTML = brouillons.length ? `
+    <div class="alert warn" style="display:flex">
+      <div><strong>${brouillons.length} ligne(s) en attente de validation.</strong>
+      Les classes concernées ne peuvent pas demander de lettre tant que leurs dates ne sont pas vérifiées et validées.
+      <div style="margin-top:.4rem;font-size:.82rem">${brouillons.map(b=>'• '+b.libelle+(b.periodes.length?'':' <em>(aucune période définie)</em>')).join('<br>')}</div></div>
+    </div>` : '';
+
+  // Classes autorisees qu'aucune ligne ne couvre
+  const couvertes = new Set();
+  lignes.filter(p=>p.validee).forEach(p=>{
+    if(p.portee==='CLASSE') (p.classes||'').split(',').forEach(c=>couvertes.add(c.trim()));
+  });
+  const niveauxCouverts = lignes.filter(p=>p.validee && p.portee==='NIVEAU')
+      .map(p=>p.niveau+'|'+(p.faculte||'*'));
+  const bloquees = STR.classes.filter(c=>{
+    if(!c.demandes_autorisees) return false;
+    if(couvertes.has(c.sigle)) return false;
+    const fil = STR.filieres.find(f=>f.sigle===c.filiere);
+    const fac = fil ? fil.faculte : '';
+    return !niveauxCouverts.some(n=>{
+      const [niv,f] = n.split('|');
+      return niv===c.niveau && (f==='*' || f===fac);
+    });
+  });
+  document.getElementById('plan-alerte-bloquees').innerHTML = bloquees.length ? `
+    <div class="alert" style="display:flex;background:var(--red-dim);border:1px solid var(--red);color:var(--red)">
+      <div><strong>${bloquees.length} classe(s) autorisée(s) mais non couverte(s).</strong>
+      Ces classes peuvent demander une lettre, mais aucune règle ni exception validée ne les couvre : leurs demandes seront refusées.
+      <div style="margin-top:.4rem">${bloquees.map(c=>`<span class="chip">${c.sigle}</span>`).join(' ')}</div></div>
+    </div>` : '';
+
+  document.getElementById('plan-regles').innerHTML =
+    regles.length ? regles.map(p=>ligneHtml(p,regles)).join('')
+    : '<div class="config-empty-state">Aucune règle par niveau. Toutes les classes sont bloquées.</div>';
+
+  document.getElementById('plan-exceptions').innerHTML =
+    exceptions.length ? exceptions.map(p=>ligneHtml(p,regles)).join('')
+    : '<div class="config-empty-state">Aucune exception. Toutes les classes suivent la règle de leur niveau.</div>';
+}
+
+function ligneHtml(p, regles){
+  const portee = p.portee==='NIVEAU'
+    ? `${LIB_NIVEAU[p.niveau]||p.niveau}` +
+      (p.faculte ? `<span class="plan-tag-fac">${p.faculte} uniquement</span>`
+                 : `<span class="plan-tag-toutes">toutes facultés</span>`)
+    : `Classes : <strong>${p.classes||'aucune'}</strong>`;
+
+  // Une regle generale remplacee par une regle plus precise doit le dire,
+  // sinon deux lignes du meme niveau restent incomprehensibles.
+  let remplacee = '';
+  if(p.portee==='NIVEAU' && !p.faculte){
+    const precises = regles.filter(r=>r.niveau===p.niveau && r.faculte);
+    if(precises.length) remplacee =
+      `<span class="plan-remplacee">Remplacée pour ${precises.map(r=>r.faculte).join(', ')} par une règle plus précise.</span>`;
+  }
+
+  const periodes = p.periodes.length
+    ? p.periodes.map(x=>`<div class="plan-periode"><span class="plan-periode-phase">${x.phase||'Période'}</span>
+        <span class="plan-periode-dates">du <strong>${formatDateFr(x.debut)}</strong> au <strong>${formatDateFr(x.fin)}</strong></span></div>`).join('')
+    : `<div class="plan-manquant">⚠️ Aucune période définie. Cette ligne ne peut pas être validée.</div>`;
+
+  const groupes = p.groupes && p.groupes.length
+    ? p.groupes.map(g=>`<div class="plan-periode"><span class="plan-periode-phase">${g.libelle}</span>
+        <span class="plan-periode-dates">${g.classes} · ${formatDateFr(g.debut)}${g.fin?' au '+formatDateFr(g.fin):''}</span></div>`).join('')
+    : `<div class="config-empty-state" style="padding:.6rem">Une seule date pour toute la ligne.</div>`;
+
+  return `
+  <div class="plan-ligne ${p.validee?'validee':'brouillon'}">
+    <div class="plan-ligne-head">
+      <div>
+        <div class="plan-ligne-titre">${p.libelle}</div>
+        <div class="plan-ligne-portee">${portee} · ${p.type==='STAGE'?'Stage académique':"Activité d'imprégnation"} · durée annoncée : <strong>${p.duree}</strong></div>
+        ${remplacee}
+      </div>
+      <div class="plan-ligne-actions">
+        <span class="badge ${p.validee?'complet':'retard'}">${p.validee?'✓ validée':'brouillon'}</span>
+        ${p.validee
+          ? `<button class="btn-sm role-only-ds" onclick="devaliderPlan(${p.id})">Repasser en brouillon</button>`
+          : `<button class="btn-sm role-only-ds" onclick="validerPlan(${p.id})">✓ Valider</button>`}
+        <button class="btn-sm role-only-ds" onclick="openPlanModal('${p.portee}',${p.id})">✏️ Modifier</button>
+        <button class="btn-sm role-only-ds" onclick="dupliquerPlan(${p.id})">⧉ Dupliquer</button>
+        <button class="btn-sm danger role-only-ds" onclick="supprimerPlan(${p.id})">🗑</button>
+      </div>
+    </div>
+    <div class="plan-ligne-corps">
+      <div><div class="plan-bloc-titre">Périodes de stage</div>${periodes}
+        ${p.depot?`<p class="champ-aide">Dépôt du rapport au plus tard le <strong>${formatDateFr(p.depot)}</strong>${p.rattrapage?' · rattrapage ouvert':''}</p>`:''}
+      </div>
+      <div><div class="plan-bloc-titre">Groupes de soutenance</div>${groupes}</div>
+    </div>
+  </div>`;
+}
+
+function validerPlan(id){
+  if(refuserSiAgent()) return;
+  const p = PLAN.find(x=>x.id===id);
+  if(!p.periodes.length){
+    showToast('⛔ Validation refusée : aucune période définie. Une lettre partirait sans dates de stage.');
+    return;
+  }
+  p.validee = true; renderPlanning(); showToast('✅ Ligne validée. Les demandes sont ouvertes.');
+}
+
+function devaliderPlan(id){
+  if(refuserSiAgent()) return;
+  if(!confirm('Repasser cette ligne en brouillon ?\n\nLes classes concernées ne pourront plus demander de lettre.')) return;
+  PLAN.find(x=>x.id===id).validee = false; renderPlanning();
+  showToast('Ligne repassée en brouillon.');
+}
+
+function dupliquerPlan(id){
+  if(refuserSiAgent()) return;
+  const p = PLAN.find(x=>x.id===id);
+  const [a,b] = p.annee.split('-').map(Number);
+  const suivante = (a+1)+'-'+(b+1);
+  const copie = JSON.parse(JSON.stringify(p));
+  copie.id = Math.max(...PLAN.map(x=>x.id))+1;
+  copie.annee = suivante; copie.validee = false;
+  PLAN.push(copie);
+  showToast(`⧉ Dupliquée vers ${suivante}, en brouillon. Les dates sont reportées telles quelles : vérifiez-les.`);
+  renderPlanning();
+}
+
+function supprimerPlan(id){
+  if(refuserSiAgent()) return;
+  if(!confirm('Supprimer cette ligne de planning ?')) return;
+  PLAN = PLAN.filter(x=>x.id!==id); renderPlanning(); showToast('🗑 Ligne supprimée.');
+}
+
+/* ----- Modale de planning ----- */
+let planCtx = null;
+
+function openPlanModal(portee, id){
+  if(refuserSiAgent()) return;
+  const p = (id===null||id===undefined) ? null : PLAN.find(x=>x.id===id);
+  planCtx = {portee: p ? p.portee : portee, id};
+
+  document.getElementById('plan-modal-title').textContent =
+    (p?'Modifier ':'Ajouter ') + (planCtx.portee==='NIVEAU'?'une règle par niveau':'une exception par classe');
+
+  document.querySelectorAll('.plan-si-niveau').forEach(e=>e.style.display = planCtx.portee==='NIVEAU'?'':'none');
+  document.querySelectorAll('.plan-si-classe').forEach(e=>e.style.display = planCtx.portee==='CLASSE'?'':'none');
+
+  const sel = document.getElementById('plan-f-classes');
+  const choisies = p && p.classes ? p.classes.split(',').map(s=>s.trim()) : [];
+  sel.innerHTML = STR.classes.map(c=>{
+    const fil = STR.filieres.find(f=>f.sigle===c.filiere);
+    return `<option value="${c.sigle}"${choisies.includes(c.sigle)?' selected':''}>${c.sigle} : ${c.nom_complet||''} (${fil?fil.faculte:''})</option>`;
+  }).join('');
+
+  document.getElementById('plan-f-libelle').value = p?p.libelle:'';
+  document.getElementById('plan-f-niveau').value  = p&&p.niveau?p.niveau:'L3';
+  document.getElementById('plan-f-faculte').value = p&&p.faculte?p.faculte:'';
+  document.getElementById('plan-f-type').value    = p?p.type:'STAGE';
+  document.getElementById('plan-f-duree').value   = p?p.duree:'';
+  document.getElementById('plan-f-depot').value   = p&&p.depot?p.depot:'';
+  document.getElementById('plan-f-depot-ratt').value = p&&p.depotRatt?p.depotRatt:'';
+  document.getElementById('plan-f-eval-ratt').value  = p&&p.evalRatt?p.evalRatt:'';
+
+  const tr = document.querySelector('#plan-f-rattrapage .toggle-track');
+  tr.classList.toggle('on', !!(p&&p.rattrapage));
+  document.querySelector('#plan-f-rattrapage .toggle-label').textContent =
+    (p&&p.rattrapage)?'Session de rattrapage ouverte':'Session de rattrapage';
+
+  renderLignesSaisie('periodes', p?p.periodes:[{phase:'Période unique',debut:'',fin:''}]);
+  renderLignesSaisie('groupes',  p?(p.groupes||[]):[]);
+  openModal('modal-plan');
+}
+
+function renderLignesSaisie(quoi, items){
+  const cible = document.getElementById('plan-f-'+quoi);
+  if(!items.length){
+    cible.innerHTML = `<div class="config-empty-state" style="padding:.7rem">Aucun${quoi==='periodes'?'e période':' groupe'} pour l'instant.</div>`;
+    return;
+  }
+  cible.innerHTML = items.map((x,i)=>`
+    <div class="ligne-saisie" data-i="${i}">
+      <div><label>${quoi==='periodes'?'Phase':'Groupe'}</label>
+        <input type="text" value="${x.phase||x.libelle||''}" placeholder="${quoi==='periodes'?'Période unique':'Groupe 1'}"></div>
+      ${quoi==='groupes'?`<div style="grid-column:span 1"><label>Classes</label><input type="text" value="${x.classes||''}" placeholder="LIG3, LGRH3"></div>`:''}
+      <div><label>Début</label><input type="date" value="${x.debut||''}"></div>
+      <div><label>Fin</label><input type="date" value="${x.fin||''}"></div>
+      <button class="btn-suppr" onclick="this.parentElement.remove()">🗑</button>
+    </div>`).join('');
+}
+
+function ajouterPeriode(){
+  const c = document.getElementById('plan-f-periodes');
+  if(c.querySelector('.config-empty-state')) c.innerHTML='';
+  const d = document.createElement('div');
+  d.className='ligne-saisie';
+  d.innerHTML=`<div><label>Phase</label><input type="text" placeholder="Phase 2"></div>
+    <div><label>Début</label><input type="date"></div><div><label>Fin</label><input type="date"></div>
+    <button class="btn-suppr" onclick="this.parentElement.remove()">🗑</button>`;
+  c.appendChild(d);
+}
+
+function ajouterGroupe(){
+  const c = document.getElementById('plan-f-groupes');
+  if(c.querySelector('.config-empty-state')) c.innerHTML='';
+  const d = document.createElement('div');
+  d.className='ligne-saisie';
+  d.innerHTML=`<div><label>Groupe</label><input type="text" placeholder="Groupe 1"></div>
+    <div><label>Classes</label><input type="text" placeholder="LIG3, LGRH3"></div>
+    <div><label>Début</label><input type="date"></div><div><label>Fin</label><input type="date"></div>
+    <button class="btn-suppr" onclick="this.parentElement.remove()">🗑</button>`;
+  c.appendChild(d);
+}
+
+function lireLignesSaisie(quoi){
+  return Array.from(document.querySelectorAll('#plan-f-'+quoi+' .ligne-saisie')).map(l=>{
+    const ch = l.querySelectorAll('input');
+    if(quoi==='periodes') return {phase:ch[0].value, debut:ch[1].value, fin:ch[2].value};
+    return {libelle:ch[0].value, classes:ch[1].value, debut:ch[2].value, fin:ch[3].value};
+  }).filter(x=>x.debut || x.fin);
+}
+
+function savePlan(){
+  if(refuserSiAgent()) return;
+  const libelle = document.getElementById('plan-f-libelle').value.trim();
+  if(!libelle){ showToast("⚠️ L'intitulé est obligatoire."); return; }
+
+  const sel = document.getElementById('plan-f-classes');
+  const classes = Array.from(sel.selectedOptions).map(o=>o.value).join(', ');
+  if(planCtx.portee==='CLASSE' && !classes){
+    showToast('⚠️ Sélectionnez au moins une classe.'); return;
+  }
+
+  const donnees = {
+    annee: planAnneeCourante(), portee: planCtx.portee, libelle,
+    niveau: document.getElementById('plan-f-niveau').value,
+    faculte: document.getElementById('plan-f-faculte').value,
+    classes,
+    type: document.getElementById('plan-f-type').value,
+    duree: document.getElementById('plan-f-duree').value.trim(),
+    depot: document.getElementById('plan-f-depot').value,
+    depotRatt: document.getElementById('plan-f-depot-ratt').value,
+    evalRatt: document.getElementById('plan-f-eval-ratt').value,
+    rattrapage: document.querySelector('#plan-f-rattrapage .toggle-track').classList.contains('on'),
+    periodes: lireLignesSaisie('periodes'),
+    groupes: lireLignesSaisie('groupes'),
+    validee: false
+  };
+
+  if(planCtx.id){
+    const i = PLAN.findIndex(x=>x.id===planCtx.id);
+    donnees.id = planCtx.id;
+    PLAN[i] = donnees;
+  } else {
+    donnees.id = Math.max(0,...PLAN.map(x=>x.id))+1;
+    PLAN.push(donnees);
+  }
+  closeModal(null,'modal-plan');
+  renderPlanning();
+  showToast('✅ Enregistré en brouillon. Validez la ligne pour ouvrir les demandes.');
+}
+
+// ==========================================================================
+// MODELES DE LETTRE : FACULTE, FILIERE, CLASSE
+// ==========================================================================
+// Trois niveaux, resolus CHAMP PAR CHAMP du plus precis vers le plus
+// general. Une classe qui ne remplit que ses missions garde les objectifs
+// de sa filiere, ou a defaut de sa faculte. Remplir la faculte une fois
+// suffit donc a faire fonctionner toutes ses classes.
+//
+// Une case vide ne veut pas dire "aucun texte", elle veut dire "prends
+// celui du dessus". Au niveau faculte, il n'y a rien au-dessus : une case
+// vide y est un vrai trou, et la lettre ne peut pas sortir.
+
+const MOD_NIVEAUX = {
+  facultes: {titre:'Facultés', icone:'🏛️', singulier:'faculté', source:'facultes'},
+  filieres: {titre:'Filières', icone:'🎓', singulier:'filière', source:'filieres'},
+  classes:  {titre:'Classes',  icone:'👥', singulier:'classe',  source:'classes'}
+};
+
+const MOD_COLONNES = {
+  facultes:[['Faculté','_nom'],['Objectifs','objectifs'],['Missions','missions'],['Appréciation','appreciation']],
+  filieres:[['Filière','_nom'],['Faculté','_faculte'],['Objectifs','objectifs'],['Missions','missions'],['Appréciation','appreciation']],
+  classes: [['Classe','_nom'],['Filière','_filiere'],['Demandes','_demandes'],['Objectifs','objectifs'],['Missions','missions']]
+};
+
+let modNiveau = 'facultes';
+let modCtx = null;
+
+// Fiches saisies. Volontairement incompletes : elles montrent les trois
+// etats que le Directeur des Stages rencontrera (propre, herite, aucun).
+let MOD = {
+  facultes:{
+    FSSG:{
+      objectifs:"Confronter les acquis théoriques de l'étudiant à la réalité d'une organisation, et lui faire produire une analyse écrite de cette expérience.",
+      missions:[
+        {intitule:"Observation du service d'accueil :", detail:"organisation, outils et circuits de décision."},
+        {intitule:"Participation aux travaux courants :", detail:"sous la responsabilité d'un encadreur désigné."},
+        {intitule:"Rédaction d'un rapport de stage :", detail:"problématique, méthode, analyse et recommandations."}
+      ],
+      appreciation:""
+    },
+    FSJP:{
+      objectifs:"Mettre l'étudiant en situation professionnelle auprès d'un cabinet, d'une juridiction ou d'un service juridique.",
+      missions:[],
+      appreciation:""
+    }
+  },
+  filieres:{
+    LIG:{
+      objectifs:"",
+      missions:[
+        {intitule:"Prise en main du système d'information :", detail:"inventaire du parc, des applications et des flux."},
+        {intitule:"Participation à un développement ou à une intégration :", detail:"sous la conduite du responsable informatique."},
+        {intitule:"Documentation technique :", detail:"procédures, schémas et consignes d'exploitation."}
+      ],
+      appreciation:""
+    },
+    MACG:{
+      objectifs:"Conduire une mission de contrôle interne ou d'audit sur un cycle comptable précis.",
+      missions:[],
+      appreciation:""
+    }
+  },
+  classes:{
+    LIG3:{
+      objectifs:"Conduire un projet informatique de bout en bout, de l'expression des besoins à la mise en service.",
+      missions:[],
+      appreciation:"Son parcours en Licence 3 l'a préparé à travailler en autonomie sur un projet complet."
+    }
+  }
+};
+
+/* ----- Rien de ce qui est saisi n'est interprete ----------------------- */
+// Le Directeur des Stages tape du texte libre, et ce texte finit sur un
+// document signe par l'universite. Il s'affiche en clair, ici comme sur la
+// lettre : une balise saisie se voit, elle ne s'execute pas.
+function modEchapper(t){
+  return String(t===null||t===undefined?'':t).replace(/[&<>"']/g,
+    c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function modFiche(niveau, sigle){
+  return (MOD[niveau] && MOD[niveau][sigle]) ? MOD[niveau][sigle] : {};
+}
+
+function modVide(valeur){
+  if(valeur===null || valeur===undefined) return true;
+  if(Array.isArray(valeur)) return valeur.length === 0;
+  return String(valeur).trim() === '';
+}
+
+function modLibelleNiveau(niveau){
+  return MOD_NIVEAUX[niveau] ? MOD_NIVEAUX[niveau].singulier : niveau;
+}
+
+function modNomLisible(niveau, sigle){
+  if(niveau==='facultes'){ const f = STR.facultes.find(x=>x.sigle===sigle); return f ? f.nom : sigle; }
+  if(niveau==='filieres'){ const f = STR.filieres.find(x=>x.sigle===sigle); return f ? f.nom : sigle; }
+  const c = STR.classes.find(x=>x.sigle===sigle);
+  return c ? (c.nom_complet || c.sigle) : sigle;
+}
+
+/* ----- Chaine de resolution -------------------------------------------- */
+// Prend l'objet classe et non son sigle : au moment ou l'on autorise les
+// demandes d'une classe qui vient d'etre creee, elle n'est pas encore dans
+// STR.classes.
+function modChaineDeClasse(classe){
+  const chaine = [{niveau:'classes', sigle:classe.sigle}];
+  if(classe.filiere){
+    chaine.push({niveau:'filieres', sigle:classe.filiere});
+    const fil = STR.filieres.find(f=>f.sigle===classe.filiere);
+    if(fil) chaine.push({niveau:'facultes', sigle:fil.faculte});
+  }
+  return chaine;
+}
+
+function modChaine(niveau, sigle){
+  if(niveau==='classes'){
+    const c = STR.classes.find(x=>x.sigle===sigle);
+    return c ? modChaineDeClasse(c) : [{niveau:'classes', sigle}];
+  }
+  if(niveau==='filieres'){
+    const f = STR.filieres.find(x=>x.sigle===sigle);
+    return [{niveau:'filieres', sigle}].concat(f ? [{niveau:'facultes', sigle:f.faculte}] : []);
+  }
+  return [{niveau:'facultes', sigle}];
+}
+
+// Valeur retenue pour UN champ, et le niveau qui la fournit.
+function modResoudre(niveau, sigle, champ){
+  const chaine = modChaine(niveau, sigle);
+  for(let i=0;i<chaine.length;i++){
+    const e = chaine[i];
+    const v = modFiche(e.niveau, e.sigle)[champ];
+    if(!modVide(v)){
+      return {valeur:v, origine:e.niveau, de:e.sigle,
+              propre:(e.niveau===niveau && e.sigle===sigle)};
+    }
+  }
+  return {valeur:(champ==='missions'?[]:''), origine:null, de:null, propre:false};
+}
+
+// Ce qui manque pour qu'une lettre puisse sortir. La phrase d'appreciation
+// n'en fait pas partie : sans elle, la lettre imprime une formule neutre.
+function modManqueChaine(chaine){
+  return ['objectifs','missions'].filter(champ =>
+    !chaine.some(e => !modVide(modFiche(e.niveau, e.sigle)[champ])));
+}
+
+// « aucun objectifs » n'est pas une faute veniale dans un outil vendu a
+// une universite. Chaque cas a sa formulation.
+function modPhraseManque(manque){
+  if(manque.length===2) return "ni objectifs ni missions exploitables";
+  if(manque[0]==='objectifs') return "aucun objectif exploitable";
+  return "aucune mission exploitable";
+}
+
+function modManque(sigleClasse){
+  const c = STR.classes.find(x=>x.sigle===sigleClasse);
+  return modManqueChaine(c ? modChaineDeClasse(c) : [{niveau:'classes', sigle:sigleClasse}]);
+}
+
+/* ----- Alerte des classes bloquees ------------------------------------- */
+function renderModAlerte(){
+  const cible = document.getElementById('mod-alerte');
+  if(!cible) return;
+  const ouvertes = STR.classes.filter(c=>c.demandes_autorisees);
+  const fautives = ouvertes.filter(c=>modManque(c.sigle).length);
+
+  if(!fautives.length){
+    cible.innerHTML = '<div class="mod-alerte ok">✅ Les ' + ouvertes.length +
+      ' classes ouvertes aux demandes disposent d\'objectifs et de missions, propres ou hérités.</div>';
+    return;
+  }
+  cible.innerHTML = '<div class="mod-alerte">⛔ <strong>' + fautives.length +
+    ' classe' + (fautives.length>1?'s':'') + ' ouverte' + (fautives.length>1?'s':'') +
+    ' aux demandes sans texte exploitable.</strong> Les étudiants concernés ne peuvent pas obtenir de lettre. ' +
+    'Remplissez la fiche de la classe, de sa filière ou de sa faculté.' +
+    '<div class="mod-alerte-liens">' + fautives.map(c=>{
+      const m = modManque(c.sigle);
+      return '<button onclick="ouvrirFicheModele(\'classes\',\'' + c.sigle + '\')">' +
+             modEchapper(c.sigle) + ' : ' + modPhraseManque(m) + '</button>';
+    }).join('') + '</div></div>';
+}
+
+/* ----- Onglets --------------------------------------------------------- */
+function renderModOnglets(){
+  const cible = document.getElementById('onglets-modeles');
+  if(!cible) return;
+  cible.innerHTML = '<div class="str-onglets">' + Object.keys(MOD_NIVEAUX).map(k=>{
+    const d = MOD_NIVEAUX[k];
+    return '<button class="str-onglet' + (k===modNiveau?' actif':'') +
+           '" onclick="modVoirNiveau(\'' + k + '\')">' + d.icone + ' ' + d.titre +
+           ' (' + STR[d.source].length + ')</button>';
+  }).join('') + '</div>';
+}
+
+function modVoirNiveau(k){ modNiveau = k; renderModeles(); }
+
+/* ----- Tableau --------------------------------------------------------- */
+function modEtiquette(r){
+  if(!r.origine) return '<span class="mod-niveau aucune">aucun</span>';
+  if(r.propre)   return '<span class="mod-niveau propre">propre</span>';
+  return '<span class="mod-niveau herite">hérité de ' + modLibelleNiveau(r.origine) +
+         ' ' + modEchapper(r.de) + '</span>';
+}
+
+// La coupure CSS laisse la phrase s'arreter en plein milieu sans rien
+// signaler : « a la realite d'une » se lit comme un bogue. On coupe donc
+// sur un mot, avec des points de suspension.
+function modCouper(texte, limite){
+  const t = String(texte||'').trim();
+  if(t.length <= limite) return t;
+  const coupe = t.slice(0, limite);
+  const espace = coupe.lastIndexOf(' ');
+  return (espace > limite*0.6 ? coupe.slice(0, espace) : coupe).replace(/[ ,;:]+$/, '') + '\u2026';
+}
+
+function modExtrait(r){
+  if(!r.origine) return '';
+  if(Array.isArray(r.valeur)){
+    return '<span class="mod-extrait">' + r.valeur.length + ' mission' +
+           (r.valeur.length>1?'s':'') + ' : ' +
+           modEchapper(modCouper(r.valeur[0].intitule||'', 60)) + '</span>';
+  }
+  return '<span class="mod-extrait">' + modEchapper(modCouper(r.valeur, 90)) + '</span>';
+}
+
+function modEnveloppe(contenu){ return '<span class="mod-val">' + contenu + '</span>'; }
+
+function modCellule(niveau, sigle, cle){
+  const obj = (niveau==='facultes' ? STR.facultes : niveau==='filieres' ? STR.filieres : STR.classes)
+              .find(x=>x.sigle===sigle) || {};
+  if(cle==='_nom'){
+    return modEnveloppe('<strong class="str-sigle">' + modEchapper(sigle) + '</strong>' +
+           '<span class="mod-extrait nom">' +
+           modEchapper(modCouper(modNomLisible(niveau,sigle), 70)) + '</span>');
+  }
+  if(cle==='_faculte') return modEnveloppe(modEchapper(obj.faculte||'-'));
+  if(cle==='_filiere') return modEnveloppe(modEchapper(obj.filiere||'-'));
+  if(cle==='_demandes'){
+    if(!obj.demandes_autorisees) return modEnveloppe('<span class="badge attente">fermées</span>');
+    return modEnveloppe(modManque(sigle).length
+      ? '<span class="badge retard">ouvertes, bloquées</span>'
+      : '<span class="badge complet">ouvertes</span>');
+  }
+  const r = modResoudre(niveau, sigle, cle);
+  if(cle==='appreciation' && !r.origine)
+    return modEnveloppe('<span class="mod-niveau herite">formule neutre</span>');
+  return modEnveloppe(modEtiquette(r) + modExtrait(r));
+}
+
+function renderModeles(){
+  renderModOnglets();
+  renderModAlerte();
+
+  const tbl = document.getElementById('tbl-modeles');
+  if(!tbl) return;
+  const colonnes = MOD_COLONNES[modNiveau];
+  const champRech = document.getElementById('rech-modeles');
+  const q = (champRech ? champRech.value : '').toLowerCase().trim();
+
+  let lignes = STR[MOD_NIVEAUX[modNiveau].source].slice();
+  if(q){
+    lignes = lignes.filter(o=>{
+      const f = modFiche(modNiveau, o.sigle);
+      const texte = [o.sigle, modNomLisible(modNiveau,o.sigle), o.faculte, o.filiere,
+                     f.objectifs, f.appreciation,
+                     (f.missions||[]).map(m=>m.intitule+' '+m.detail).join(' ')]
+                    .join(' ').toLowerCase();
+      return texte.includes(q);
+    });
+  }
+
+  let h = '<thead><tr>' + colonnes.map(c=>'<th>'+c[0]+'</th>').join('') +
+          '<th class="col-actions">Actions</th></tr></thead><tbody>';
+
+  if(!lignes.length){
+    h += '<tr><td colspan="' + (colonnes.length+1) + '" class="str-vide">Aucun résultat.</td></tr>';
+  } else {
+    lignes.forEach(o=>{
+      h += '<tr>' + colonnes.map(c=>
+        '<td data-libelle="' + c[0] + '">' + modCellule(modNiveau, o.sigle, c[1]) + '</td>').join('');
+      const propre = !modVide(modFiche(modNiveau,o.sigle).objectifs) ||
+                     !modVide(modFiche(modNiveau,o.sigle).missions);
+      h += '<td class="col-actions" data-libelle="Actions">' +
+           '<button class="btn-sm" onclick="ouvrirFicheModele(\'' + modNiveau + '\',\'' +
+           o.sigle + '\')">' + (propre ? '✏️ Modifier' : '✏️ Remplir') + '</button> ' +
+           '<button class="btn-sm" onclick="apercuLettre(\'' + modNiveau + '\',\'' +
+           o.sigle + '\')">👁 Lettre</button></td></tr>';
+    });
+  }
+  tbl.innerHTML = h + '</tbody>';
+}
+
+/* ----- Fiche ----------------------------------------------------------- */
+function ouvrirFicheModele(niveau, sigle){
+  modNiveau = niveau;
+  modCtx = {niveau, sigle};
+  const fiche = modFiche(niveau, sigle);
+
+  document.getElementById('mod-modal-title').textContent =
+    'Modèle de la ' + modLibelleNiveau(niveau) + ' ' + sigle;
+
+  const ro = modResoudre(niveau, sigle, 'objectifs');
+  const rm = modResoudre(niveau, sigle, 'missions');
+  const ra = modResoudre(niveau, sigle, 'appreciation');
+
+  const chaine = modChaine(niveau, sigle).map(e =>
+    '<b>' + modEchapper(e.sigle) + '</b> (' + modLibelleNiveau(e.niveau) + ')').join(' › ');
+
+  let h = '<p class="mod-chaine">Ordre de résolution : ' + chaine +
+          '. Une case laissée vide prend le texte du niveau suivant.</p>';
+
+  /* Objectifs */
+  h += '<div class="mod-bloc"><div class="mod-bloc-head"><h4>Objectifs du stage</h4>' +
+       modEtiquette(ro) + '</div>';
+  if(ro.origine && !ro.propre){
+    h += '<div class="mod-herite">Texte hérité de la ' + modLibelleNiveau(ro.origine) + ' ' +
+         modEchapper(ro.de) + ' :<br>' + modEchapper(ro.valeur) + '</div>';
+  }
+  if(!ro.origine){
+    h += '<div class="mod-herite sec">Aucun texte, ici ni au-dessus. Tant que cette case reste vide, ' +
+         'aucune lettre ne peut être produite.</div>';
+  }
+  h += '<textarea class="form-input" id="modf-objectifs" rows="3" placeholder="' +
+       (ro.origine && !ro.propre ? 'Laisser vide pour garder le texte hérité'
+                                 : 'Objectifs imprimés sur la lettre') + '">' +
+       modEchapper(fiche.objectifs||'') + '</textarea></div>';
+
+  /* Missions */
+  h += '<div class="mod-bloc"><div class="mod-bloc-head"><h4>Missions confiées</h4>' +
+       modEtiquette(rm) + '</div>';
+  if(rm.origine && !rm.propre){
+    h += '<div class="mod-herite">Missions héritées de la ' + modLibelleNiveau(rm.origine) + ' ' +
+         modEchapper(rm.de) + ' :<ul>' +
+         rm.valeur.map(m=>'<li><strong>' + modEchapper(m.intitule) + '</strong> ' +
+                           modEchapper(m.detail) + '</li>').join('') + '</ul>' +
+         '<button class="btn-sm" style="margin-top:.6rem" onclick="modCopierHeritees()">' +
+         '⤵ Repartir de ces missions</button></div>';
+  }
+  if(!rm.origine){
+    h += '<div class="mod-herite sec">Aucune mission, ici ni au-dessus. Tant que cette liste reste vide, ' +
+         'aucune lettre ne peut être produite.</div>';
+  }
+  h += '<div id="modf-missions"></div>' +
+       '<button class="btn-sm" onclick="modAjouterMission()">➕ Ajouter une mission</button>' +
+       '<p class="champ-aide">Un intitulé court, puis le détail. Les deux s\'impriment sur la même ligne, ' +
+       'l\'intitulé en gras. N\'écrivez aucune balise : le texte saisi s\'affiche tel quel, il n\'est jamais interprété.</p>' +
+       '</div>';
+
+  /* Appreciation */
+  h += '<div class="mod-bloc"><div class="mod-bloc-head"><h4>Phrase d\'appréciation</h4>' +
+       (ra.origine ? modEtiquette(ra) : '<span class="mod-niveau herite">formule neutre</span>') + '</div>';
+  if(ra.origine && !ra.propre){
+    h += '<div class="mod-herite">Phrase héritée de la ' + modLibelleNiveau(ra.origine) + ' ' +
+         modEchapper(ra.de) + ' :<br>' + modEchapper(ra.valeur) + '</div>';
+  }
+  h += '<input class="form-input" type="text" id="modf-appreciation" value="' +
+       modEchapper(fiche.appreciation||'') + '" placeholder="Laisser vide pour la formule neutre">' +
+       '<p class="champ-aide">Facultative. Sans elle, la lettre imprime : « Son sérieux et son engagement ' +
+       'dans ses études ont été remarqués. » Écrivez une phrase qui ne s\'accorde ni au masculin ni au féminin : ' +
+       'la civilité ne figure pas sur la lettre.</p></div>';
+
+  document.getElementById('mod-modal-body').innerHTML = h;
+  modRenderMissions(fiche.missions || []);
+  openModal('modal-modeles');
+}
+
+function modLigneMission(intitule, detail){
+  return '<div class="ligne-saisie mod-mission">' +
+    '<div><label>Intitulé</label><input type="text" value="' + modEchapper(intitule||'') +
+    '" placeholder="Installation du parc :"></div>' +
+    '<div><label>Détail</label><input type="text" value="' + modEchapper(detail||'') +
+    '" placeholder="postes, réseau et sauvegardes."></div>' +
+    '<button class="btn-suppr" onclick="this.parentElement.remove()">🗑</button></div>';
+}
+
+function modRenderMissions(items){
+  const c = document.getElementById('modf-missions');
+  if(!c) return;
+  if(!items.length){
+    c.innerHTML = '<div class="config-empty-state" style="padding:.7rem">' +
+                  'Aucune mission propre à ce niveau.</div>';
+    return;
+  }
+  c.innerHTML = items.map(m=>modLigneMission(m.intitule, m.detail)).join('');
+}
+
+function modAjouterMission(){
+  const c = document.getElementById('modf-missions');
+  const vide = c.querySelector('.config-empty-state');
+  if(vide) c.innerHTML = '';
+  c.insertAdjacentHTML('beforeend', modLigneMission('',''));
+}
+
+// Point de depart pratique : on recopie les missions heritees pour n'en
+// modifier qu'une. Rien n'est enregistre avant le bouton Enregistrer.
+function modCopierHeritees(){
+  const r = modResoudre(modCtx.niveau, modCtx.sigle, 'missions');
+  if(!r.origine || !r.valeur.length) return;
+  modRenderMissions(r.valeur.map(m=>({intitule:m.intitule, detail:m.detail})));
+  showToast('Missions recopiées. Modifiez-les puis enregistrez.');
+}
+
+function modLireMissions(){
+  return Array.from(document.querySelectorAll('#modf-missions .mod-mission')).map(l=>{
+    const ch = l.querySelectorAll('input');
+    return {intitule: ch[0].value.trim(), detail: ch[1].value.trim()};
+  }).filter(m=>m.intitule || m.detail);
+}
+
+function saveModele(){
+  const niveau = modCtx.niveau, sigle = modCtx.sigle;
+  const objectifs   = document.getElementById('modf-objectifs').value.trim();
+  const appreciation= document.getElementById('modf-appreciation').value.trim();
+  const missions    = modLireMissions();
+
+  // Une mission reduite a son detail s'imprimerait sans son intitule en
+  // gras : la ligne serait bancale sur un document signe.
+  const bancale = missions.find(m=>!m.intitule);
+  if(bancale){
+    showToast('⚠️ Une mission a un détail sans intitulé. Complétez l\'intitulé ou supprimez la ligne.');
+    return;
+  }
+
+  MOD[niveau] = MOD[niveau] || {};
+  MOD[niveau][sigle] = {objectifs, missions, appreciation};
+
+  closeModal(null,'modal-modeles');
+  renderModeles();
+
+  // Pas de brouillon : ce qui est enregistre s'applique aux lettres
+  // suivantes, immediatement.
+  const manque = (niveau==='classes') ? modManque(sigle) : [];
+  if(manque.length){
+    showToast('⚠️ Enregistré, mais il reste ' + modPhraseManque(manque) +
+              ' : aucune lettre ne peut sortir pour cette classe.');
+  } else {
+    showToast('✅ Modèle enregistré. Il s\'applique aux prochaines lettres.');
+  }
+}
+
+/* ----- Apercu de la lettre --------------------------------------------- */
+// Une fiche de faculte ou de filiere n'a pas d'etudiant : l'apercu part
+// d'une classe qui en depend, pour montrer ce que l'entreprise lira.
+function modPremiereClasse(niveau, sigle){
+  if(niveau==='classes') return STR.classes.find(c=>c.sigle===sigle) || null;
+  if(niveau==='filieres') return STR.classes.find(c=>c.filiere===sigle) || null;
+  const filieres = STR.filieres.filter(f=>f.faculte===sigle).map(f=>f.sigle);
+  return STR.classes.find(c=>filieres.indexOf(c.filiere)>-1) || null;
+}
+
+function apercuDepuisFiche(){
+  if(modCtx) apercuLettre(modCtx.niveau, modCtx.sigle);
+}
+
+function apercuLettre(niveau, sigle){
+  const classe = modPremiereClasse(niveau, sigle);
+  const base = classe ? {niveau:'classes', sigle:classe.sigle} : {niveau, sigle};
+  const o = modResoudre(base.niveau, base.sigle, 'objectifs');
+  const m = modResoudre(base.niveau, base.sigle, 'missions');
+  const a = modResoudre(base.niveau, base.sigle, 'appreciation');
+  const libelle = classe ? (classe.nom_complet || classe.sigle) : modNomLisible(niveau, sigle);
+
+  document.getElementById('apercu-title').textContent =
+    'Aperçu : ' + (classe ? classe.sigle : sigle);
+
+  let h = '<div class="mod-fictif">Aperçu à partir d\'un étudiant fictif. Aucune donnée réelle, ' +
+          'aucun document enregistré, aucune référence consommée.' +
+          (classe ? '' : ' Aucune classe ne dépend encore de cette fiche : la mise en page est montrée sans classe réelle.') +
+          '</div>';
+
+  h += '<div class="mod-apercu">' +
+    '<h5>Objet : lettre de recommandation pour un stage académique</h5>' +
+    '<p>Dans le cadre du programme de la ' + modEchapper(libelle) + ', nos étudiants sont tenus de réaliser ' +
+    '<strong><u>un stage académique obligatoire de deux (02) mois</u></strong>.</p>' +
+    '<p>Nous vous recommandons ainsi <strong>NOM Prénom</strong> (Tél. : 6XX XX XX XX), de la classe de ' +
+    modEchapper(libelle) + '.</p>' +
+    '<p>' + (a.origine ? modEchapper(a.valeur)
+                       : 'Son sérieux et son engagement dans ses études ont été remarqués.') + '</p>' +
+    '<p>Nous sommes convaincus que son potentiel et sa motivation serviront avec rigueur et implication ' +
+    'les missions qui lui seront confiées.</p>' +
+    '<p><strong>Objectifs :</strong> ' +
+      (o.origine ? modEchapper(o.valeur)
+                 : '<span class="manquant">[aucun objectif : la lettre ne peut pas être produite]</span>') + '</p>' +
+    '<p><strong>Missions confiées :</strong></p>' +
+    (m.origine ? '<ul>' + m.valeur.map(x=>'<li><strong>' + modEchapper(x.intitule) + '</strong> ' +
+                                            modEchapper(x.detail) + '</li>').join('') + '</ul>'
+               : '<p><span class="manquant">[aucune mission : la lettre ne peut pas être produite]</span></p>') +
+    '</div>';
+
+  const origine = r => r.origine ? ('la ' + modLibelleNiveau(r.origine) + ' ' + modEchapper(r.de))
+                                 : 'nulle part';
+  h += '<p class="mod-origines">Objectifs : ' + origine(o) + '. Missions : ' + origine(m) +
+       '. Appréciation : ' + (a.origine ? origine(a) : 'aucune, formule neutre') + '.<br>' +
+       'L\'en-tête, le pied de page, le QR code et la signature ne dépendent pas du modèle : ' +
+       'ils viennent de l\'identité de l\'établissement et du paramétrage de la signature.</p>';
+
+  document.getElementById('apercu-body').innerHTML = h;
+  openModal('modal-apercu');
+}
+
 </script>
 </body>
 </html>
